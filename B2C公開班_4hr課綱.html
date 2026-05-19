@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2C 公開班 4hr 群課大綱</title>
+<style>
+  :root {
+    --brand-blue: #5E8AB4;
+    --brand-green: #C4D600;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --bg-soft: #f9fafb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+    color: var(--ink);
+    background: #fafafa;
+    padding: 40px 20px 60px;
+    line-height: 1.6;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  header { text-align: center; margin-bottom: 48px; }
+  header .eyebrow {
+    color: var(--brand-blue);
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  header .meta {
+    display: inline-block;
+    padding: 8px 20px;
+    background: white;
+    border-radius: 24px;
+    font-size: 13px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+  }
+  header .meta strong { color: var(--brand-blue); }
+
+  /* 時間軸 */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--line);
+  }
+
+  .item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .item::before {
+    content: "";
+    position: absolute;
+    left: -27px;
+    top: 16px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--brand-green);
+    border: 4px solid white;
+    box-shadow: 0 0 0 2px var(--brand-blue);
+  }
+  .item.break::before {
+    background: white;
+    box-shadow: 0 0 0 2px var(--muted);
+  }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border-left: 4px solid var(--brand-blue);
+  }
+  .item.break .card {
+    border-left-color: var(--line);
+    background: var(--bg-soft);
+    padding: 14px 24px;
+  }
+
+  .card .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .card .head .title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .card .duration {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--brand-blue);
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .item.break .duration {
+    background: var(--muted);
+  }
+  .card .section-tag {
+    color: var(--brand-blue);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .card h2 {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .item.break h2 {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .card .lead-by {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--bg-soft);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .card .lead-by strong { color: var(--brand-blue); }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 4px;
+  }
+  .card li {
+    position: relative;
+    padding: 4px 0 4px 18px;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 6px;
+    height: 6px;
+    background: var(--brand-green);
+    border-radius: 50%;
+  }
+  .card li strong { color: var(--brand-blue); }
+  .card li em {
+    font-style: normal;
+    background: linear-gradient(transparent 60%, rgba(196,214,0,0.4) 60%);
+    font-weight: 600;
+  }
+
+  .total {
+    margin-top: 32px;
+    padding: 20px 28px;
+    background: var(--brand-blue);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .total strong {
+    color: var(--brand-green);
+    font-size: 22px;
+    margin-left: 8px;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 24px 12px; }
+    header h1 { font-size: 24px; }
+    .card { padding: 16px 18px; }
+    .card h2 { font-size: 17px; }
+    .timeline { padding-left: 24px; }
+    .item::before { left: -23px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="eyebrow">B2C 公開班</div>
+  <h1>4 小時群課大綱</h1>
+  <div class="meta">
+    給中小企業決策者的 AI 決策課 ｜ <strong>4hr 群課 + 1 次 × 2hr 個別輔導</strong>
+  </div>
+</header>
+
+<div class="timeline">
+
+  <div class="item">
+    <div class="card">
+      <div class="head">
+        <div class="title-row">
+          <span class="duration">10 min</span>
+          <span class="section-tag">開場</span>
+        </div>
+        <span class="lead-by">主帶：<strong>Jimmy + Dennis</strong></span>
+      </div>
+      <h2>歡迎與課程地圖</h2>
+      <ul>
+        <li>雙講師自介（精簡）</li>
+        <li>今天 4 小時流程說明</li>
+        <li>報名時選的實作情境分組公告</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="card">
+      <div class="head">
+        <div class="title-row">
+          <span class="duration">50 min</span>
+          <span class="section-tag">Section 1</span>
+        </div>
+        <span class="lead-by">主帶：<strong>Jimmy</strong></span>
+      </div>
+      <h2>趨勢與框架：老闆要佔住哪一層</h2>
+      <ul>
+        <li>寒武紀比喻破冰</li>
+        <li>八套工具行走天下（GPT / Gemini / Sheets / NotebookLM / Make / Notion / Flow / Claude Code）</li>
+        <li>三套工具搞定一件生意大事（5 種真實組合）</li>
+        <li><strong>人機協作 L1–L7</strong>：你公司現在卡在哪一層</li>
+        <li>用定製西裝心態思考個性化工作流</li>
+        <li>AI 為何不穩定</li>
+        <li>Token = AI 經濟計量單位（有刷卡 vs 沒刷卡的差別）</li>
+        <li>標工 → 流量 → 算力：經濟典範轉移</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="card">
+      <div class="head">
+        <div class="title-row">
+          <span class="duration">45 min</span>
+          <span class="section-tag">Section 2</span>
+        </div>
+        <span class="lead-by">主帶：<strong>Jimmy 主 / Dennis 知識點</strong></span>
+      </div>
+      <h2>Claude Code 卡牌：排出你的工作流地圖</h2>
+      <ul>
+        <li>每桌一組卡牌：<em>情境卡 + 工具卡（MCP / Skill）</em></li>
+        <li>玩法：抽情境 → 挑工具 → 排順序 → 同桌互看誰排得最像</li>
+        <li>講師桌邊巡視點評：哪些組合會卡、哪些會跑通</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item break">
+    <div class="card">
+      <div class="head">
+        <div class="title-row">
+          <span class="duration">10 min</span>
+          <span class="section-tag" style="color:var(--muted)">中場</span>
+        </div>
+      </div>
+      <h2>休息、加水、檢查筆電環境</h2>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="card">
+      <div class="head">
+        <div class="title-row">
+          <span class="duration">50 min</span>
+          <span class="section-tag">Section 3</span>
+        </div>
+        <span class="lead-by">主帶：<strong>Dennis 主 / Jimmy 旁註</strong></span>
+      </div>
+      <h2>Claude Code 基礎 + MCP/Skill</h2>
+      <ul>
+        <li><em>CLAUDE.md 是什麼</em>：給 AI 看的組織規則 / 員工手冊——你已經懂帶員工、寫員工手冊，這是同一件事的延伸</li>
+        <li><strong>組織設計規則怎麼養</strong>：身份脈絡 / 工作邊界 / 對話原則 / 出錯怎麼處理（含 Claude Code 基本設定）</li>
+        <li><strong>MCP 用法</strong>：怎麼接外部資料 / 系統</li>
+        <li><strong>Skill 用法</strong>：什麼時候用、怎麼用</li>
+        <li>Dennis 現場示範跑一條完整流程</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="card">
+      <div class="head">
+        <div class="title-row">
+          <span class="duration">60 min</span>
+          <span class="section-tag">Section 4</span>
+        </div>
+        <span class="lead-by">主帶：<strong>Dennis 老師群分桌 / Jimmy 巡桌</strong></span>
+      </div>
+      <h2>實作三選一：建立你的幕僚團隊</h2>
+      <ul>
+        <li><strong>5 min</strong>：Dennis 統一講實作 SOP（開範本 → 替換你的資料 → 跑指令 → 看回應 → 修指令）</li>
+        <li><strong>50 min</strong>：學員依範本實作——拿課前下載的「CLAUDE.md 老闆幕僚通用版基底 + 情境模組」改成你公司版本</li>
+        <li>報名時三選一：<em>事業經營夥伴 / 外包業務團隊 / 行銷經理</em></li>
+        <li><strong>Dennis 老師群（你的 1-on-1 講師）依產業 + 情境分桌指導</strong>，每組 5 學員 / 2 位專屬講師</li>
+        <li>卡關時老師到桌邊 1 對 1 解</li>
+        <li><strong>5 min</strong>：講師標 demo 候選人，為收尾段過渡</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="card">
+      <div class="head">
+        <div class="title-row">
+          <span class="duration">15 min</span>
+          <span class="section-tag">收尾</span>
+        </div>
+        <span class="lead-by">主帶：<strong>共同</strong></span>
+      </div>
+      <h2>demo 分享 + 1-on-1 銜接</h2>
+      <ul>
+        <li>2–3 位老闆 demo 分享</li>
+        <li>1-on-1 預約方式、流程說明（講師全程在場，不另做自介）</li>
+        <li>課後問卷、收 LINE 群、發資源包</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="total">
+  合計 <strong>240 min</strong>（4 小時）
+</div>
+
+<div class="footer">
+  智谷網絡 KVALLEY · Since 1996<br>
+  v0.6 課綱 ｜ 給 Jimmy confirm 用 ｜ 更新 2026-05-15
+</div>
+
+</div>
+</body>
+</html>

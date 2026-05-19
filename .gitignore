@@ -1,0 +1,31 @@
+# Excel/PPT 暫存
+~$*
+
+# macOS
+.DS_Store
+
+# Daily log（內部工作紀錄）
+daily-log/
+
+# 規劃中、未定案，不對外共享
+B2C公開班.md
+B2C公開班_對內共享版.md
+B2C公開班_行銷企劃_v1.md
+B2C公開班_概覽.html
+AI工具選型指南.html
+Claude課程競品_四象限.html
+Claude課程競品對比_完整版.md
+定位pivot_AgentTeam_2026-05-19.md
+venue.png
+
+# Persona 內部資料（含真實姓名 / 樣本名單 / 心聲庫）
+Persona_*.md
+
+# Scout 內部研究報告
+Scout_*.md
+
+# Dennis / Jimmy 內部討論逐字稿與摘要
+Dennis_Jimmy_B2C討論_*
+
+# 舊版本檔（已被無版號版本取代）
+B2C公開班_定價方案_v1.md
