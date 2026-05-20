@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>Claude Code 指揮戰隊卡牌 v0.9 MVP</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; background: #f5f5f7; color: #1d1d1f; padding: 20px; }
+  header { max-width: 1200px; margin: 0 auto 24px; padding: 16px 20px; background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  header h1 { font-size: 22px; margin-bottom: 4px; }
+  header p { color: #666; font-size: 13px; }
+  section.deck { max-width: 1200px; margin: 0 auto 32px; }
+  section.deck h2 { font-size: 18px; margin-bottom: 12px; padding-left: 4px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card { background: #fff; border-radius: 12px; padding: 18px; border: 2px solid; min-height: 240px; display: flex; flex-direction: column; page-break-inside: avoid; break-inside: avoid; }
+  .card .icon { font-size: 28px; margin-bottom: 8px; }
+  .card .title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .card .tagline { font-size: 13px; color: #555; margin-bottom: 12px; line-height: 1.5; }
+  .card .section-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; margin-bottom: 4px; }
+  .card .content { font-size: 13px; line-height: 1.6; color: #333; }
+  .card .quote { font-size: 12px; font-style: italic; color: #666; background: #f8f8fa; padding: 6px 10px; border-left: 3px solid; margin: 8px 0; }
+  .card.role { border-color: #3b82f6; }
+  .card.role .quote { border-color: #3b82f6; }
+  .card.role .icon { color: #3b82f6; }
+  .card.task { border-color: #f59e0b; }
+  .card.task .quote { border-color: #f59e0b; }
+  .card.task .icon { color: #f59e0b; }
+  .card.power { border-color: #8b5cf6; }
+  .card.power .quote { border-color: #8b5cf6; }
+  .card.power .icon { color: #8b5cf6; }
+  .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: #eef; color: #335; margin-right: 4px; margin-bottom: 4px; }
+  @page { size: A4; margin: 1cm; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    header, section.deck h2 { page-break-after: avoid; }
+    .grid { gap: 8mm; }
+    .card { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Claude Code 指揮戰隊卡牌 v0.9 MVP（23 張）</h1>
+  <p>一人公司老闆面對商業挑戰，怎麼調動虛擬營運團隊滿足任務 — 桌面推演沙盒 / 智谷網絡公開班教學工具</p>
+</header>
+
+<!-- ============ 角色卡 7 張 ============ -->
+<section class="deck">
+  <h2>🎭 角色卡 — 你的虛擬營運團隊（7 張）</h2>
+  <div class="grid">
+
+    <div class="card role">
+      <div class="icon">🛠️</div>
+      <div class="title">總工程師</div>
+      <div class="tagline">幫你架其他 agent 的 meta-agent</div>
+      <div class="section-label">他會做什麼</div>
+      <div class="content">建檔 / 設 CLAUDE.md / 設 memory / 建 symlink / 寫 skill / fork 部門</div>
+      <div class="section-label">何時派他</div>
+      <div class="content">「幫我建一個新主管」「把兩個主管串起來」「複製整個部門」</div>
+    </div>
+
+    <div class="card role">
+      <div class="icon">📦</div>
+      <div class="title">產品企劃主管</div>
+      <div class="tagline">想產品策略、定價、課程開發</div>
+      <div class="section-label">他會做什麼</div>
+      <div class="content">SWOT / 競品掃描 / 課綱設計 / 定價試算 / 寫 PRD / 訂 roadmap</div>
+      <div class="section-label">何時派他</div>
+      <div class="content">「評估這個 idea」「設計新課」「幫我訂價」「寫 PRD」</div>
+    </div>
+
+    <div class="card role">
+      <div class="icon">📣</div>
+      <div class="title">行銷主管</div>
+      <div class="tagline">寫文案、做品牌、跑社群</div>
+      <div class="section-label">他會做什麼</div>
+      <div class="content">寫 Landing Page / SEO / 社群行事曆 / 品牌語言指南 / case study</div>
+      <div class="section-label">何時派他</div>
+      <div class="content">「幫我寫文案」「規劃下月貼文」「寫客戶案例」</div>
+    </div>
+
+    <div class="card role">
+      <div class="icon">💼</div>
+      <div class="title">銷售主管</div>
+      <div class="tagline">寫提案、做報價、追單</div>
+      <div class="section-label">他會做什麼</div>
+      <div class="content">寫提案 / 過語氣 / follow-up email / 客戶異議手冊 / pipeline 盤點</div>
+      <div class="section-label">何時派他</div>
+      <div class="content">「寫提案」「review 提案語氣」「整理客戶異議」</div>
+    </div>
+
+    <div class="card role">
+      <div class="icon">💰</div>
+      <div class="title">財務主管</div>
+      <div class="tagline">算數字、看財報、評風險</div>
+      <div class="section-label">他會做什麼</div>
+      <div class="content">報價試算 / 財報分析 / ROI 評估 / 成本盤點 / 投標評估</div>
+      <div class="section-label">何時派他</div>
+      <div class="content">「算這案賺多少」「看財報異常」「評估投資 ROI」</div>
+    </div>
+
+    <div class="card role">
+      <div class="icon">🧠</div>
+      <div class="title">策略幕僚</div>
+      <div class="tagline">給大方向、做決策框架</div>
+      <div class="section-label">他會做什麼</div>
+      <div class="content">競品分析 / 業績診斷 / 戰略 war-room / 決策備忘錄 / 風險評估</div>
+      <div class="section-label">何時派他</div>
+      <div class="content">「Q3 業績不如預期」「要不要進這市場」「要不要併購」</div>
+    </div>
+
+    <div class="card role">
+      <div class="icon">🎩</div>
+      <div class="title">特別助理 Chief of Staff</div>
+      <div class="tagline">協調各主管、彙整、行程管理</div>
+      <div class="section-label">他會做什麼</div>
+      <div class="content">會議備忘錄 / 週報彙整 / 行程排序 / 跨主管協調 / inbox 管理</div>
+      <div class="section-label">何時派他</div>
+      <div class="content">「整理今天會議」「發週報」「跨主管協調案子」</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 任務卡 10 張 ============ -->
+<section class="deck">
+  <h2>🎯 任務卡 — 老闆的商業挑戰（10 張，verbatim 校準）</h2>
+  <div class="grid">
+
+    <div class="card task">
+      <div class="icon">🏭</div>
+      <div class="title">1. 新一季產能計畫</div>
+      <div class="quote">「我想建一個新的生產計畫，幫我規劃產能 + 按往常規矩評估 + 生成報告 + 通知各部門主管幾點前回報」</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">策略</span><span class="badge">產品</span><span class="badge">財務</span><span class="badge">特助</span></div>
+      <div class="section-label">ChatGPT 為什麼做不到</div>
+      <div class="content">沒法真的發 Email 通知部門 / 接不到你的「往常規矩」CLAUDE.md</div>
+      <div class="section-label">你帶走</div>
+      <div class="content">產能 brief + 通知 Email 模板</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">📋</div>
+      <div class="title">2. 三案同時要趕</div>
+      <div class="quote">「手上 3 個案子要趕，盤一下哪個先動、哪個派誰、哪個能砍」</div>
+      <div class="section-label">真實痛點</div>
+      <div class="content">"I'm spread very thin"（Indie Hackers founder Pete）</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">策略</span><span class="badge">特助</span></div>
+      <div class="section-label">你帶走</div>
+      <div class="content">3 案優先順序矩陣 + 派員建議</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">🎩</div>
+      <div class="title">3. 派 team 分頭做</div>
+      <div class="quote">「這週要同時做行銷 + 業務 + 財務 + 提案，派 team 分頭做給我整合版」</div>
+      <div class="section-label">真實痛點</div>
+      <div class="content">"Wear all the hats, then learn how to take them off"（Channing Allen）</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">行銷</span><span class="badge">銷售</span><span class="badge">財務</span><span class="badge">特助</span></div>
+      <div class="section-label">ChatGPT 為什麼做不到</div>
+      <div class="content">沒法真平行派多個 agent</div>
+      <div class="section-label">你帶走</div>
+      <div class="content">4 主管產出 + 特助整合 brief</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">📝</div>
+      <div class="title">4. 合興提案不能 workslop</div>
+      <div class="quote">「合興提案，根據他們真實痛點 + 我們過去類似案口氣 + 不能有 AI workslop 感」</div>
+      <div class="section-label">真實痛點</div>
+      <div class="content">HBR 研究：53% annoyed / 每份 workslop 平均花 1h 56min 重做</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">銷售</span><span class="badge">策略</span><span class="badge">特助</span></div>
+      <div class="section-label">你帶走</div>
+      <div class="content">提案 + 語氣鐵律檔（自尊測試三問）</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">📉</div>
+      <div class="title">5. Q3 業績不如預期</div>
+      <div class="quote">「盤一下：哪個產品掉、哪個客戶冷、競品做了什麼、該開什麼新案，本週前給行動計畫」</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">策略</span><span class="badge">產品</span><span class="badge">銷售</span></div>
+      <div class="section-label">ChatGPT 為什麼做不到</div>
+      <div class="content">沒法掃你本地 CRM / 銷售記錄 / 跨主管 WORKING_MEMORY</div>
+      <div class="section-label">你帶走</div>
+      <div class="content">業績診斷 + 三大行動計畫</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">👴</div>
+      <div class="title">6. 老師傅退休 SOP</div>
+      <div class="quote">「老師傅下月退休，把他 30 年的維修日記、現場筆記、客戶投訴整理成 SOP + 建一個能回答新人問題的『虛擬老師傅』」</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">總工程師</span><span class="badge">策略</span></div>
+      <div class="section-label">ChatGPT 為什麼做不到</div>
+      <div class="content">沒法真的建一個能跑的 agent / 進不去本地維修日記檔</div>
+      <div class="section-label">你帶走</div>
+      <div class="content">SOP 文件 + 「虛擬老師傅」可跑 agent</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">📜</div>
+      <div class="title">7. 5000 萬政府標案</div>
+      <div class="quote">「這個 5000 萬政府標案要不要投，評估成本 + 風險 + 競標對手 + 過去類似案勝率 + 投標策略，3 天內結論」</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">財務</span><span class="badge">策略</span><span class="badge">銷售</span></div>
+      <div class="section-label">你帶走</div>
+      <div class="content">投標決策 brief + Plan B</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">👔</div>
+      <div class="title">8. 客戶換 CEO</div>
+      <div class="quote">「客戶 X 剛換 CEO，研究他背景 + 過去文章 / 演講 / 訪談 + 他在意的議題，重寫我們的提案讓他有感」</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">策略</span><span class="badge">行銷</span><span class="badge">銷售</span></div>
+      <div class="section-label">你帶走</div>
+      <div class="content">新 CEO 人物誌 + 改寫提案</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">📊</div>
+      <div class="title">9. Q2 年中盤點</div>
+      <div class="quote">「跑年中盤點：所有進行中案子狀態 + 卡在哪 + 誰負責什麼 + Q3 該砍哪些加哪些，跨主管收斂 Q3 三大重點」</div>
+      <div class="section-label">真實痛點</div>
+      <div class="content">"Exhausted layer"（Deloitte 形容中階主管）</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">策略</span><span class="badge">特助</span><span class="badge">所有主管</span></div>
+      <div class="section-label">ChatGPT 為什麼做不到</div>
+      <div class="content">沒法跨多 agent 的 WORKING_MEMORY 彙整 / 沒法主持多主管收斂</div>
+      <div class="section-label">你帶走</div>
+      <div class="content">年中盤點報告 + Q3 三大重點</div>
+    </div>
+
+    <div class="card task">
+      <div class="icon">✂️</div>
+      <div class="title">10. 砍 20% 預算</div>
+      <div class="quote">「老闆要砍 20% 預算，下屬已壓榨到極限，擬對上爭取信 + 對下安撫 brief + 老闆不接受的 Plan B」</div>
+      <div class="section-label">真實痛點</div>
+      <div class="content">"I'm stuck between a rock and a hard place" / "Meat of the sandwich"</div>
+      <div class="section-label">預期動員</div>
+      <div class="content"><span class="badge">策略</span><span class="badge">財務</span><span class="badge">特助</span></div>
+      <div class="section-label">你帶走</div>
+      <div class="content">對上爭取信 + 對下安撫 brief + Plan B</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ Power 卡 6 張 ============ -->
+<section class="deck">
+  <h2>💎 Power 卡 — Claude Code 獨家能力（6 張，差異化彈藥）</h2>
+  <div class="grid">
+
+    <div class="card power">
+      <div class="icon">🚀</div>
+      <div class="title">真平行派戰隊</div>
+      <div class="tagline">同時派 5 個小弟去查 5 家競品，1 小時內全部回報</div>
+      <div class="section-label">ChatGPT/Gemini 沒有</div>
+      <div class="content">一次只能回答一件事，沒法真平行</div>
+      <div class="section-label">你會說</div>
+      <div class="content">「你派 5 個分身，平行做這 5 件事，做完彙整」</div>
+    </div>
+
+    <div class="card power">
+      <div class="icon">💾</div>
+      <div class="title">持久 CLAUDE.md</div>
+      <div class="tagline">永遠記住，不用每次重講</div>
+      <div class="section-label">ChatGPT/Gemini 沒有</div>
+      <div class="content">ChatGPT Memory 有限 + 跨應用不通；Gemini 沒有持久人格設定</div>
+      <div class="section-label">你會說</div>
+      <div class="content">「這條鐵律放進你的 CLAUDE.md，以後永遠遵守」</div>
+    </div>
+
+    <div class="card power">
+      <div class="icon">🔍</div>
+      <div class="title">跨檔秒搜</div>
+      <div class="tagline">掃我 Mac 上 5 年所有提案，找出 X 客戶歷史報價</div>
+      <div class="section-label">ChatGPT/Gemini 沒有</div>
+      <div class="content">進不去你 Mac / Gemini 只能看你主動丟進去的</div>
+      <div class="section-label">你會說</div>
+      <div class="content">「掃 ~/Downloads/projects/ 找關鍵字 X 客戶」</div>
+    </div>
+
+    <div class="card power">
+      <div class="icon">🤖</div>
+      <div class="title">Hook 自動觸發</div>
+      <div class="tagline">每週五自己跳出來發週報，不用我叫</div>
+      <div class="section-label">ChatGPT/Gemini 沒有</div>
+      <div class="content">ChatGPT 不會自己跳出來；要叫他他才動</div>
+      <div class="section-label">你會說</div>
+      <div class="content">「設個 hook 每週五 17:00 自動跑週報並寄 Gmail」</div>
+    </div>
+
+    <div class="card power">
+      <div class="icon">⚡</div>
+      <div class="title">Shell 真執行</div>
+      <div class="tagline">不只給建議，是真的改檔、跑命令、Push code</div>
+      <div class="section-label">ChatGPT/Gemini 沒有</div>
+      <div class="content">只能說「你可以這樣做」，做不到</div>
+      <div class="section-label">你會說</div>
+      <div class="content">「真的去把這個檔改成 X，跑 build，commit push」</div>
+    </div>
+
+    <div class="card power">
+      <div class="icon">🔒</div>
+      <div class="title">完全私密</div>
+      <div class="tagline">客戶合約、提案、財報，不丟給 OpenAI / Google</div>
+      <div class="section-label">ChatGPT/Gemini 沒有</div>
+      <div class="content">你丟進去的資料 = 他們潛在訓練料 / 雲端存取</div>
+      <div class="section-label">你會說</div>
+      <div class="content">「這件事不上雲，本地檔案直接做」</div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
