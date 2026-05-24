@@ -426,6 +426,127 @@ Title / Responsibilities / Tools / Success Metrics / Best For
 
 ---
 
+---
+
+### [2026-05-24] Batch B 研究 — 企業 Agent Team 實戰個案庫（4 個驗證來源）
+
+> 本批研究聚焦：**真實企業如何架設 agent team + 實際落地的架構與經驗**，作為課程「個案庫」素材與教學設計依據。
+> 課堂用途：開場佐證（「別人都在做」）+ S2 抽牌模擬參照 + 課後個案閱讀
+
+---
+
+#### B-1. ai-c-suite（GitHub）— 開源 C-suite Agent 五人組
+
+**來源**：[github.com/one-personcompany/ai-c-suite](https://github.com/one-personcompany/ai-c-suite)
+
+**架構一覽**：
+
+| Agent | 職責定義 |
+|-------|---------|
+| CEO | 戰略方向、重大決策 |
+| CTO | 技術架構、技術選型 |
+| COO | 營運效率、流程優化 |
+| CFO | 財務分析、成本控制 |
+| CMO | 品牌策略、市場推廣 |
+
+**技術實作**：
+- 每個 agent 一個資料夾，內含 `AGENTS.md` 角色定義檔
+- 統一用 shell script（`c-suite-communicate.sh`）切換 agent 溝通
+- 支援 Codex、Claude Code、Qwen 三種後端（環境變數切換）
+
+**對智谷課程的用途**：
+- ✅ **S1 開場佐證**：「開源社群早就在做 C-suite agent，智谷幫你做繁中 + 製造業版本」
+- ✅ **角色卡設計驗證**：跟智谷 6 幕僚（CPO/CMO/CFO/CSO/特助/工程師）比較，讓學員理解「幕僚組合沒有標準答案」
+- ⚠️ 純 shell / 工程師底層，**老闆無法直接用** → 正好凸顯智谷 Claude Code + CLAUDE.md 路線的易用差異
+- ✅ **任務卡 #6「建立幕僚角色」** 對照案例
+
+---
+
+#### B-2. AI Chief of Staff — 個人 AI 幕僚長實作（Barbara Bermes）
+
+**來源**：[Medium — Building My Own AI Chief of Staff](https://bbinto.medium.com/building-my-own-ai-chief-of-staff-and-why-you-might-want-one-too-7e862a052a85)
+
+**核心設計**：
+- 每週自動產出「主管週報」，回答三個問題：①這週交付了什麼？②跨產品/團隊出現什麼模式？③還沒浮現的訊號是什麼？
+- 資料整合：Slack、Jira、Calendar（MCP 直連）+ CSV/JSON 手動丟入資料夾
+- 架構四層：Orchestrator → MCP 資料源 → Claude API Loop → 報告輸出
+
+**成本 & 時間**：
+- 一次性建置：12-15 小時
+- 月費：Claude Pro $24 + API ~$15-20 ≒ $40/月（NT$1,200）
+- 效益：消除手動合成，主管時間回歸高層決策
+
+**作者關鍵話語**（可直接引用於課堂）：
+> "The plumbing is generic. I only need to plug in different instructions and data sources."
+> （管線是通用的，我只需要換上不同指令和資料源）
+
+**對智谷課程的用途**：
+- ✅ **S4 實作參考**：學員「幕僚週報」任務卡的真實版本
+- ✅ **CLAUDE.md 訓練類比**：「你只要寫清楚給幕僚的指令，它就會跑」
+- ✅ **ROI 敘事**：$40/月 vs 人力時間，製造業老闆能算帳
+- ✅ **MCP 說明**：最直觀的 MCP = 幫 Claude 接公司系統的橋
+
+---
+
+#### B-3. CFO Agent + Xero MCP — 財務 AI 幕僚 20 分鐘上線
+
+**來源**：[Medium — How I Turned AI Into My CFO Assistant](https://medium.com/vibe-coders/how-i-turned-ai-into-my-cfo-assistant-with-xero-mcp-f89eef186ff5)
+
+**核心設計**：
+- 透過 Xero MCP，Claude 直接查詢會計系統 → 回答「2025 年我們的毛利是多少？」
+- Claude Desktop 自動獲得約 40 個財務指令
+- 設定流程：建 Xero Custom App（API 憑證）→ 安裝 MCP → 重啟 Claude Desktop = 完成
+
+**真實應用情境**：
+- 「哪些訂閱超過 £50/月？」
+- 「沒有分類的交易有哪些？」
+- 「VAT 負債 + 毛利趨勢 → 生成含互動圖表的 HTML 報告」
+
+**資安設計**：唯讀 API 憑證、存在本機、不上雲 = 跟智谷課程資安原則一致
+
+**對智谷課程的用途**：
+- ✅ **MCP 能力卡最佳示範**：從「用自然語言查財務」具體說明 MCP 是什麼
+- ✅ **S3「MCP 連結外部世界」段落**直接引用：「20 分鐘，CFO 幕僚能看你的財務系統了」
+- ✅ **B2B 採購說服素材**：「這不是工程師玩具，財務主管當天用得上」
+- ✅ 資安疑慮化解：唯讀 + 本機的設計同步照應「資安政策卡」
+
+---
+
+#### B-4. HumanLayer — 寫好 CLAUDE.md 的實用指南
+
+**來源**：[humanlayer.dev/blog/writing-a-good-claude-md](https://www.humanlayer.dev/blog/writing-a-good-claude-md)
+
+**核心原則**：
+
+| 原則 | 說明 |
+|------|------|
+| LLM 是無狀態的 | CLAUDE.md = 每次 session 重新上工的「員工入職文件」 |
+| WHAT / WHY / HOW 三層 | 是什麼（架構）/ 為什麼（目的）/ 怎麼做（工作流程）|
+| 少即是多 | Claude Code 系統 prompt 已含 ~50 條指令；你的 CLAUDE.md 目標 < 300 行，HumanLayer 自己只用 60 行 |
+| 用 reference，不貼程式碼 | 指向檔案:行號，不要貼 code snippet（會過時） |
+| 不要寫 linter | 格式/排版由工具管，別塞進 CLAUDE.md |
+
+**對智谷課程的用途**：
+- ✅ **S1「CLAUDE.md = 職務說明書」** 類比的技術依據 — 「無狀態」是直白解釋為何要寫 CLAUDE.md
+- ✅ **「三層問法」** 可直接成為學員 bs 指令訪談的引導框架（幕僚是誰 / 做什麼 / 怎麼做）
+- ✅ **防學員塞太多**：開場明確說「60 行夠用，不要塞整個 SOP 進去」
+- ✅ **心法卡「精準 ≠ 長」** 的設計依據
+
+---
+
+#### 📊 Batch B 關鍵數據（課堂引用可直接使用）
+
+| 數據 | 來源 | 備注 |
+|------|------|------|
+| $40/月 → 消除主管手動整合工時 | Bermes AI Chief of Staff | 個人實測，非大型調研 |
+| 20 分鐘設定 CFO Agent | Xero MCP 文章 | 需有 Xero 訂閱（£5/月） |
+| ~40 個財務指令自動化 | Xero MCP 文章 | Claude Desktop 環境 |
+| 開源 5-agent C-suite | ai-c-suite GitHub | Shell-based，非 Claude Code 原生 |
+
+> ⚠️ Klarna $60M / 73% SMB 生產力等廣泛流傳的數字尚未找到一手來源，**不建議課堂直接引用**，待 Batch A 補核實。
+
+---
+
 ### 待收清單（claude-code-deck 專案內已存在的 md）
 
 - `WORKING_MEMORY.md` — 內有「桌面玩法 6 步」、「12 條上機前挑戰」、「翻譯層類比清單」、「卡牌正反面設計」等多段教學設計線索，待 Jimmy 指示後逐段收進
@@ -457,6 +578,9 @@ Title / Responsibilities / Tools / Success Metrics / Best For
 ---
 
 ## 📅 更動紀錄
+
+### 2026-05-24
+- **Batch B 企業案例**：D 區新增 4 個實戰個案（ai-c-suite / AI Chief of Staff / CFO+Xero MCP / HumanLayer CLAUDE.md 指南），含課堂引用建議與智谷卡牌對應點
 
 ### 2026-05-19
 - **Clear cut（夜）**：E 區內容全段搬遷至 `competitor.md`（single source of truth），本檔 E 區僅留 pointer。檔案分工乾淨：教學法 vs 競品定價。
