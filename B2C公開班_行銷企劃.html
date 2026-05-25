@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>分身乏術？教你策劃 AI 營運團隊 — 行銷企劃</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111111;
+  --ink2:#3D3D3D;
+  --gray:#737373;
+  --gray2:#9A9A9A;
+  --line:#E2DAD0;
+  --line-strong:#111111;
+  --paper:#F8F4EE;
+  --paper2:#EDE8DF;
+  --bg:#FFFFFF;
+  --accent:#C84B2A;
+  --accent2:#E8633A;
+  --accent-soft:rgba(200,75,42,.07);
+  --serif:'Noto Serif TC','Georgia','Times New Roman',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Microsoft YaHei","微軟正黑體","Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased;
+  font-size:16px;display:flex;min-height:100vh;
+  -moz-osx-font-smoothing:grayscale;
+}
+.num{font-feature-settings:"tnum";letter-spacing:-0.01em}
+
+/* ---------- Sidebar ---------- */
+aside.side{
+  width:264px;flex:none;background:var(--paper);color:var(--ink);
+  position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+  padding:0;z-index:50;border-right:1px solid var(--line);
+}
+.side-brand{padding:34px 28px 26px;border-bottom:1px solid var(--line)}
+.side-brand img{height:32px;width:auto;max-width:100%;display:block;margin-bottom:20px}
+.side-brand .dk{font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.side-brand .tt{font-family:var(--serif);font-size:15px;font-weight:700;margin-top:8px;line-height:1.5;color:var(--ink);letter-spacing:-0.01em}
+.side-nav{padding:22px 16px;display:flex;flex-direction:column;gap:1px;flex:1}
+.side-nav button{
+  font-family:inherit;text-align:left;background:transparent;border:0;cursor:pointer;
+  color:var(--gray);font-size:15px;font-weight:600;letter-spacing:-0.01em;
+  padding:12px 14px;display:flex;align-items:center;gap:14px;
+  position:relative;transition:color .16s,background .16s;
+}
+.side-nav button .ix{font-size:11px;font-weight:800;color:var(--gray2);width:18px;letter-spacing:.02em}
+.side-nav button:hover{color:var(--ink)}
+.side-nav button.active{color:var(--ink)}
+.side-nav button.active .ix{color:var(--accent)}
+.side-nav button.active::before{content:"";position:absolute;left:-16px;top:11px;bottom:11px;width:3px;background:var(--accent)}
+.side-foot{padding:22px 28px;border-top:1px solid var(--line);font-size:11.5px;color:var(--gray2);line-height:1.7;letter-spacing:.01em}
+
+/* ---------- Content ---------- */
+.content{flex:1;min-width:0}
+main{max-width:1080px;margin:0 auto;padding:56px 56px 90px}
+.panel{display:none;animation:fade .35s ease both}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.sec-head{display:flex;align-items:baseline;gap:18px;margin:0 0 38px;padding-bottom:22px;border-bottom:2px solid var(--line-strong)}
+.sec-head .kicker{font-weight:800;font-size:13px;color:var(--accent);letter-spacing:.04em}
+.sec-head h2{font-family:var(--serif);font-weight:900;font-size:32px;letter-spacing:-0.02em;color:var(--ink);line-height:1.1}
+.sub-head{font-family:var(--serif);font-weight:700;font-size:15px;color:var(--ink);margin:44px 0 18px;letter-spacing:.02em;display:flex;align-items:center;gap:12px}
+.sub-head::before{content:"";width:22px;height:2px;background:var(--accent);flex:none}
+.note{font-size:14.5px;color:var(--ink2);background:var(--paper);border-left:2px solid var(--accent);padding:13px 18px;margin:18px 0;line-height:1.7}
+.note code{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:13px;background:var(--paper2);padding:1px 6px;color:var(--ink)}
+
+.card{background:var(--bg);border:1px solid var(--line);padding:28px 30px}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:820px){.g2{grid-template-columns:1fr}}
+
+/* ---------- Magazine Hero ---------- */
+.mag-hero{margin:-8px 0 44px;border-bottom:2px solid var(--line-strong)}
+.mh-masthead{
+  background:#F5EFE4;
+  padding:28px 0 22px;
+  text-align:center;
+  border-bottom:1px solid #DDD4C0;
+}
+.mh-overline{
+  font-family:var(--serif);
+  font-size:14px;
+  color:var(--ink2);
+  letter-spacing:.1em;
+  margin-bottom:8px;
+  font-weight:400;
+}
+.mh-title{
+  font-family:var(--serif);
+  font-size:clamp(44px,6.5vw,72px);
+  font-weight:900;
+  color:var(--accent);
+  line-height:.95;
+  letter-spacing:-0.01em;
+}
+.mh-date{
+  font-size:13px;
+  color:var(--gray);
+  letter-spacing:.22em;
+  margin-top:12px;
+  font-style:italic;
+}
+.mh-photo{
+  position:relative;
+  overflow:hidden;
+  background:#1A1212;
+}
+.mh-photo img{
+  width:100%;
+  display:block;
+  max-height:540px;
+  object-fit:cover;
+  object-position:center 18%;
+}
+.mh-photo-overlay{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:80px 44px 38px;
+  background:linear-gradient(to top,rgba(10,6,4,.92) 0%,rgba(10,6,4,.6) 45%,transparent 100%);
+}
+.mh-photo-q{
+  font-family:var(--serif);
+  font-size:clamp(24px,3.2vw,34px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.2;
+  margin-bottom:2px;
+}
+.mh-photo-sub{
+  font-family:var(--serif);
+  font-size:clamp(17px,2.4vw,24px);
+  color:#E89A68;
+  font-weight:600;
+  margin-bottom:2px;
+}
+.mh-photo-main{
+  font-family:var(--serif);
+  font-size:clamp(56px,9.5vw,100px);
+  font-weight:900;
+  color:#fff;
+  line-height:.9;
+  letter-spacing:-0.02em;
+}
+.mh-bar{
+  background:#111;
+  padding:20px 44px;
+  text-align:center;
+  color:#fff;
+}
+.mh-bar p{
+  font-size:16px;
+  line-height:1.7;
+  opacity:.88;
+  letter-spacing:.01em;
+}
+.mh-bar .fmt{
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:.06em;
+  margin-top:4px;
+  opacity:1;
+}
+.mh-tags{
+  background:var(--accent);
+  padding:12px 44px;
+  text-align:center;
+  color:#fff;
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+/* ---------- Stats ---------- */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);margin-top:0}
+@media(max-width:820px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+.stat{padding:24px 26px 24px 0;border-right:1px solid var(--line);opacity:0;transform:translateY(10px);animation:rise .5s ease forwards}
+.stat:last-child{border-right:0}
+.stat:nth-child(1){animation-delay:.04s}.stat:nth-child(2){animation-delay:.1s}.stat:nth-child(3){animation-delay:.16s}.stat:nth-child(4){animation-delay:.22s}
+@keyframes rise{to{opacity:1;transform:none}}
+.stat .k{font-weight:800;font-size:40px;color:var(--ink);line-height:1;letter-spacing:-0.03em}
+.stat .k small{font-size:16px;color:var(--gray);font-weight:600;letter-spacing:0}
+.stat .l{font-size:13px;color:var(--gray);margin-top:11px;line-height:1.5}
+@media(max-width:820px){.stat:nth-child(2){border-right:0}.stat{padding-right:20px}}
+
+/* ---------- Key-value table ---------- */
+.kv{width:100%;border-collapse:collapse;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.kv tr{border-bottom:1px solid var(--line)}
+.kv tr:last-child{border-bottom:0}
+.kv th{text-align:left;padding:16px 24px 16px 0;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);width:140px;vertical-align:top}
+.kv td{padding:16px 0;font-size:15.5px;vertical-align:top;color:var(--ink2);line-height:1.7}
+.kv td b{color:var(--ink);font-weight:700}
+
+/* ---------- Data table ---------- */
+table.t{width:100%;border-collapse:collapse;border-top:2px solid var(--line-strong);font-size:14.5px}
+table.t thead th{text-align:left;padding:12px 16px 12px 0;font-weight:800;letter-spacing:.04em;font-size:12px;text-transform:uppercase;color:var(--gray);white-space:nowrap;border-bottom:1px solid var(--line-strong)}
+table.t tbody td{padding:14px 16px 14px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2);line-height:1.6}
+table.t tbody tr:hover{background:var(--paper)}
+table.t .c-num{font-weight:800;color:var(--accent);width:30px;text-align:left;font-size:13px}
+.owner{font-weight:600;color:var(--ink);white-space:normal;line-height:2}
+.ow{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;line-height:1.5;white-space:nowrap;color:var(--ink);border:1px solid currentColor;letter-spacing:.01em}
+.ow.astrid{color:#15795F}.ow.mina{color:#C2548C}.ow.peony{color:#262A30}.ow.isa{color:#A8771A}
+.ow.dennis{color:#6B57A6}.ow.candy{color:#67711F}.ow.jimmy{color:#9C4A52}.ow.eric{color:#A85A2E}.ow.ys{color:#6B7280}
+.ow-sep{color:var(--gray2);font-size:11px;margin:0 4px}
+.price{font-weight:800;color:var(--ink);letter-spacing:-0.01em}
+
+/* ---------- Pills & lists ---------- */
+.pill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;padding:3px 11px;background:var(--bg);color:var(--ink);border:1px solid var(--ink);text-transform:uppercase}
+.pill.teal{background:var(--accent);color:#fff;border-color:var(--accent)}
+ul.clean{list-style:none;display:flex;flex-direction:column;gap:14px}
+ul.clean li{position:relative;padding-left:24px;font-size:15.5px;color:var(--ink2);line-height:1.6}
+ul.clean li::before{content:"";position:absolute;left:0;top:11px;width:9px;height:1px;background:var(--accent)}
+ul.clean li b{color:var(--ink);font-weight:700}
+
+/* ---------- Comparison ---------- */
+.cmp{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.cmp .h{padding:14px 18px;font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.cmp .h.a{background:var(--paper);color:var(--gray);border-bottom:1px solid var(--line)}
+.cmp .h.b{background:var(--ink);color:#fff;border-bottom:1px solid var(--ink)}
+.cmp .r{padding:13px 18px;font-size:15px;border-top:1px solid var(--line);background:var(--bg);color:var(--gray)}
+.cmp .r.b{font-weight:700;color:var(--ink);background:var(--accent-soft)}
+.cmp .r.b::before{content:"→ ";color:var(--accent);font-weight:800}
+
+/* ---------- Timeline link card ---------- */
+.timeline-card{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  background:var(--ink);color:#fff;padding:32px 40px;margin-bottom:32px;
+  text-decoration:none;
+}
+.timeline-card:hover{background:#2A1A10}
+.timeline-card .tc-l .tc-label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
+.timeline-card .tc-l .tc-title{font-family:var(--serif);font-size:22px;font-weight:700;color:#fff}
+.timeline-card .tc-r{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--accent2);white-space:nowrap}
+
+/* ---------- Course schedule ---------- */
+.sch{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.sch-row{display:grid;grid-template-columns:96px 1fr;border-bottom:1px solid var(--line)}
+.sch-row:last-child{border-bottom:0}
+.sch-row.brk{background:var(--paper)}
+.sch-time{padding:18px 18px 18px 0;text-align:left;border-right:1px solid var(--line)}
+.sch-time .mn{font-weight:800;font-size:22px;color:var(--ink);line-height:1;letter-spacing:-0.02em}
+.sch-time .mn small{font-size:11px;color:var(--gray);font-weight:600}
+.sch-body{padding:18px 0 18px 22px}
+.sch-body .seg{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.sch-body .seg .tag{font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:#fff;padding:2px 9px}
+.sch-body .seg .ti{font-weight:700;font-size:15.5px;color:var(--ink);letter-spacing:-0.01em}
+.sch-body .seg .by{margin-left:auto;font-size:12px;color:var(--accent);font-weight:700}
+.sch-body ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.sch-body ul li{position:relative;padding-left:16px;font-size:13.5px;color:var(--gray);line-height:1.55}
+.sch-body ul li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:1px;background:var(--accent)}
+.sch-foot{padding:14px 0;text-align:right;font-weight:800;color:var(--ink);border-top:2px solid var(--line-strong);letter-spacing:.02em;font-size:14px}
+
+/* ---------- Northstar + funnel ---------- */
+.northstar{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-strong);margin-bottom:30px}
+@media(max-width:820px){.northstar{grid-template-columns:1fr}}
+.ns{padding:34px 30px;text-align:left;border-right:1px solid var(--line)}
+.ns:last-child{border-right:0}
+.ns .v{font-weight:900;font-size:46px;line-height:1;color:var(--ink);letter-spacing:-0.03em}
+.ns .v small{font-size:18px;font-weight:700;color:var(--gray)}
+.ns .v .hl{color:var(--accent)}
+.ns .lab{font-size:13.5px;color:var(--gray);margin-top:14px;line-height:1.5}
+@media(max-width:820px){.ns{border-right:0;border-bottom:1px solid var(--line)}.ns:last-child{border-bottom:0}}
+.funnel{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:10px}
+.fn{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--accent);color:#fff;padding:15px 26px;width:100%}
+.fn:nth-child(1){width:100%}.fn:nth-child(2){width:90%}.fn:nth-child(3){width:80%}
+.fn:nth-child(4){width:70%}.fn:nth-child(5){width:60%}.fn:nth-child(6){width:50%}
+.fn .txt{font-size:14.5px;font-weight:600;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fn .val{font-weight:800;font-size:16px;color:#fff;letter-spacing:-0.01em;flex:none}
+@media(max-width:820px){.fn{width:100%!important}.fn .txt{white-space:normal}}
+
+/* ---------- Mobile ---------- */
+@media(max-width:860px){
+  body{flex-direction:column}
+  aside.side{width:100%;height:auto;position:sticky;top:0;border-right:0;border-bottom:1px solid var(--line)}
+  .side-brand{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:0}
+  .side-brand img{margin-bottom:0;height:26px}
+  .side-brand .tt,.side-brand .dk{display:none}
+  .side-nav{flex-direction:row;overflow-x:auto;padding:0 14px 12px;gap:2px}
+  .side-nav button{white-space:nowrap;padding:9px 13px}
+  .side-nav button.active::before{left:13px;right:13px;top:auto;bottom:0;width:auto;height:2px}
+  .side-foot{display:none}
+  main{padding:32px 22px 70px}
+  .mh-photo-overlay{padding:40px 24px 24px}
+  .mh-bar,.mh-tags{padding-left:24px;padding-right:24px}
+}
+@media print{
+  aside.side{display:none}
+  .panel{display:block!important;page-break-after:always;animation:none}
+  .stat{opacity:1;transform:none;animation:none}
+}
+</style>
+</head>
+<body>
+
+<aside class="side">
+  <div class="side-brand">
+    <img src="../../knowledge/brand_assets/智谷網絡_logo.png" alt="智谷網絡 Kvalley">
+    <div>
+      <div class="dk">行銷企劃</div>
+      <div class="tt">分身乏術？教你策劃 AI 營運團隊</div>
+    </div>
+  </div>
+  <nav class="side-nav" id="tabs">
+    <button class="active" data-tab="overview"><span class="ix num">00</span>總覽</button>
+    <button data-tab="position"><span class="ix num">01</span>核心定位</button>
+    <button data-tab="product"><span class="ix num">02</span>產品</button>
+    <button data-tab="channel"><span class="ix num">03</span>行銷通路</button>
+    <button data-tab="timeline"><span class="ix num">04</span>時程與交付</button>
+    <button data-tab="kpi"><span class="ix num">05</span>KPI</button>
+  </nav>
+  <div class="side-foot">智谷網絡 Kvalley<br>維護：Astrid（怡臻）<br>更新 2026-05-25</div>
+</aside>
+
+<div class="content">
+<main>
+
+<!-- OVERVIEW -->
+<section class="panel active" id="overview">
+  <div class="mag-hero">
+    <div class="mh-masthead">
+      <div class="mh-overline">台灣首次專為高階管理者打造的</div>
+      <div class="mh-title">AI 團隊課程</div>
+      <div class="mh-date">July. August 2026</div>
+    </div>
+    <div class="mh-photo">
+      <img src="hero.png" alt="分身乏術？教你策劃 AI 營運團隊">
+      <div class="mh-photo-overlay">
+        <div class="mh-photo-q">分身乏術？</div>
+        <div class="mh-photo-sub">設計你的</div>
+        <div class="mh-photo-main">AI 代理<br>團隊</div>
+      </div>
+    </div>
+    <div class="mh-bar">
+      <p>用 Claude Code 把管理工作變成懂你、會做事的 AI 營運部門</p>
+      <p class="fmt">4hr 群課 + 2hr 1-on-1</p>
+    </div>
+    <div class="mh-tags">AI Agent Team &nbsp;•&nbsp; Workflow &nbsp;•&nbsp; Claude Code &nbsp;•&nbsp; Proactive AI</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="k num">6<small> 小時</small></div><div class="l">4hr 群課 + 2hr 1-on-1</div></div>
+    <div class="stat"><div class="k num">12–20<small> 人</small></div><div class="l">12 人開班・20 人上限</div></div>
+    <div class="stat"><div class="k num">10<small> 場</small></div><div class="l">10 月底前累積</div></div>
+    <div class="stat"><div class="k num">100<small> 萬</small></div><div class="l">營收目標 · 毛利 ~46%</div></div>
+  </div>
+  <table class="kv" style="margin-top:44px">
+    <tr><th>課程名稱</th><td><b>分身乏術？教你策劃 AI 營運團隊</b><br>副標：用 Claude Code 把管理工作變成懂你、會做事的 AI 營運部門</td></tr>
+    <tr><th>產品</th><td>4hr 群課 + 2hr 1-on-1 個別輔導，每場 12–20 人（12 人開班，20 人上限）</td></tr>
+    <tr><th>核心承諾</th><td>6 小時設計一支懂你的 AI 代理團隊，帶走能在你公司跑的 v1，課後就能用</td></tr>
+    <tr><th>TA</th><td>能拍板「哪件事交給 AI」的人 —— 老闆 + 中高階主管，不看職位高低（業務 / 行銷 / 訓練 / 營運 / IT / 工程 / HR）</td></tr>
+    <tr><th>定價</th><td>B2C 早鳥 <span class="price num">7,000</span>（各場開課前 10 天截止）／原價 <span class="price num">8,500</span>（6/24 起）／商會員 <span class="price num">6,500</span>／公協會 <span class="price num">6,000</span>／B2B 套票 3 人 <span class="price num">21,000</span>、5 人 <span class="price num">32,500</span>（皆送企業 AI 診斷）</td></tr>
+    <tr><th>通路</th><td>四大類：自有媒體 / 第三方平台 / 合作通路 / B2B 直銷</td></tr>
+    <tr><th>節奏</th><td>首場 7/3 → 隔週 5 場（7/3 / 7/17 / 7/31 / 8/14 / 8/28）→ 9–10 月再 5 場</td></tr>
+    <tr><th>總目標</th><td><b>10 場 × 平均 10 萬 = 100 萬營收</b>（毛利率 ~46%）</td></tr>
+  </table>
+</section>
+
+<!-- POSITION -->
+<section class="panel" id="position">
+  <div class="sec-head"><span class="kicker num">01</span><h2>核心定位</h2></div>
+  <div class="card" style="background:var(--ink);color:#fff;border:0;padding:40px 44px">
+    <div style="font-weight:800;font-size:12px;letter-spacing:.16em;color:#fff;text-transform:uppercase;margin-bottom:16px;opacity:.7">一句話定位</div>
+    <div style="font-family:var(--serif);font-size:25px;line-height:1.55;font-weight:600;letter-spacing:-0.01em">從分身乏術，到擁有一支懂你、會替你做事的 AI 代理團隊。你設計，我們幫你架到好。</div>
+  </div>
+  <div class="sub-head">雙 TA 共通痛點</div>
+  <div class="card">
+    <ul class="clean">
+      <li>分身乏術，不知道交辦給誰</li>
+      <li>通用 AI（ChatGPT）<b>根本不懂你</b> —— 不懂你部門 / 你的人 / 你的流程</li>
+      <li>看了滿滿提示詞模板，沒一個套得進你的工作</li>
+      <li>想問人又不敢問（面子）</li>
+      <li>老闆叫人做沒人能做、最後只能自己做（老闆）／部門知識傳承斷層、員工帶不動（部門主管）</li>
+    </ul>
+  </div>
+  <div class="grid g2" style="margin-top:24px">
+    <div>
+      <div class="sub-head">承諾升級</div>
+      <div class="card" style="height:calc(100% - 56px)">
+        <ul class="clean">
+          <li><b>「幫你架到好」</b>（不是教你怎麼建）</li>
+          <li>至少帶走<b>一支懂你的 AI 代理團隊</b></li>
+          <li>帶走<b>能跑的 v1.0</b>（接過你公司資料），課後就能用</li>
+          <li><span class="pill teal">行銷主張</span>　營運更順暢、領導力更有力</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="sub-head">對比訴求</div>
+      <div class="cmp">
+        <div class="h a">通用 AI（ChatGPT）</div>
+        <div class="h b">你的 AI Agent Team</div>
+        <div class="r">你問它才答</div><div class="r b">主動問你</div>
+        <div class="r">你要記得追進度</div><div class="r b">自動跟催</div>
+        <div class="r">用通用模板</div><div class="r b">懂你的脈絡</div>
+        <div class="r">解一題就斷掉</div><div class="r b">跨流程接住</div>
+      </div>
+    </div>
+  </div>
+  <div class="sub-head">雙 TA 差異化文案軸</div>
+  <table class="t">
+    <thead><tr><th>訴求軸</th><th>老闆版（陳總）</th><th>部門主管版（林主管）</th></tr></thead>
+    <tbody>
+      <tr><td><b>核心痛</b></td><td>接班 / 決策孤立 / 找不到顧問</td><td>救火 / 跨部門卡 / <b>老闆不動</b></td></tr>
+      <tr><td><b>想聽到</b></td><td>「我的同業 X 老闆用了」</td><td>「我這個職能本週就能用」/「教你說服老闆的話術」</td></tr>
+      <tr><td><b>怕聽到</b></td><td>「派員工去就好」</td><td>「回去自己試試看」/「空有 AI」</td></tr>
+      <tr><td><b>文案重點</b></td><td>組織轉型 / 老闆親自做</td><td>我的部門 / 我的工作流 / 我能拿回去說的話</td></tr>
+      <tr><td><b>報名觸發</b></td><td>商會場、同行老闆推薦</td><td>同職能同行報名、HRD 同意</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PRODUCT -->
+<section class="panel" id="product">
+  <div class="sec-head"><span class="kicker num">02</span><h2>產品定義</h2></div>
+  <div class="sub-head">結構</div>
+  <div class="card">
+    <ul class="clean">
+      <li><b>4hr 群課</b>：開場 10 + S1 趨勢框架 50 + S2 卡牌 45 + 中場 10 + S3 環境設置（六大結構）30 + S4 Dennis 現場示範 20 + S5 實作三選一 60 + 收尾 15</li>
+      <li><b>2hr 1-on-1</b>（群課後 1–3 週內）：把群課半成品做完 → 可運行 v1.0 工作流</li>
+      <li><b>實作三選一情境</b>：事業經營夥伴 / 外包業務團隊 / 行銷經理（部門主管版要補一條職能向情境）</li>
+      <li><b>講師組</b>：Jimmy + Dennis 雙主講；Dennis 老師群依產業配對，Section 5 分桌指導 + 課後 1-on-1；助教現場支援</li>
+    </ul>
+  </div>
+  <div class="sub-head">4hr 群課表（逐段）</div>
+  <div class="sch">
+    <div class="sch-row"><div class="sch-time"><div class="mn num">10<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag">開場</span><span class="ti">歡迎與課程地圖</span><span class="by">Jimmy + Dennis</span></div>
+      <ul><li>雙講師自介（精簡）</li><li>今天 4 小時流程說明</li><li>報名時選的實作情境分組公告</li></ul>
+    </div></div>
+    <div class="sch-row"><div class="sch-time"><div class="mn num">50<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag">Section 1</span><span class="ti">趨勢與框架：老闆要佔住哪一層</span><span class="by">Jimmy</span></div>
+      <ul><li>寒武紀比喻破冰；八套工具行走天下（GPT / Gemini / Sheets / NotebookLM / Make / Notion / Flow / Claude Code）</li><li>三套工具搞定一件生意大事（5 種真實組合）</li><li>人機協作 L1–L7：你公司卡在哪一層；用定製西裝心態思考個性化工作流</li><li>AI 為何不穩定；Token = AI 經濟計量單位；標工 → 流量 → 算力的典範轉移</li></ul>
+    </div></div>
+    <div class="sch-row"><div class="sch-time"><div class="mn num">45<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag">Section 2</span><span class="ti">Claude Code 卡牌：排出你的工作流地圖</span><span class="by">Jimmy 主 / Dennis 知識點</span></div>
+      <ul><li>每桌一組卡牌：情境卡 + 工具卡（MCP / Skill）</li><li>玩法：抽情境 → 挑工具 → 排順序 → 同桌互看誰排得最像</li><li>講師桌邊巡視點評：哪些組合會卡、哪些會跑通</li></ul>
+    </div></div>
+    <div class="sch-row brk"><div class="sch-time"><div class="mn num">10<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag" style="background:var(--gray)">中場</span><span class="ti">休息、加水、檢查筆電環境</span></div>
+    </div></div>
+    <div class="sch-row"><div class="sch-time"><div class="mn num">30<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag">Section 3</span><span class="ti">從架設懂你的 Agent 開始：個人環境設置</span><span class="by">Dennis 主 / Jimmy 旁註</span></div>
+      <ul><li>把你的 AI 工作環境架起來 —— 六大結構：Knowledge（放知識）/ Project（開專案）/ MCP（接資料 · 系統）/ Skill（加技能）/ Subagent（分工）/ CLAUDE.md（給 AI 看的員工手冊：身份 / 邊界 / 出錯怎麼處理）</li><li>每個結構在你公司怎麼配</li></ul>
+    </div></div>
+    <div class="sch-row"><div class="sch-time"><div class="mn num">20<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag">Section 4</span><span class="ti">Dennis 現場示範：把環境跑成一條工作流</span><span class="by">Dennis 主 / Jimmy 旁註</span></div>
+      <ul><li>不講概念，用剛架好的環境現場跑一條完整流程：資料進 → AI 處理 → 看回應 → 修指令</li><li>看完就知道 Section 5 自己要動手做什麼</li></ul>
+    </div></div>
+    <div class="sch-row"><div class="sch-time"><div class="mn num">60<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag">Section 5</span><span class="ti">實作三選一：建立你的 AI 代理團隊</span><span class="by">Dennis 老師群分桌 / Jimmy 巡桌</span></div>
+      <ul><li>5 min：Dennis 統一講實作 SOP（開範本 → 替換資料 → 跑指令 → 看回應 → 修指令）</li><li>50 min：學員拿課前下載的「CLAUDE.md 基底 + 情境模組」改成自家版本（事業經營夥伴 / 外包業務團隊 / 行銷經理）</li><li>Dennis 老師群依產業 + 情境分桌指導，每組 5 學員 / 2 位專屬講師，卡關 1 對 1 解</li><li>5 min：講師標 demo 候選人</li></ul>
+    </div></div>
+    <div class="sch-row"><div class="sch-time"><div class="mn num">15<small> min</small></div></div><div class="sch-body">
+      <div class="seg"><span class="tag">收尾</span><span class="ti">demo 分享 + 1-on-1 銜接</span><span class="by">共同</span></div>
+      <ul><li>2–3 位老闆 demo 分享</li><li>1-on-1 預約方式、流程說明（講師全程在場，不另做自介）</li><li>課後問卷、收 LINE 群、發資源包</li></ul>
+    </div></div>
+    <div class="sch-foot num">合計 240 min（4 小時）</div>
+  </div>
+
+  <div class="sub-head">帶走清單</div>
+  <div class="card">
+    <ul class="clean">
+      <li><b>群課當天</b>：客製化 CLAUDE.md 起手本 + 1-on-1 任務書 + 工作流地圖卡牌</li>
+      <li><b>1-on-1 後</b>：可運行 v1.0 AI Agent（接過你公司資料、能解你那個痛點）</li>
+      <li>30 天課後 LINE 答疑 + 老闆 LINE 社群</li>
+    </ul>
+  </div>
+  <div class="sub-head">定價</div>
+  <div class="note">數字以 <code>B2C公開班_定價方案.md</code> 為準。</div>
+  <table class="t">
+    <thead><tr><th>通道</th><th>單價</th><th>備註</th></tr></thead>
+    <tbody>
+      <tr><td>B2C 早鳥（開課前 10 天截止）</td><td class="price num">NT$7,000</td><td>18% off、催早買；9 人即打平整場成本</td></tr>
+      <tr><td>B2C 原價（6/24 起）</td><td class="price num">NT$8,500</td><td>散客後段；主要當錨點 + 少數加碼</td></tr>
+      <tr><td>商會員脈絡（BNI 大疆 / 建研會 40 / 雁博會）</td><td class="price num">NT$6,500</td><td>早鳥 -500、純友情不抽成</td></tr>
+      <tr><td>代理平台</td><td class="price num">NT$6,000</td><td>智谷實拿；學員實付由平台自定</td></tr>
+      <tr><td>B2B 3 人套票</td><td class="price num">NT$21,000</td><td>7,000 / 人，送企業 AI 診斷</td></tr>
+      <tr><td>B2B 5 人套票</td><td class="price num">NT$32,500</td><td>6,500 / 人，送企業 AI 診斷</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sub-head">卡牌示意圖</div>
+  <figure style="margin:0">
+    <img src="卡牌示意圖.png" alt="Claude Code 卡牌玩法：AI 指揮中心（觸發 / 角色 / 工具 / 知識 / 產出）" style="width:100%;max-width:760px;display:block;border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 28px -12px rgba(17,17,17,.28)">
+    <figcaption style="font-size:13px;color:var(--gray);margin-top:10px;line-height:1.6">Section 2 群課卡牌「AI 指揮中心」玩法：抽<b>觸發</b>任務卡 → 配<b>角色</b> → 挑<b>工具 / 知識</b>（MCP · Skill）→ 排出<b>產出</b>，桌邊排出你的工作流地圖。</figcaption>
+  </figure>
+</section>
+
+<!-- CHANNEL -->
+<section class="panel" id="channel">
+  <div class="sec-head"><span class="kicker num">03</span><h2>行銷通路</h2></div>
+  <div class="note">分四大類：自有媒體 / 第三方平台 / 合作通路 / B2B 直銷。客戶分桶見下方席次分配表。</div>
+  <div class="sub-head">自有媒體</div>
+  <table class="t">
+    <thead><tr><th>#</th><th>通路</th><th>Owner</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td class="c-num num">1</td><td><b>課程 LP</b>（B2C 公開班 Landing Page）</td><td class="owner"><span class="ow astrid">Astrid</span></td><td>主流量收口、雙訴求（老闆軸 / 部門主管軸）</td></tr>
+      <tr><td class="c-num num">2</td><td><b>智谷官網</b>（kvalley.biz）</td><td class="owner"><span class="ow mina">Mina</span></td><td>課程頁 + 報名入口 + SEO 部落格導流</td></tr>
+      <tr><td class="c-num num">3</td><td><b>AI LP</b>（智谷自家 playbook 50+ case）</td><td class="owner"><span class="ow astrid">Astrid</span></td><td>互掛課程 LP 入口 + case 引流</td></tr>
+      <tr><td class="c-num num">4</td><td><b>AL 電子報</b>（亞太電子報）</td><td class="owner"><span class="ow peony">Peony</span></td><td>Cold 觸達亞太歷史名單（AI 小聚 200+）</td></tr>
+      <tr><td class="c-num num">5</td><td><b>AL 右星</b>（電子報露出版位）</td><td class="owner"><span class="ow peony">Peony</span></td><td>電子報內露出版位</td></tr>
+      <tr><td class="c-num num">6</td><td><b>智谷粉專 FB</b></td><td class="owner"><span class="ow mina">Mina</span></td><td>中長貼文 + 學員見證 + 講師圖卡</td></tr>
+      <tr><td class="c-num num">7</td><td><b>智谷 LinkedIn 公司頁</b></td><td class="owner"><span class="ow mina">Mina</span></td><td>主打 B2B 主管 / HRD 同溫層</td></tr>
+      <tr><td class="c-num num">8</td><td><b>智谷 LINE 官方帳號</b></td><td class="owner"><span class="ow mina">Mina</span></td><td>開賣公告 + 倒數推播 + 課後維繫</td></tr>
+      <tr><td class="c-num num">9</td><td><b>數位領導力圓桌小聚 LINE 群</b></td><td class="owner"><span class="ow astrid">Astrid</span></td><td>過往老闆 / 中高階主管社群再觸達</td></tr>
+      <tr><td class="c-num num">10</td><td><b>HR 圓桌小聚 LINE 群</b></td><td class="owner"><span class="ow astrid">Astrid</span></td><td>過往 HRD / HR 主管社群（B2B 暖場）</td></tr>
+    </tbody>
+  </table>
+  <div class="sub-head">第三方平台</div>
+  <table class="t">
+    <thead><tr><th>#</th><th>通路</th><th>Owner</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td class="c-num num">11</td><td><b>Accupass</b></td><td class="owner"><span class="ow peony">Peony</span></td><td>第三方售票 + SEO 流量、補 LP 觸達</td></tr>
+      <tr><td class="c-num num">12</td><td><b>FB 付費廣告</b></td><td class="owner"><span class="ow mina">Mina</span></td><td>Cold 觸達 + Warm 再行銷</td></tr>
+      <tr><td class="c-num num">13</td><td><b>FB 社團分享</b></td><td class="owner"><span class="ow astrid">Astrid</span></td><td>相關 FB 社團分享、導流 LP</td></tr>
+      <tr><td class="c-num num">14</td><td><b>LINE 社群分享</b></td><td class="owner"><span class="ow astrid">Astrid</span></td><td>所屬 LINE 社群分享、導流 LP</td></tr>
+      <tr><td class="c-num num">15</td><td><b>Dcard 輿論平台</b></td><td class="owner"><span class="ow mina">Mina</span></td><td>相關看板發文做口碑與導流（軟性非業配）</td></tr>
+    </tbody>
+  </table>
+  <div class="sub-head">合作通路</div>
+  <table class="t">
+    <thead><tr><th>#</th><th>通路</th><th>Owner</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td class="c-num num">16</td><td><b>數位簡報室</b>（Dennis 自家觀眾）</td><td class="owner"><span class="ow dennis">Dennis</span></td><td>共講師背書 + 既有粉絲池導流</td></tr>
+      <tr><td class="c-num num">17</td><td><b>公協會推廣</b>（待開發）</td><td class="owner"><span class="ow mina">Mina</span></td><td>公協會自有會員觸達（智谷實拿 6,000）</td></tr>
+      <tr><td class="c-num num">18</td><td><b>BNI 大疆分會</b></td><td class="owner"><span class="ow candy">Candy</span></td><td>商會例會口頭推 + LINE 散播（商會員 6,500）</td></tr>
+      <tr><td class="c-num num">19</td><td><b>建研會第 40 期</b></td><td class="owner"><span class="ow jimmy">Jimmy</span></td><td>商會例會口頭推 + LINE 散播（商會員 6,500）</td></tr>
+      <tr><td class="c-num num">20</td><td><b>雁博會</b>（近期接觸中）</td><td class="owner"><span class="ow mina">Mina</span></td><td>新拓商會脈絡 + 群組散播（商會員 6,500）</td></tr>
+    </tbody>
+  </table>
+  <div class="sub-head">B2B 直銷</div>
+  <table class="t">
+    <thead><tr><th>#</th><th>通路</th><th>Owner</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td class="c-num num">21</td><td><b>冷觸：Eric 業務 cold outreach</b></td><td class="owner"><span class="ow eric">Eric</span></td><td>對沒接觸過的 HRD / 部門主管新名單發信約訪</td></tr>
+      <tr><td class="c-num num">22</td><td><b>暖觸：既有 CRM 客戶再激活</b></td><td class="owner"><span class="ow candy">Candy</span><span class="ow-sep">/</span><span class="ow eric">Eric</span><span class="ow-sep">/</span><span class="ow ys">永祥</span></td><td>三位業務分頭照顧自己客戶、推套票</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- TIMELINE -->
+<section class="panel" id="timeline">
+  <div class="sec-head"><span class="kicker num">04</span><h2>時程與交付</h2></div>
+  <a class="timeline-card" href="B2C公開班_時程與交付.html" target="_blank">
+    <div class="tc-l">
+      <div class="tc-label">完整甘特圖</div>
+      <div class="tc-title">時程與交付 → 獨立檢視</div>
+    </div>
+    <div class="tc-r">開啟 →</div>
+  </a>
+  <div class="note"><b>關鍵依賴</b>：商會 / B2B DM <b>5/26 發出</b>；LP <b>5/29 上線</b>；數位管道 <b>6/1 全發</b>。<br>
+  完整甘特圖（報名啟動 5/26→7/3 + 素材準備 4 軌）請開啟上方獨立頁面。</div>
+  <div class="sub-head">里程碑快查</div>
+  <table class="t">
+    <thead><tr><th>日期</th><th>里程碑</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td><b>5/26</b></td><td>商會 / B2B DM 發送，搶先報名名額（LP 上線前先收意向）</td><td class="owner"><span class="ow candy">Candy</span><span class="ow-sep">/</span><span class="ow jimmy">Jimmy</span><span class="ow-sep">/</span><span class="ow eric">Eric</span></td></tr>
+      <tr><td><b>5/29</b></td><td>LP 上線，報名正式開放</td><td class="owner"><span class="ow astrid">Astrid</span><span class="ow-sep">/</span><span class="ow mina">Mina</span></td></tr>
+      <tr><td><b>6/1</b></td><td>數位管道全發（官網 / AI LP / LINE 群 / 粉專 / 電子報 / 暖觸 CRM）</td><td class="owner"><span class="ow astrid">Astrid</span><span class="ow-sep">/</span><span class="ow mina">Mina</span><span class="ow-sep">/</span><span class="ow peony">Peony</span></td></tr>
+      <tr><td><b>6/12</b></td><td>首場累積 9 報名（保險預警關卡）</td><td class="owner">全員</td></tr>
+      <tr><td><b>6/27</b></td><td>Claude Code 卡牌到貨</td><td class="owner"><span class="ow jimmy">Jimmy</span></td></tr>
+      <tr><td><b>6/26</b></td><td>D-7 onboarding 信發出（3 情境模組 + CLAUDE.md 基底）</td><td class="owner"><span class="ow peony">Peony</span></td></tr>
+      <tr><td><b>7/3</b></td><td>首場執行</td><td class="owner">全員</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- KPI -->
+<section class="panel" id="kpi">
+  <div class="sec-head"><span class="kicker num">05</span><h2>KPI 與監測</h2></div>
+  <div class="sub-head">北極星指標</div>
+  <div class="northstar">
+    <div class="ns"><div class="v num"><span class="hl">100</span><small> 萬</small></div><div class="lab">累積營收 · 10/31 達標</div></div>
+    <div class="ns"><div class="v num">≥80<small> %</small></div><div class="lab">每場滿班率（12+ 人 / 場）</div></div>
+    <div class="ns"><div class="v num">≥50</div><div class="lab">NPS 淨推薦值</div></div>
+  </div>
+  <div class="sub-head">漏斗指標</div>
+  <div class="funnel">
+    <div class="fn"><span class="txt">LP 訪客 → 報名表單</span><span class="val num">≥ 5%</span></div>
+    <div class="fn"><span class="txt">報名表單 → 完成繳費</span><span class="val num">≥ 70%</span></div>
+    <div class="fn"><span class="txt">D-7 onboarding 信開信率</span><span class="val num">≥ 60%</span></div>
+    <div class="fn"><span class="txt">群課當天到課率</span><span class="val num">≥ 90%</span></div>
+    <div class="fn"><span class="txt">1-on-1 預約率</span><span class="val num">≥ 95%</span></div>
+    <div class="fn"><span class="txt">課後 NPS 推薦意願</span><span class="val num">≥ 50%</span></div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const tabs=document.querySelectorAll('#tabs button');
+const panels=document.querySelectorAll('.panel');
+tabs.forEach(b=>b.addEventListener('click',()=>{
+  tabs.forEach(t=>t.classList.remove('active'));
+  panels.forEach(p=>p.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.tab).classList.add('active');
+  document.querySelector('.content').scrollIntoView({behavior:'smooth',block:'start'});
+}));
+</script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>時程與交付 — 分身乏術？教你策劃 AI 營運團隊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111111;
+  --ink2:#3D3D3D;
+  --gray:#737373;
+  --gray2:#9A9A9A;
+  --line:#E2DAD0;
+  --line-strong:#111111;
+  --paper:#F8F4EE;
+  --paper2:#EDE8DF;
+  --bg:#FFFFFF;
+  --accent:#C84B2A;
+  --serif:'Noto Serif TC','Georgia','Times New Roman',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Microsoft YaHei","微軟正黑體","Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-size:16px;
+}
+
+/* ---------- Page Header ---------- */
+.page-header{
+  background:#111;
+  color:#fff;
+  padding:0;
+}
+.ph-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 48px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.ph-brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.ph-brand img{
+  height:28px;
+  width:auto;
+  filter:brightness(0) invert(1);
+  opacity:.85;
+}
+.ph-brand .sep{width:1px;height:20px;background:rgba(255,255,255,.2)}
+.ph-brand .label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:700}
+.ph-back{
+  font-size:12.5px;font-weight:700;color:rgba(255,255,255,.5);
+  text-decoration:none;letter-spacing:.06em;transition:color .15s;
+}
+.ph-back:hover{color:#fff}
+.ph-hero{
+  padding:36px 48px 40px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:end;
+  gap:32px;
+}
+.ph-eyebrow{
+  font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin-bottom:10px;
+}
+.ph-title{
+  font-family:var(--serif);
+  font-size:clamp(28px,4vw,46px);
+  font-weight:900;
+  color:#fff;
+  line-height:1.1;
+  letter-spacing:-0.02em;
+}
+.ph-sub{
+  font-size:15px;
+  color:rgba(255,255,255,.6);
+  margin-top:10px;
+  line-height:1.6;
+}
+.ph-meta{
+  text-align:right;
+  font-size:12px;
+  color:rgba(255,255,255,.4);
+  line-height:1.8;
+  flex:none;
+}
+.ph-accent-bar{
+  height:4px;
+  background:linear-gradient(to right,var(--accent),#E8633A);
+}
+
+/* ---------- Main content ---------- */
+.wrap{max-width:1200px;margin:0 auto;padding:52px 48px 80px}
+.note{font-size:14px;color:var(--ink2);background:var(--paper);border-left:2px solid var(--accent);padding:12px 18px;margin:0 0 32px;line-height:1.7}
+.note b{color:var(--ink)}
+.sec-label{
+  display:flex;align-items:center;gap:16px;
+  margin:52px 0 20px;
+  padding-bottom:18px;
+  border-bottom:2px solid var(--line-strong);
+}
+.sec-label .num{
+  font-weight:800;font-size:13px;color:var(--accent);letter-spacing:.06em;
+}
+.sec-label h2{
+  font-family:var(--serif);font-weight:900;font-size:26px;
+  color:var(--ink);letter-spacing:-0.02em;
+}
+.sec-label:first-of-type{margin-top:0}
+
+/* ---------- Milestone table ---------- */
+.ms-table{width:100%;border-collapse:collapse;border-top:2px solid var(--line-strong);font-size:14.5px;margin-bottom:0}
+.ms-table thead th{text-align:left;padding:11px 16px 11px 0;font-weight:800;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray);border-bottom:1px solid var(--line-strong)}
+.ms-table tbody td{padding:13px 16px 13px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2);line-height:1.6}
+.ms-table tbody tr:hover{background:var(--paper)}
+.ms-date{font-weight:800;color:var(--ink);white-space:nowrap;font-size:15px}
+.ow{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;line-height:1.5;white-space:nowrap;color:var(--ink);border:1px solid currentColor;letter-spacing:.01em}
+.ow.astrid{color:#15795F}.ow.mina{color:#C2548C}.ow.peony{color:#262A30}
+.ow.candy{color:#67711F}.ow.jimmy{color:#9C4A52}.ow.eric{color:#A85A2E}
+.ow-sep{color:var(--gray2);font-size:10px;margin:0 3px}
+
+/* ---------- Gantt styles ---------- */
+.dg{background:#15304E;border-radius:16px;padding:26px 28px 30px;color:#fff;overflow-x:auto;margin-bottom:0}
+.dg-min{min-width:920px;position:relative}
+.dg-head{display:grid;grid-template-columns:240px 1fr;align-items:end}
+.dg-head-l{font-size:12.5px;color:rgba(255,255,255,.7);font-weight:700;letter-spacing:.04em;padding-bottom:10px}
+.dg-axis{position:relative;height:62px}
+.dg-axis .mo{position:absolute;top:0;font-weight:800;font-size:16px;color:#fff;transform:translateX(-50%);white-space:nowrap}
+.dg-axis .wk{position:absolute;bottom:6px;font-size:10.5px;color:rgba(255,255,255,.42);font-weight:600;transform:translateX(-50%)}
+.dg-axis .base{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(255,255,255,.2)}
+.dg-body{position:relative}
+.dg-grid{position:absolute;left:240px;right:0;top:0;bottom:0;pointer-events:none;z-index:0}
+.dg-grid i{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.07)}
+.dg-grid i.first{width:2px;background:rgba(255,255,255,.85)}
+.dg-grid i.first::after{content:"7/3 首場";position:absolute;top:-2px;right:6px;font-size:10.5px;font-weight:800;color:#fff;white-space:nowrap;text-align:right}
+.dg-grp{position:relative;z-index:1;padding:10px 0 12px;border-top:1px solid rgba(255,255,255,.08)}
+.dg-grp:first-of-type{border-top:0}
+.dg-row{display:grid;grid-template-columns:240px 1fr;align-items:center;min-height:30px}
+.dg-glabel{font-weight:800;font-size:16px;color:#fff}
+.dg-sub{font-size:13px;color:rgba(255,255,255,.82);font-weight:500;padding-left:2px;line-height:1.4}
+.dg-track{position:relative;height:30px}
+.dg-grouprow .dg-track{height:34px}
+.dg-owner{position:absolute;top:-3px;font-size:11px;font-weight:800;white-space:nowrap}
+.dg-bar{position:absolute;top:17px;height:16px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.dg-sb{position:absolute;top:8px;height:14px;border-radius:7px}
+.dg-pt{position:absolute;top:8px;width:13px;height:13px;transform:translateX(-50%) rotate(45deg);border-radius:2px;box-shadow:0 0 0 2px #15304E,0 1px 3px rgba(0,0,0,.3)}
+.dg-ptl{position:absolute;top:6px;font-size:10.5px;font-weight:800;color:#fff;white-space:nowrap}
+.dg-ptl.l{transform:translateX(-100%);padding-right:6px}
+.dg-ptl.r{padding-left:6px}
+.dg-c1 .dg-bar{background:#E0A93E}.dg-c1 .dg-sb,.dg-c1 .dg-pt{background:#EDCB87}.dg-c1 .dg-owner{color:#F0C877}
+.dg-c2 .dg-bar{background:#9BBE3E}.dg-c2 .dg-sb,.dg-c2 .dg-pt{background:#C8DD8B}.dg-c2 .dg-owner{color:#BCD877}
+.dg-c3 .dg-bar{background:#DE8044}.dg-c3 .dg-sb,.dg-c3 .dg-pt{background:#EDB18F}.dg-c3 .dg-owner{color:#EDA17C}
+.dg-c4 .dg-bar{background:#4AA1CB}.dg-c4 .dg-sb,.dg-c4 .dg-pt{background:#97CADF}.dg-c4 .dg-owner{color:#8FC8E2}
+.dg-c5 .dg-bar{background:#7A6FB0}.dg-c5 .dg-sb,.dg-c5 .dg-pt{background:#BCB2DF}.dg-c5 .dg-owner{color:#BCB0E2}
+.dg-pt.goal{background:#fff!important;box-shadow:0 0 0 2px #15304E,0 1px 4px rgba(0,0,0,.4)}
+.dg-legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;font-size:12.5px;color:rgba(255,255,255,.7)}
+.dg-legend span{display:flex;align-items:center;gap:8px}
+.dg-legend i{width:24px;height:11px;border-radius:5px;display:inline-block}
+
+@media print{
+  .ph-back{display:none}
+  .wrap{padding:32px 32px 48px}
+  .dg{border-radius:0}
+  .page-header{background:#111 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .dg{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="ph-top">
+    <div class="ph-brand">
+      <img src="../../knowledge/brand_assets/智谷網絡_logo.png" alt="智谷網絡">
+      <div class="sep"></div>
+      <div class="label">行銷企劃</div>
+    </div>
+    <a class="ph-back" href="B2C公開班_行銷企劃.html">← 返回總覽</a>
+  </div>
+  <div class="ph-hero">
+    <div>
+      <div class="ph-eyebrow">04 · 時程與交付</div>
+      <div class="ph-title">報名啟動 × 素材準備<br>甘特圖</div>
+      <div class="ph-sub">首場 7/3 · 商會 B2B 5/26 先發 · LP 5/29 上線 · 數位管道 6/1 全發</div>
+    </div>
+    <div class="ph-meta">
+      智谷網絡 Kvalley<br>
+      維護：Astrid（怡臻）<br>
+      更新 2026-05-25
+    </div>
+  </div>
+  <div class="ph-accent-bar"></div>
+</header>
+
+<div class="wrap">
+
+  <!-- 里程碑快查 -->
+  <div class="sec-label">
+    <span class="num">—</span>
+    <h2>里程碑快查</h2>
+  </div>
+  <table class="ms-table">
+    <thead><tr><th>日期</th><th>里程碑</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td class="ms-date">5/26</td><td>商會 / B2B DM 發送，搶先報名名額（LP 上線前先收意向）</td><td><span class="ow candy">Candy</span><span class="ow-sep">/</span><span class="ow jimmy">Jimmy</span><span class="ow-sep">/</span><span class="ow eric">Eric</span></td></tr>
+      <tr><td class="ms-date">5/29</td><td>LP 上線，報名正式開放</td><td><span class="ow astrid">Astrid</span><span class="ow-sep">/</span><span class="ow mina">Mina</span></td></tr>
+      <tr><td class="ms-date">6/1</td><td>數位管道全發（官網 / AI LP / LINE 群 / 粉專 / 電子報 / 暖觸 CRM）</td><td><span class="ow astrid">Astrid</span><span class="ow-sep">/</span><span class="ow mina">Mina</span><span class="ow-sep">/</span><span class="ow peony">Peony</span></td></tr>
+      <tr><td class="ms-date">6/12</td><td>首場累積 9 報名（保險預警關卡）</td><td>全員</td></tr>
+      <tr><td class="ms-date">6/13</td><td>Claude Code 卡牌設計定稿 → 送印</td><td><span class="ow jimmy">Jimmy</span></td></tr>
+      <tr><td class="ms-date">6/25</td><td>3 情境模組 + CLAUDE.md 基底 ready</td><td><span class="ow dennis">Dennis</span></td></tr>
+      <tr><td class="ms-date">6/26</td><td>D-7 onboarding 信發出（含課前下載資源包）</td><td><span class="ow peony">Peony</span></td></tr>
+      <tr><td class="ms-date">6/27</td><td>Claude Code 卡牌到貨（首場前 6 天 buffer）</td><td><span class="ow jimmy">Jimmy</span></td></tr>
+      <tr><td class="ms-date">6/30</td><td>D-3 提醒信發出</td><td><span class="ow peony">Peony</span></td></tr>
+      <tr><td class="ms-date">7/2</td><td>D-1 提醒信發出</td><td><span class="ow peony">Peony</span></td></tr>
+      <tr><td class="ms-date"><b>7/3</b></td><td><b>首場執行</b></td><td>全員</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 報名啟動甘特圖 -->
+  <div class="sec-label" style="margin-top:60px">
+    <span class="num">①</span>
+    <h2>報名啟動甘特圖（5/26 → 7/3 首場）</h2>
+  </div>
+  <div class="note">商會 + B2B DM <b>5/26 先發</b>（LP 上線前搶名額）、LP <b>5/29 上線</b>、數位管道 <b>6/1 全發</b>，6/12 起公開衝刺。<b>深色橫條</b> = 主導期間；<b>淺色橫條</b> = 合作 / 滾動；<b>空心菱形</b> = 單日動作；<b>實心菱形</b> = 關卡 / 首場。</div>
+  <div class="dg">
+    <div class="dg-min">
+      <div class="dg-head">
+        <div class="dg-head-l">通路 / 動作</div>
+        <div class="dg-axis">
+          <span class="mo" style="left:8%">5 月</span><span class="mo" style="left:54%">6 月</span><span class="mo" style="left:97%">7 月</span>
+          <span class="wk" style="left:0%">5/26</span><span class="wk" style="left:18.4%">6/2</span><span class="wk" style="left:36.8%">6/9</span><span class="wk" style="left:55.3%">6/16</span><span class="wk" style="left:73.7%">6/23</span><span class="wk" style="left:92.1%">6/30</span>
+          <span class="base"></span>
+        </div>
+      </div>
+      <div class="dg-body">
+        <div class="dg-grid">
+          <i style="left:0%"></i><i style="left:18.4%"></i><i style="left:36.8%"></i><i style="left:55.3%"></i><i style="left:73.7%"></i><i style="left:92.1%"></i><i class="first" style="left:100%"></i>
+        </div>
+
+        <div class="dg-grp dg-c4">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">🔵 商會 + B2B 搶先</div><div class="dg-track"><div class="dg-owner" style="left:0%">Candy · Jimmy · Eric · Astrid ｜ 5/26 搶先期</div><div class="dg-bar" style="left:0%;width:15.8%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">商會 / B2B DM 發送，搶先報名名額</div><div class="dg-track"><div class="dg-sb" style="left:0%;width:44.7%" title="Candy / Jimmy / Eric · 5/26 起，LP 上線前先收意向；持續到 6/12 公開衝刺前"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">LP 上線，報名正式開放</div><div class="dg-track"><div class="dg-pt" style="left:7.9%" title="Astrid · Mina · 5/29 LP 上線，報名正式開放"></div><div class="dg-ptl r" style="left:7.9%">5/29 LP上線</div></div></div>
+          <div class="dg-row"><div class="dg-sub">數位管道全發（官網 / AI LP / LINE 群 / 粉專 / 電子報 / 暖觸 CRM）</div><div class="dg-track"><div class="dg-pt" style="left:15.8%" title="Astrid · Mina · Peony · 6/1 數位管道全發"></div><div class="dg-ptl r" style="left:15.8%">6/1 數位全發</div></div></div>
+        </div>
+
+        <div class="dg-grp dg-c3">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">🟠 合作 / B2B</div><div class="dg-track"><div class="dg-owner" style="left:15.8%">Eric · Dennis · Mina ｜ 給素材 + 約區間，自己排</div><div class="dg-bar" style="left:15.8%;width:84.2%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">B2B 冷觸 outreach → 套票</div><div class="dg-track"><div class="dg-sb" style="left:15.8%;width:84.2%" title="Eric · 6/1 起滾動到首場，B2B 冷觸 outreach → 套票"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">數位簡報室一波（Dennis 自己挑日）</div><div class="dg-track"><div class="dg-sb" style="left:21.1%;width:15.7%" title="Dennis · 6 月初一波，共講師背書導流"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">公協會推會員（談定 → 給素材）</div><div class="dg-track"><div class="dg-sb" style="left:34.2%;width:36.9%" title="Mina 對接 · 6/8 談定後到 6 月底，公協會向會員推"></div></div></div>
+        </div>
+
+        <div class="dg-grp dg-c2">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">🟢 公開衝刺</div><div class="dg-track"><div class="dg-owner" style="left:44.7%">Astrid · Mina ｜ 6/12 → 首場</div><div class="dg-bar" style="left:44.7%;width:55.3%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">公開推（FB 廣告 / LinkedIn / FB 社團 / LINE 社群 / Dcard / 雁博會）</div><div class="dg-track"><div class="dg-sb" style="left:44.7%;width:55.3%" title="Astrid · Mina · 6/12–7/3 全通路公開推 + FB 廣告 + Dcard"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">首場累積 9 報名（保險預警關卡）</div><div class="dg-track"><div class="dg-pt goal" style="left:44.7%" title="關卡 · 6/12 首場累積 9 報名，未達標啟動保險預警"></div><div class="dg-ptl r" style="left:44.7%">6/12</div></div></div>
+          <div class="dg-row"><div class="dg-sub">首場執行</div><div class="dg-track"><div class="dg-pt goal" style="left:100%" title="全員 · 7/3 首場執行"></div><div class="dg-ptl l" style="left:100%">7/3 首場</div></div></div>
+        </div>
+      </div>
+
+      <div class="dg-legend">
+        <span><i style="background:#4AA1CB"></i>商會 + B2B 搶先</span>
+        <span><i style="background:#DE8044"></i>合作 / B2B</span>
+        <span><i style="background:#9BBE3E"></i>公開衝刺</span>
+        <span style="color:rgba(255,255,255,.5)">粗條=該段期間　細條=通路動作　◆=單日 / 關卡</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 素材準備甘特圖 -->
+  <div class="sec-label" style="margin-top:60px">
+    <span class="num">②</span>
+    <h2>素材準備甘特圖（4 軌 · 倒推自報名啟動日）</h2>
+  </div>
+  <div class="note">每軌一色，粗條 = 該軌總期間（owner 標於上方），細條 = 各交付物作業區間。最緊的是 <b>5/27</b>（主視覺 / 商會文案 / 報名功能，商會 5/29 先行要用）。白線 = 7/3 首場。</div>
+  <div class="dg">
+    <div class="dg-min">
+      <div class="dg-head">
+        <div class="dg-head-l">交付物 / 軌</div>
+        <div class="dg-axis">
+          <span class="mo" style="left:11.6%">5 月</span><span class="mo" style="left:58%">6 月</span><span class="mo" style="left:94.5%">7 月</span>
+          <span class="wk" style="left:9.3%">5/26</span><span class="wk" style="left:25.6%">6/2</span><span class="wk" style="left:41.9%">6/9</span><span class="wk" style="left:58.1%">6/16</span><span class="wk" style="left:74.4%">6/23</span><span class="wk" style="left:90.7%">6/30</span>
+          <span class="base"></span>
+        </div>
+      </div>
+
+      <div class="dg-body">
+        <div class="dg-grid">
+          <i style="left:9.3%"></i><i style="left:25.6%"></i><i style="left:41.9%"></i><i style="left:58.1%"></i><i style="left:74.4%"></i><i style="left:90.7%"></i><i class="first" style="left:97.7%"></i>
+        </div>
+
+        <div class="dg-grp dg-c1">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">🎨 視覺軌</div><div class="dg-track"><div class="dg-owner" style="left:0%">Astrid · Mina ｜ 整軌作業期間</div><div class="dg-bar" style="left:0%;width:46.5%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">主視覺 / DM 海報（圖文，含講師介紹）+ LINE OA / LINE 社群配圖</div><div class="dg-track"><div class="dg-sb" style="left:0%;width:11.6%" title="Astrid · 5/27 ready · 最上游，商會轉發 + 電子報通用；LINE OA / 社群配圖跟 DM 同源"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">Banner（官網 / AL右星 / FB / LinkedIn / AI LP / Accupass）</div><div class="dg-track"><div class="dg-sb" style="left:23.3%;width:4.6%" title="Mina · 6/3 ready · 各平台 Banner 只是尺寸微調，一次做齊"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">FB 廣告素材 + Dcard 貼文圖</div><div class="dg-track"><div class="dg-sb" style="left:39.5%;width:7%" title="Mina · 6/11 ready · 公開衝刺用"></div></div></div>
+        </div>
+
+        <div class="dg-grp dg-c2">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">✍️ 文案軌</div><div class="dg-track"><div class="dg-owner" style="left:0%">Astrid ｜ 整軌作業期間</div><div class="dg-bar" style="left:0%;width:46.5%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">商會訊息範本 + 社群轉發文案 + 暖觸 CRM 話術</div><div class="dg-track"><div class="dg-sb" style="left:0%;width:11.6%" title="Astrid（商會訊息過陳總審）· 5/27 ready · 暖通路先行要用"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">AL 電子報 + 右星文案</div><div class="dg-track"><div class="dg-sb" style="left:23.3%;width:4.6%" title="Astrid · 6/3 ready"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">數位簡報室導流素材包（DM + 導流文案 + 連結）</div><div class="dg-track"><div class="dg-sb" style="left:27.9%;width:4.7%" title="Astrid + Dennis · 6/5 ready · 給 Dennis 自家管道發"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">公協會推廣文案 + B2B 提案書</div><div class="dg-track"><div class="dg-sb" style="left:32.6%;width:6.9%" title="Astrid + Dennis · 6/8 ready"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">FB 廣告文案</div><div class="dg-track"><div class="dg-sb" style="left:39.5%;width:7%" title="Mina · 6/11 ready"></div></div></div>
+        </div>
+
+        <div class="dg-grp dg-c5">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">🌐 LP 軌</div><div class="dg-track"><div class="dg-owner" style="left:0%">Astrid · Mina ｜ 5/27 軟上線 → 6/3 完整上線</div><div class="dg-bar" style="left:0%;width:27.9%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">LP 主文案</div><div class="dg-track"><div class="dg-sb" style="left:0%;width:23.3%" title="Astrid · 文案 5/22→6/1 ready"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">LP 視覺排版</div><div class="dg-track"><div class="dg-sb" style="left:14%;width:11.6%" title="Astrid + Mina · 5/28→6/2 ready"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">LP 報名功能 + 優先碼（軟上線給商會）</div><div class="dg-track"><div class="dg-pt" style="left:11.6%" title="Astrid · 5/27 軟上線，只給商會連結 + 優先碼"></div><div class="dg-ptl r" style="left:11.6%">5/27 軟上線</div></div></div>
+          <div class="dg-row"><div class="dg-sub">LP 完整公開版上線（文案 + 視覺 + 付款）</div><div class="dg-track"><div class="dg-pt goal" style="left:27.9%" title="Astrid · Mina · 6/3 完整上線，6/4 數位 wave 全發、6/13 公開推"></div><div class="dg-ptl r" style="left:27.9%">6/3 完整上線</div></div></div>
+        </div>
+
+        <div class="dg-grp dg-c3">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">🧾 報名系統軌</div><div class="dg-track"><div class="dg-owner" style="left:14%">Mina · Peony ｜ 整軌作業期間</div><div class="dg-bar" style="left:14%;width:13.9%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">官網課程頁上架</div><div class="dg-track"><div class="dg-sb" style="left:14%;width:13.9%" title="Mina · 6/3 ready，連動 LP"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">報名確認信 + 收款 SOP</div><div class="dg-track"><div class="dg-sb" style="left:14%;width:13.9%" title="Peony · 6/3 ready，開賣即用"></div></div></div>
+        </div>
+
+        <div class="dg-grp dg-c4">
+          <div class="dg-row dg-grouprow"><div class="dg-glabel">📦 課程交付軌</div><div class="dg-track"><div class="dg-owner" style="left:51.2%">Jimmy · Dennis · Peony ｜ 整軌作業期間</div><div class="dg-bar" style="left:51.2%;width:44.1%"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">Claude Code 卡牌（設計定稿 → 送印 → 到貨）</div><div class="dg-track"><div class="dg-sb" style="left:51.2%;width:32.5%" title="Jimmy 設計 · 6/13 定稿 → 送印 → 6/27 到貨（首場前 6 天 buffer）"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">3 情境模組 + CLAUDE.md 基底</div><div class="dg-track"><div class="dg-sb" style="left:67.4%;width:11.7%" title="Dennis · 6/25 ready，6/26 onboarding 信給下載"></div></div></div>
+          <div class="dg-row"><div class="dg-sub">onboarding 信(D-7) / D-3 / D-1</div><div class="dg-track"><div class="dg-sb" style="left:81.4%;width:13.9%" title="Peony · onboarding 6/26、D-3 6/30、D-1 7/2"></div></div></div>
+        </div>
+      </div>
+
+      <div class="dg-legend">
+        <span><i style="background:#E0A93E"></i>視覺</span>
+        <span><i style="background:#9BBE3E"></i>文案</span>
+        <span><i style="background:#7A6FB0"></i>LP</span>
+        <span><i style="background:#DE8044"></i>報名系統</span>
+        <span><i style="background:#4AA1CB"></i>課程交付</span>
+        <span style="color:rgba(255,255,255,.5)">粗條=軌總期間　細條=交付物作業區間</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+</body>
+</html>
