@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kvalley Card Deck — Design Spec v1</title>
+<style>
+
+/* ═══════════════════════════════════════════════════════
+   DESIGN TOKENS  (single source of truth)
+   Physical: 76 × 106 mm  @  4 px/mm = 304 × 424 px
+   ═══════════════════════════════════════════════════════ */
+:root {
+  /* — Dimensions — */
+  --card-w:      304px;   /* 76mm  × 4px/mm */
+  --card-h:      424px;   /* 106mm × 4px/mm */
+  --bleed:        12px;   /* 3mm   per side  */
+  --radius:       16px;   /* R4mm            */
+  --band-h:       64px;   /* 15.1% of 424px  */
+  --safe:         16px;   /* safe zone inside cut line */
+  --pad-h:        20px;   /* horizontal content padding (safe + inner) */
+
+  /* — Brand colours — */
+  --cream:       #FAF7F2;
+  --dark-ink:    #1A2A4A;
+  --mid-ink:     #505560;
+  --light-line:  #D2CDC4;
+  --faint:       #A09E98;
+
+  /* — Five-colour system — */
+  --c-role:   #C8D400;   /* 角色卡  K green  */
+  --c-skill:  #D4831A;   /* 技能卡  Amber    */
+  --c-task:   #7B9CC4;   /* 任務卡  Steel    */
+  --c-know:   #B54030;   /* 知識卡  Rust     */
+  --c-power:  #1A2E4A;   /* 鐵律卡  Navy     */
+
+  /* — Typography — */
+  --font-zh: "PingFang TC", "PingFang SC", "STHeiti", "Microsoft JhengHei", sans-serif;
+  --font-en: "Avenir Next", "Avenir", -apple-system, "Helvetica Neue", sans-serif;
+
+  --fs-title:   48px;
+  --fs-en:      14px;
+  --fs-body:    13px;
+  --fs-caption: 11px;
+
+  --lh-body: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #EEEBE5;
+  font-family: var(--font-en);
+  padding: 48px 32px 80px;
+  color: var(--dark-ink);
+}
+
+h2 {
+  font-family: var(--font-en);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 20px var(--bleed);
+}
+
+section { margin-bottom: 56px; }
+
+.row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD SHELL  (bleed wrapper)
+   ═══════════════════════════════════════════════════════ */
+.card-wrap {
+  width:  calc(var(--card-w) + var(--bleed) * 2);
+  height: calc(var(--card-h) + var(--bleed) * 2);
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Crop marks */
+.card-wrap::before,
+.card-wrap::after,
+.card-wrap .crop-bl,
+.card-wrap .crop-br {
+  content: "";
+  position: absolute;
+  background: transparent;
+}
+
+/* ── actual card ── */
+.card {
+  position: absolute;
+  inset: var(--bleed);
+  width: var(--card-w);
+  height: var(--card-h);
+  border-radius: var(--radius);
+  overflow: hidden;
+  /* white edge visible (matches reference photo) */
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.95),
+    0 4px 16px rgba(0,0,0,0.18),
+    0 1px 4px  rgba(0,0,0,0.12);
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD BACK
+   ═══════════════════════════════════════════════════════ */
+.card-back {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back .k-logo {
+  width: 48%;
+  opacity: 1;
+  user-select: none;
+}
+
+/* K-green back: white K at reduced opacity per spec */
+.card-back.role   { background: var(--c-role); }
+.card-back.role .k-logo { opacity: 0.65; }   /* spec: 60-70% on K-green */
+
+.card-back.skill  { background: var(--c-skill); }
+.card-back.task   { background: var(--c-task); }
+.card-back.know   { background: var(--c-know); }
+.card-back.power  { background: var(--c-power); }
+
+/* Real K-mark asset — original is K-green; filter turns it pure white */
+.k-img {
+  width: 42%;
+  display: block;
+  filter: brightness(0) invert(1);   /* any colour → pure white, keeps alpha */
+  padding: 22px;
+  border: 1.5px solid rgba(255,255,255,0.9);
+  border-radius: 14px;
+  box-sizing: content-box;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD FRONT
+   ═══════════════════════════════════════════════════════ */
+.card-front {
+  width: 100%;
+  height: 100%;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* — top meta row — */
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px var(--pad-h) 0;
+  font-family: var(--font-en);
+  font-size: var(--fs-caption);
+  color: var(--faint);
+  letter-spacing: 0.04em;
+}
+
+/* — title block — */
+.card-title-block {
+  padding: 6px var(--pad-h) 0;
+}
+
+.card-name-zh {
+  font-family: var(--font-zh);
+  font-size: var(--fs-title);
+  font-weight: 600;
+  color: var(--dark-ink);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.card-name-en {
+  font-family: var(--font-en);
+  font-size: var(--fs-en);
+  font-weight: 600;
+  color: var(--mid-ink);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+.card-accent-line {
+  width: 36px;
+  height: 3px;
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+/* — divider — */
+.card-divider {
+  height: 1px;
+  background: var(--light-line);
+  margin: 10px var(--pad-h) 0;
+}
+
+/* — field rows — */
+.card-fields {
+  flex: 1;
+  padding: 0 var(--pad-h);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.card-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--light-line);
+}
+.card-field:last-child { border-bottom: none; }
+
+.field-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.field-text {
+  font-family: var(--font-zh);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  color: var(--dark-ink);
+  line-height: var(--lh-body);
+}
+
+/* — tagline — */
+.card-tagline {
+  padding: 8px var(--pad-h) 0;
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  font-family: var(--font-zh);
+}
+
+/* — bottom band — */
+.card-band {
+  height: var(--band-h);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--pad-h);
+  gap: 10px;
+  /* top hairline */
+  border-top: 1px solid rgba(255,255,255,0.6);
+}
+
+.band-k-box {
+  width: 36px;
+  height: 36px;
+  background: var(--dark-ink);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.band-k-box svg {
+  width: 22px;
+  fill: var(--cream);
+}
+
+.band-labels {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.band-type-zh {
+  font-family: var(--font-zh);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark-ink);
+  line-height: 1;
+}
+
+.band-type-en {
+  font-family: var(--font-en);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--dark-ink);
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.band-code {
+  font-family: var(--font-en);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--dark-ink);
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SPEC TABLE
+   ═══════════════════════════════════════════════════════ */
+.spec-table {
+  border-collapse: collapse;
+  font-size: 12px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.spec-table th, .spec-table td {
+  padding: 8px 16px;
+  text-align: left;
+  border-bottom: 1px solid #EEE;
+}
+.spec-table th {
+  background: var(--dark-ink);
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.spec-table tr:last-child td { border-bottom: none; }
+.swatch {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 6px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SECTION 1 — CARD BACK (5 colours)
+     ══════════════════════════════════════ -->
+<section>
+<h2>Card Back — 5-Colour System</h2>
+<div class="row">
+
+  <!-- K-green / 角色卡 -->
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-back role">
+        <img class="k-img" src="assets/kv-k-mark.png" alt="K">
+      </div>
+    </div>
+  </div>
+
+  <!-- Steel blue / 任務卡 -->
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-back task">
+        <img class="k-img" src="assets/kv-k-mark.png" alt="K">
+      </div>
+    </div>
+  </div>
+
+  <!-- Amber / 技能卡 -->
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-back skill">
+        <img class="k-img" src="assets/kv-k-mark.png" alt="K">
+      </div>
+    </div>
+  </div>
+
+  <!-- Rust / 知識卡 -->
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-back know">
+        <img class="k-img" src="assets/kv-k-mark.png" alt="K">
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep navy / 鐵律卡 -->
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-back power">
+        <img class="k-img" src="assets/kv-k-mark.png" alt="K">
+      </div>
+    </div>
+  </div>
+
+</div><!-- .row -->
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — CARD FRONT (1 example)
+     ══════════════════════════════════════ -->
+<section>
+<h2>Card Front — 角色卡 ROLE-01 特別助理</h2>
+<div class="row">
+
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-front">
+
+        <!-- meta row -->
+        <div class="card-meta">
+          <span>角色卡&nbsp;&nbsp;ROLE CARD</span>
+          <span>ROLE-01</span>
+        </div>
+
+        <!-- title block -->
+        <div class="card-title-block">
+          <div class="card-name-zh">特別助理</div>
+          <div class="card-name-en">Special Assistant</div>
+          <div class="card-accent-line" style="background: var(--c-role);"></div>
+        </div>
+
+        <!-- divider -->
+        <div class="card-divider"></div>
+
+        <!-- fields -->
+        <div class="card-fields">
+          <div class="card-field">
+            <div class="field-dot" style="background: var(--c-role);"></div>
+            <div class="field-text">接收任務、分派幕僚、彙整報告</div>
+          </div>
+          <div class="card-field">
+            <div class="field-dot" style="background: var(--c-role);"></div>
+            <div class="field-text">管理行事曆與任務優先序</div>
+          </div>
+          <div class="card-field">
+            <div class="field-dot" style="background: var(--c-role);"></div>
+            <div class="field-text">跨 Agent 協調與訊息中繼</div>
+          </div>
+          <div class="card-field">
+            <div class="field-dot" style="background: var(--c-role);"></div>
+            <div class="field-text">緊急事項快速研究與摘要</div>
+          </div>
+        </div>
+
+        <!-- tagline -->
+        <div class="card-tagline">接收 · 分派 · 彙整 · 中繼</div>
+
+        <!-- bottom band -->
+        <div class="card-band" style="background: var(--c-role);">
+          <div class="band-k-box">
+            <img src="assets/kv-k-mark.png" alt="K" style="width:22px;display:block;filter:brightness(0) invert(1);">
+          </div>
+          <div class="band-labels">
+            <div class="band-type-zh">角色卡</div>
+            <div class="band-type-en">ROLE CARD</div>
+          </div>
+          <div class="band-code">ROLE-01</div>
+        </div>
+
+      </div><!-- card-front -->
+    </div><!-- card -->
+  </div><!-- card-wrap -->
+
+</div><!-- .row -->
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SECTION 3 — DESIGN TOKENS REFERENCE
+     ══════════════════════════════════════ -->
+<section>
+<h2>Design Tokens — Spec Reference</h2>
+<div class="row" style="gap:24px; align-items:flex-start;">
+
+  <table class="spec-table">
+    <tr><th colspan="3">Dimensions</th></tr>
+    <tr><td>Card size</td><td>304 × 424 px</td><td>76 × 106 mm</td></tr>
+    <tr><td>Bleed</td><td>12 px per side</td><td>3 mm</td></tr>
+    <tr><td>Corner radius</td><td>16 px</td><td>R 4 mm</td></tr>
+    <tr><td>Bottom band</td><td>64 px (15.1%)</td><td>—</td></tr>
+    <tr><td>Safe zone</td><td>16 px inside cut</td><td>—</td></tr>
+    <tr><td>H-padding</td><td>20 px</td><td>—</td></tr>
+  </table>
+
+  <table class="spec-table">
+    <tr><th colspan="2">Five-Colour System</th></tr>
+    <tr><td><span class="swatch" style="background:#C8D400"></span>角色卡 Role</td><td>#C8D400</td></tr>
+    <tr><td><span class="swatch" style="background:#7B9CC4"></span>任務卡 Task</td><td>#7B9CC4</td></tr>
+    <tr><td><span class="swatch" style="background:#D4831A"></span>技能卡 Skill</td><td>#D4831A</td></tr>
+    <tr><td><span class="swatch" style="background:#B54030"></span>知識卡 Know</td><td>#B54030</td></tr>
+    <tr><td><span class="swatch" style="background:#1A2E4A"></span>鐵律卡 Power</td><td>#1A2E4A</td></tr>
+  </table>
+
+  <table class="spec-table">
+    <tr><th colspan="2">Typography</th></tr>
+    <tr><td>Card title (ZH)</td><td>48 px / 600 / PingFang TC</td></tr>
+    <tr><td>English name</td><td>14 px / 600 / Avenir Next</td></tr>
+    <tr><td>Field body</td><td>13 px / 500 / PingFang TC</td></tr>
+    <tr><td>Caption / label</td><td>11 px / 400 / Avenir Next</td></tr>
+    <tr><td>Band type ZH</td><td>13 px / 600 / PingFang TC</td></tr>
+    <tr><td>Band type EN</td><td>9 px / 500 / Avenir Next</td></tr>
+  </table>
+
+  <table class="spec-table">
+    <tr><th colspan="2">Neutral Palette</th></tr>
+    <tr><td><span class="swatch" style="background:#FAF7F2; border:1px solid #DDD"></span>Cream (bg)</td><td>#FAF7F2</td></tr>
+    <tr><td><span class="swatch" style="background:#1A2A4A"></span>Dark ink</td><td>#1A2A4A</td></tr>
+    <tr><td><span class="swatch" style="background:#505560"></span>Mid ink</td><td>#505560</td></tr>
+    <tr><td><span class="swatch" style="background:#D2CDC4; border:1px solid #CCC"></span>Light line</td><td>#D2CDC4</td></tr>
+    <tr><td><span class="swatch" style="background:#A09E98; border:1px solid #CCC"></span>Faint text</td><td>#A09E98</td></tr>
+  </table>
+
+</div>
+</section>
+
+</body>
+</html>
