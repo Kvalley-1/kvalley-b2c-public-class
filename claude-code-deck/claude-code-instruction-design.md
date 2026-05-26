@@ -428,6 +428,109 @@ Title / Responsibilities / Tools / Success Metrics / Best For
 
 ---
 
+### [2026-05-24] Batch A 研究 — Anthropic 官方文件（架構機制層）
+
+> 目的：課程的「技術依據層」，幫助老闆學員理解幕僚系統的四個機制，並對應到老闆語言。
+
+---
+
+#### A-1. CLAUDE.md — 幕僚的員工手冊
+
+**來源**：[Anthropic 官方 Memory 文件](https://code.claude.com/docs/en/memory)
+
+**核心機制**：
+- CLAUDE.md 是 AI 每次上工前自動讀的「入職文件」，確保它記住你的角色、規則、公司脈絡
+- 放置位置決定作用範圍：全局（`~/.claude/CLAUDE.md`）→ 個人（主資料夾）→ 單一專案（可 git commit 讓團隊共享）→ 本地私人（加進 .gitignore）
+- Auto memory：Claude 自己學到的偏好會自動寫進 `MEMORY.md`，下次自動帶入
+- `@import` 語法：可引用其他檔案讓記憶模組化（例如 `@README` / `@docs/SOP.md`）
+- 有效寫法：**200 行以內**、用 markdown 結構化、指令要具體可查驗
+
+**可直接引用的官方語句**：
+> "Treat CLAUDE.md as the place you write down what you'd otherwise re-explain. Add to it when Claude makes the same mistake a second time."
+
+**課程用途**：
+- ✅ **S1 心智模型鋪墊**：CLAUDE.md = 員工手冊，每次上工前自動讀
+- ✅ **bs 指令 / 訪談五要素**的官方依據
+- ✅ 解釋「為何 Claude Code 記得你，ChatGPT 不記得」
+
+---
+
+#### A-2. Subagents — 給幕僚設定角色邊界
+
+**來源**：[Anthropic 官方 Sub-agents 文件](https://code.claude.com/docs/en/sub-agents)
+
+**核心機制**：
+- Subagent = 一個 `.md` 檔案放在 `.claude/agents/`，定義角色名稱、職責說明、工具清單、使用模型
+- 建立方式：`/agents` 指令 → Create new agent → 描述用途 → Claude 自動生成系統 prompt
+- 每個 subagent 有**獨立 context window**，主 agent 只收「結論摘要」（節省 context，降低成本）
+- 可為不同 subagent 指定不同模型：研究型用 Haiku（快省）、決策型用 Opus（強）
+- 可精確鎖定權限：「只能讀不能寫」的 subagent 就算指令出錯也不會動到系統
+
+**可直接引用的官方語句**：
+> "Control costs by routing tasks to faster, cheaper models like Haiku."
+
+**課程用途**：
+- ✅ **S2 卡牌模擬**的技術底層：每張角色卡 = 一個 subagent 定義
+- ✅ 說明「幕僚只回報結論」的架構邏輯
+- ✅ 「指定模型」 = Token 效率競賽的官方依據
+
+---
+
+#### A-3. Hooks — SOP 的自動執法層
+
+**來源**：[Anthropic 官方 Hooks 文件](https://code.claude.com/docs/en/hooks)
+
+**核心機制**：
+- Hooks 寫在 `settings.json`，格式：**事件 → 篩選條件 → 執行動作**
+- 14 種時間點：`SessionStart`（啟動時）/ `PreToolUse`（工具執行前）/ `PostToolUse`（執行後）/ `Stop`（回應完畢）等
+- **守門員邏輯**：Exit code 2 = 強制阻止 Claude 執行；Exit code 0 = 正常通過
+- 常見用途：完成任務後自動記錄 log / 自動通知 Slack / 阻擋危險指令（如 `rm -rf`）
+- 全程不需人工轉手，流程自動跑
+
+**可直接引用的官方語句**：
+> "If an instruction is something that must run at a specific point—such as before every commit or after each file edit—write it as a hook instead."
+
+**課程用途**：
+- ✅ **進階學員**（有 IT 背景）的延伸知識
+- ✅ 解釋「幕僚如何自動跑 SOP」而不是「每次要提醒它」
+- ✅ **Hooks 心法卡**的官方依據
+
+---
+
+#### A-4. Agent Teams — 幕僚之間互相 review 的架構
+
+**來源**：[Anthropic 官方 Agent Teams 文件](https://code.claude.com/docs/en/agent-teams)
+
+**核心機制**：
+- 架構：Team Lead（主 session）+ Teammates（獨立 Claude instances）+ 共用 Task List + Mailbox 訊息系統
+- **與 Subagent 最大差異**：Teammate 之間可以直接互傳訊息、互相質疑；Subagent 只能回報主 agent
+- 建立方式：用自然語言告訴 Lead 要什麼架構，Claude 自動生成（`~/.claude/teams/`）
+- 建議規模：**3-5 個 Teammate**，每人 5-6 個任務（超過後協調成本抵消效益）
+- 目前狀態：實驗性功能，需在 settings.json 開啟 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`
+
+**可直接引用的官方語句**：
+> "Spawn 5 agent teammates to investigate different hypotheses. Have them talk to each other to try to disprove each other's theories, like a scientific debate."
+
+**課程用途**：
+- ✅ **S4 進階演示**：讓老闆看到「幕僚開會辯論」的實際效果
+- ✅ 說明「單一幕僚 vs 幕僚團隊」的差異
+- ✅ **課程最高潮**的技術亮點（實驗性 = 搶先看）
+
+---
+
+#### 📐 四機制學習梯度（Batch A 最終結論）
+
+| 層次 | 機制 | 老闆動作 | 對應課程段落 |
+|------|------|---------|-------------|
+| 基礎 | CLAUDE.md | 寫員工手冊 | S1 |
+| 中階 | Subagents | 定義幕僚角色邊界 | S2-S3 |
+| 進階 | Hooks | 建 SOP 自動執法 | S3 選修 |
+| 最高 | Agent Teams | 讓幕僚互相辯論協作 | S4 演示 |
+
+> 這個梯度剛好是「老闆從零到一打造 AI 幕僚系統」的完整學習路徑。
+
+---
+
 ### [2026-05-24] Batch B 研究 — 企業 Agent Team 實戰個案庫（4 個驗證來源）
 
 > 本批研究聚焦：**真實企業如何架設 agent team + 實際落地的架構與經驗**，作為課程「個案庫」素材與教學設計依據。
@@ -547,6 +650,652 @@ Title / Responsibilities / Tools / Success Metrics / Best For
 
 ---
 
+---
+
+### [2026-05-24] Batch C 研究 — Claude Code vs 替代品工具比較
+
+> 目的：幫學員回答「為何選 Claude Code 而非 ChatGPT / Cursor / Copilot？」
+
+---
+
+#### C-1. Claude Code vs ChatGPT：老闆最該知道的 3 件差異
+
+**來源**：[IntuitionLabs 企業比較](https://intuitionlabs.ai/articles/claude-vs-chatgpt-vs-copilot-vs-gemini-enterprise-comparison) / [Mobikasa](https://www.mobikasa.com/blog/claude-vs-chatgpt-for-business-key-differences-pricing-and-which-use-case)
+
+| | ChatGPT | Claude Code |
+|---|---|---|
+| 記憶 | 每次對話歸零 | CLAUDE.md 永久記住你的公司脈絡 |
+| 能力 | 給建議、回答問題 | 執行任務、操作你的系統（MCP）|
+| 定位 | 萬用但分心 | 專精業務自動化 |
+
+**可直接用於課堂的比喻**：
+> 「ChatGPT 是臨時工，Claude Code 是記得你規矩的正職員工。」
+
+**課程用途**：
+- ✅ **S1 差異化說明**：讓老闆 30 秒懂為何要換工具
+- ✅ **S3 CLAUDE.md 段落**鋪墊：「你在 CLAUDE.md 寫的，就是讓 Claude 記住的」
+
+---
+
+#### C-2. Claude Code vs Cursor vs Copilot（開發者生態）
+
+**來源**：[NxCode 比較](https://www.nxcode.io/resources/news/cursor-vs-claude-code-vs-github-copilot-2026-ultimate-comparison) / [CosmicJS](https://www.cosmicjs.com/blog/claude-code-vs-github-copilot-vs-cursor-which-ai-coding-agent-should-you-use-2026)
+
+| | Copilot | Cursor | Claude Code |
+|---|---|---|---|
+| 性質 | IDE 外掛（補全建議）| AI-native IDE | 終端機 Agent |
+| 任務規模 | 單行/函數 | 單檔/小專案 | 整個 repo / 跨任務 |
+| 非技術老闆能用？ | ❌ | ❌ | ✅ |
+| 2026 開發者喜好 | 9% | 19% | 46% |
+
+**課程用途**：
+- ✅ 對有 IT 部門的 B2B 學員：讓他們理解 Copilot≠Claude Code
+- ✅ **鐵律卡「交辦任務，不是補全建議」**的技術依據
+
+---
+
+#### C-3. MCP：Claude Code 連接公司系統的橋
+
+**來源**：[Nimbalyst — Best Claude Code MCP Servers](https://nimbalyst.com/blog/best-claude-code-mcp-servers/) / [Data-Mania 行銷應用](https://www.data-mania.com/blog/top-10-claude-mcp-servers-for-marketing/)
+
+**關鍵數據**：
+- 2025 年初：幾十個 MCP server
+- 2026 年 4 月：已超過 **10,000 個**公開 server
+- 2025 年 12 月：Anthropic 將 MCP 捐給 Linux Foundation，ChatGPT / Gemini / Copilot **全部採用**此標準
+
+**老闆語言解釋**：MCP = 讓 Claude 從「聊天機器人」變成「能動你公司系統的員工」
+
+**可串接的商業工具**（老闆聽得懂的）：
+Google Sheets / Notion / Slack / HubSpot / Stripe / Xero / GitHub
+
+**課程用途**：
+- ✅ **S3「MCP 連結外部世界」**的核心素材
+- ✅ 用「10,000 個外掛」讓老闆感受生態系的爆發
+
+---
+
+#### C-4. 非技術主管如何用 CLAUDE.md
+
+**來源**：[PM 使用指南 Medium](https://medium.com/product-powerhouse/claude-code-for-product-managers-complete-setup-guide-real-pm-workflows-2026-c94ec7087b6f) / [Techsy — Claude for Small Business](https://techsy.io/en/blog/claude-for-small-business-review)
+
+**2026-05-13 重要消息**：Anthropic 推出 **Claude for Small Business**
+- 15 個預建工作流
+- 15 個可重用技能
+- 10+ 個商業 connector
+- 定位：不需 IT 部門即可部署
+
+**CLAUDE.md 能寫什麼（非技術主管版）**：
+- 公司術語 / 客戶偏好 / 禁用詞
+- 工作流程 SOP
+- 客戶禁忌 / 公司規矩
+
+**課程用途**：
+- ✅ **bs 指令 / 訪談 5 要素**的直接支撐
+- ✅ 「Claude for Small Business」可當智谷課程的市場驗證佐證
+
+---
+
+#### 📊 Batch C 關鍵數據（課堂可直接引用）
+
+| 數據 | 來源 | 信心 |
+|------|------|------|
+| 開發者工具偏好：Claude Code 46% > Cursor 19% > Copilot 9% | NxCode 2026 | 中 |
+| MCP server 數量：2026/4 已超過 10,000 個 | Nimbalyst | 高 |
+| MCP 已成跨廠商開放標準（Linux Foundation）| Anthropic 官方 | 高 |
+| Fortune 500 中 92% 用 ChatGPT（因 Microsoft 生態）| IntuitionLabs | 中 |
+
+---
+
+### [2026-05-24] Batch D 研究 — AI Agent Team 成熟度模型個案庫
+
+> 目的：讓學員能回答「我現在在哪個階段，下一步去哪」，設計課堂自我定位活動用。
+
+---
+
+#### D-1. Kellogg 4-Stage AI Adoption Model（最適合非技術老闆）
+
+**來源**：[Kellogg School of Management](https://insight.kellogg.northwestern.edu/article/4-stages-ai-adoption)
+
+| 階段 | 比喻 | 定義 |
+|------|------|------|
+| Stage 1 | Cog（齒輪）| 替換人工重複任務 |
+| Stage 2 | Intern（工讀生）| 替換較複雜任務 |
+| Stage 3 | Collaborator（同事）| AI 與人平行工作 |
+| Stage 4 | Agent（負責人）| AI 作為專案負責人 |
+
+**課程用途**：
+- ✅ **S1 開場自我定位活動**：5 分鐘讓學員討論「你的公司現在在哪一關」
+- ✅ 比喻完全不需要技術背景（工讀生 → 同事 → Agent = 老闆直覺語言）
+- ✅ 智谷課程目標 = 帶學員從 Stage 2 跨到 Stage 3-4
+
+---
+
+#### D-2. Salesforce Agentic Maturity Model（企業市場共識）
+
+**來源**：[Salesforce News](https://www.salesforce.com/news/stories/agentic-maturity-model/)
+
+4 個層級，從個人 AI Copilot 到跨組織自主 Multi-Agent。
+
+**課程用途**：
+- ✅ 對「我們用 Salesforce / ChatGPT」的學員，直接對應「你現在在第幾層」
+- ✅ 全球最大 CRM 廠商出品 = 業界共識背書，不需要解釋為何這個框架可信
+
+---
+
+#### D-3. ServiceNow Enterprise AI Maturity Index 2025（最震撼的開場數據）
+
+**來源**：[ServiceNow Enterprise AI Maturity Index](https://www.servicenow.com/workflow/ai/enterprise-ai-maturity-index-2025.html)
+
+**關鍵數據**：
+- 全球企業 AI 成熟度平均分：35 / 100（2025）
+- **全球不到 1% 的企業超過 50 分**
+
+**課程用途**：
+- ✅ **S1 開場投影片**：「全球 99% 的企業還沒過一半，現在跟上是分水嶺」
+- ✅ 讓老闆不覺得自己落後（大家都還在早期），同時建立緊迫感
+
+---
+
+#### D-4. HyScaler 30-Day Agentic AI Quickstart for SMBs
+
+**來源**：[HyScaler](https://hyscaler.com/insights/agentic-ai-implementation-for-smb/)
+
+30 天快速啟動路線圖，適合資源有限的中小企業。
+
+**課程用途**：
+- ✅ **S4 課後行動計劃**：學員帶走「接下來 30 天做什麼」的具體清單
+- ✅ 不需要工程師就能照著做
+
+---
+
+#### D-5. Multi-Agent Orchestration 老闆語言解釋
+
+**來源**：[Kore.ai](https://www.kore.ai/blog/what-is-multi-agent-orchestration) / [MindStudio](https://www.mindstudio.ai/blog/multi-agent-orchestration-patterns)
+
+**Kore.ai 可直接用的比喻**：
+> 「Orchestrator = 總指揮，各 Agent = 專職部門，共同完成一件複雜任務」
+
+**MindStudio 三種架構模式**：主管型（Supervisor）/ 分散協作型（Adaptive Network）/ 客製型（Custom）
+
+**課程用途**：
+- ✅ **S1 心智模型**：老闆聽得懂「總指揮 + 專職部門」的類比
+- ✅ **S3 進階**：讓老闆對應「我的組織結構像哪種 Agent 架構」
+- ✅ 可直接做投影片圖示（三種模式 = 三張卡）
+
+---
+
+#### 📊 Batch D 關鍵數據（課堂可直接引用）
+
+| 數據 | 來源 | 信心 |
+|------|------|------|
+| 全球 AI 成熟度平均 35/100，<1% 超過 50 分 | ServiceNow 2025 | 高 |
+| 小企業 AI 採用率 39%→55%（2024→2025） | JP Morgan Chase | 高 |
+| 56% 組織導入 orchestration 後提升可擴展性 | Hubstic 2026 | 中 |
+| 61% 企業主已在部署 AI Agent | Hubstic 2026 | 中 |
+| SMB Agentic AI 月費：$100–500（標準工作量） | HyScaler | 中 |
+
+> ⚠️ Gartner「40% 企業應用將內建 AI Agent（2026）」等預測數字需自行核實一手報告後才引用。
+
+---
+
+#### 🎯 三框架課堂組合建議（D 批最終結論）
+
+| 時序 | 框架 | 用途 |
+|------|------|------|
+| S1 開場 5 min | Kellogg 4-Stage | 自我定位活動（你在哪一關）|
+| S1 數據震撼 | ServiceNow <1% | 建立緊迫感 + 降低自我落後感 |
+| S3 中段 | Salesforce 4 Level | 說明「升一級要什麼條件」 |
+| S3 進階 | Kore.ai 總指揮比喻 | Orchestration 直觀說明 |
+| S4 收尾 | HyScaler 30-Day | 課後行動計劃 |
+
+---
+
+---
+
+### [2026-05-24] Batch B2 — 企業 Agent 實作 Writeup（5 個深度案例）
+
+---
+
+#### B2-1. claude-chief-of-staff（GitHub 開源，最完整 CLAUDE.md 範本）
+
+**來源**：[github.com/mimurchison/claude-chief-of-staff](https://github.com/mimurchison/claude-chief-of-staff)
+
+**建了什麼**：單一 Chief of Staff，6 種操作模式：Prioritize / Decide / Draft / Coach / Synthesize / Explore。Claude 根據對話內容**自動判斷**現在該用哪個模式，不需手動切換。
+
+**架構**：
+```
+~/.claude/CLAUDE.md          ← 角色定義 + 6 個模式 + 鐵律
+~/.claude/goals.yaml         ← 優先目標
+~/.claude/contacts/          ← 人際關係追蹤（三層重要度，14/30/60 天 flag）
+~/.claude/my-tasks.yaml      ← 任務清單
+```
+
+**鐵律設計（直接可借鑑）**：
+- 任何訊息發送前必須等 user 明確批准（`Never send any message without explicit approval`）
+- 出現 fundraising / litigation / termination 關鍵字 → 觸發警告
+
+**課程用途**：CLAUDE.md 鐵律設計示範、邊界保護機制、bs 指令範本參照
+
+---
+
+#### B2-2. 37 個 Agent 自主新創系統（DEV Community）
+
+**來源**：[dev.to/asklokesh — How I Built an Autonomous AI Startup System with 37 Agents](https://dev.to/asklokesh/how-i-built-an-autonomous-ai-startup-system-with-37-agents-using-claude-code-2p79)
+
+**建了什麼**：7 個 Swarm，共 37 個 agent：工程（8）/ 營運（8）/ 業務（8）/ 資料 / 產品 / 成長 / 審查
+
+**Code Review Pipeline（平行協作範例）**：
+```
+IMPLEMENT → REVIEW（3 個 reviewer 並行）→ AGGREGATE → FIX → RE-REVIEW → COMPLETE
+```
+3 個 reviewer 同時跑（code quality / business logic / security），severity-tagged 問題決定是否 block。
+
+**實作亮點**：每個 agent 有獨立 state 檔案 → rate limit 後能自動恢復，不會整個任務斷掉。
+
+**課程用途**：大型多 agent 架構概念、平行協作演示、「agent 越多不一定越好」的對話起點
+
+---
+
+#### B2-3. 26 個 Agent Chief of Staff 系統（Substack，最完整實作）
+
+**來源**：[doneyli.substack.com — I Built an AI Chief of Staff That Actually Works](https://doneyli.substack.com/p/i-built-an-ai-chief-of-staff-that)
+
+**建了什麼**：26 個 agent 三組：幕僚長子系統（7）/ 本地基礎設施（9）/ 內容研究（10）
+
+**硬體**：一台閒置 M1 MacBook Pro，用 `caffeinate` 永不睡眠，macOS launchd 排程（重開機後仍存活）
+
+**兩層成本控制架構**：
+- Tier 1：每 30 分鐘規則跑 → **不花 token**
+- Tier 2：每天下午 5 點累積約 50 封 email → 才用 Claude 分類起草
+
+**信任量化門檻（關鍵設計）**：
+自動發信條件 = `edit distance < 10%` + `confidence > 0.9` + `每小時 < 5 封` + `非受保護聯絡人`
+→ 把信任量化成**可測量指標**，不是模糊的「AI 判斷」
+
+**每日成本**：約 $3 美元（分類用 Haiku，起草用 Sonnet）
+
+**課程用途**：token 成本分層策略、信任量化設計、「從玩具到真實系統」的距離說明
+
+---
+
+#### B2-4. lst97/claude-code-sub-agents（GitHub，33 個 agent 範本庫）
+
+**來源**：[github.com/lst97/claude-code-sub-agents](https://github.com/lst97/claude-code-sub-agents)
+
+**建了什麼**：33 個 agent，8 大類，每個是一個 Markdown 檔（YAML frontmatter + 系統 prompt）。含一個 `agent-organizer` 作為 meta orchestrator。
+
+**Agent MD 檔案格式**：
+```yaml
+---
+name: kebab-case-name
+description: 自動觸發條件與關鍵字（這欄決定 Claude 何時 invoke 這個 agent）
+tools: [可選，預設全部]
+---
+# 角色名稱
+**Role**: 職責與邊界
+**Expertise**: 核心技術領域
+```
+
+**關鍵設計**：description 欄位寫清楚關鍵字 → Claude Code 自動判斷要 invoke 哪個 agent，不需 user 手動指定。
+
+**課程用途**：Agent MD 格式示範、description 欄位設計練習、subagent 資料夾架構參照
+
+---
+
+#### B2-5. Paperclip 行銷公司（MindStudio）
+
+**來源**：[mindstudio.ai — Build a Multi-Agent Company with Paperclip + Claude Code](https://www.mindstudio.ai/blog/build-multi-agent-company-paperclip-claude-code)
+
+**建了什麼**：4 個角色組成 AI 行銷公司：CEO（Opus）/ Researcher（Sonnet）/ Marketer（Sonnet）/ Designer（Sonnet）
+
+**模型分層策略**：CEO 用 Opus 做複雜推理，其他用 Sonnet → 依認知複雜度選模型，不統一用最貴的
+
+**Agent 間溝通**：file-based messaging（寫入共用目錄，polling 2000ms）
+
+**每個 agent 的 prompt 必備四元素**：
+1. 職責描述
+2. 明確列出不該做什麼
+3. 指定輸出格式（Markdown / JSON / 結構化文字）
+4. 至少一個具體行為範例
+
+**啟動**：`paperclip start --all` → 把目標丟給 CEO → 後續全程自動委派
+
+**課程用途**：agent prompt 四元素設計、模型分層選型、老闆視角「一句話啟動整個團隊」演示
+
+---
+
+### [2026-05-24] Batch B3 — 各行業 Agent 落地案例（10 個，有數字）
+
+---
+
+#### 行銷
+
+**Harley-Davidson 紐約店 × Albert.ai**
+URL: https://hbr.org/2017/05/how-harley-davidson-used-predictive-analytics-to-increase-new-york-sales-leads-by-2930
+AI 廣告 agent 發現「Call now」比「Buy now」效果好 447%，自動全線換詞，人沒介入。
+→ 3 個月潛在客戶 +2,930%，每日詢問 1 通 → 40 通
+**課程用途**：行銷主管開場震撼數據，「AI 自己發現規律、自己改」
+
+**屈臣氏（A.S. Watson）AI 購物顧問**
+URL: https://superagi.com/ai-powered-marketing-automation-case-studies-on-how-ai-agents-boost-efficiency-and-roi-in-2025/
+→ 使用 AI 顧問的顧客轉換率高 396%，消費金額高 4 倍
+
+---
+
+#### 業務／CRM
+
+**Salesforce 自家 SDR Agent**
+URL: https://www.salesforce.com/news/stories/agentforce-customer-success-stories/
+追蹤 43,000 筆沉睡名單自動挖掘 → 挖出 170 萬美元新案源
+
+**1-800Accountant 稅季客服 Agent**
+URL: https://www.salesforce.com/news/stories/agentforce-customer-success-stories/
+→ 稅季高峰期 70% 對話 AI 自主解決，不轉人工
+
+---
+
+#### 財務
+
+**金融服務公司財報 Agent**
+URL: https://www.accelirate.com/agentforce-case-studies/
+→ 報表生成：15 天 → 35 分鐘；每份成本：$2,200 → $9；錯誤率 -90%
+
+**Wiley 出版商 Agentforce**
+URL: https://www.salesforce.com/agentforce/metrics/
+→ ROI 213%；自助服務效率 +40%
+
+---
+
+#### 客服
+
+**Vodafone AI 客服**
+URL: https://www.sobot.io/article/ai-customer-service-case-studies-2025-support-satisfaction-cost/
+→ 每次對話成本 -70%
+
+**Klarna AI 客服**
+URL: https://www.nexgencloud.com/blog/case-studies/how-ai-and-rag-chatbots-cut-customer-service-costs-by-millions
+→ 處理 230 萬對話，等於 700 名全職客服工作量
+
+---
+
+#### 營運
+
+**大型零售商庫存調配 Agent**
+URL: https://www.accelirate.com/agentforce-case-studies/
+→ 調配決策：10 天 → 1 小時；季虧損：$540 萬 → $160 萬
+
+**Quickbooks 中小企業財務 Agent**
+URL: https://quickbooks.intuit.com/r/running-a-business/agentic-ai-for-business/
+→ 發票處理：20 分鐘 → 2 分鐘；每月省 10 小時行政時間
+
+---
+
+### [2026-05-24] DigitalApplied — Agentic AI Executive Team Playbook 2026
+
+**來源**：[DigitalApplied — Agentic AI Executive Team Playbook: Decision Support 2026](https://www.digitalapplied.com/blog/agentic-ai-executive-team-playbook-decision-support-2026)
+
+> ⭐ Demo 候選：架構清晰，可用 Jimmy 現有幕僚系統（特助 + 財務主管 + 策略幕僚）當場演示「3 個 agent 協作完成一份決策簡報」。
+
+---
+
+#### 核心架構：5 個角色，分工不合並
+
+| 角色 | 職責 | 觸發頻率 |
+|------|------|---------|
+| CEO | 董事會報告合成（60-80 頁彙整）| 每季 |
+| CFO | 情境模擬器（what-if 模型）| 隨需 + 常設庫 |
+| COO | 綜合儀表板（ERP + BI）| 每週 + 異常觸發 |
+| CSO | 競品情報簡報（財報 / 法說會 / 新聞）| 每月 + 事件觸發 |
+| **Chief of Staff** | 日常運作 / 範本維護 / 紀律把關 | 日常 |
+
+**作者最強論點（課堂必引）**：
+> "Programs that try to consolidate the four into a single unified executive agent typically produce a system that does none of the four well."
+> 把四個塞成一個 super agent → 四個都做不好。**分工才是對的。**
+
+---
+
+#### 三層資料骨幹（data backbone）
+
+| 資料源 | 負責人 | 用途 |
+|--------|--------|------|
+| ERP | CFO | 財務 / 結帳資料，每次跑前留不可變快照 |
+| CRM | CSO | 管線 / 客戶健康 / 勝負分析 |
+| BI | COO | KPI + 營運指標（接語意層，不接原始資料）|
+
+---
+
+#### 90 天落地時程（直接可變課後行動計劃）
+
+| 時程 | 任務 | 關卡（Gate）|
+|------|------|------------|
+| Day 1-30 | 簽 AI 憲章、接通 ERP、確立 attestation 範本 | ERP 端對端 + 稽核 log 可跑 |
+| Day 31-60 | 上線第一個用途（COO 儀表板）、建立評估基線 | 主管確認採用 |
+| Day 61-90 | 建立月度例會、上線第二個用途 | 兩個用途上線，準備 Q2 |
+
+> 董事會用途刻意延到 Q2，等「整季的實際運作證據」再推。
+
+---
+
+#### 鐵律：每個產出必須有 attestation（簽署確認）
+
+每份 agent 輸出必須標注：
+1. 用了哪個模型
+2. 資料快照時間點
+3. 使用的 synthesis prompt
+4. 人工審核者簽名
+
+---
+
+#### 三個可直接用於課堂的金句
+
+1. > "Decision support, not decision-delegation — agent 出分析，老闆做決定。"
+2. > "The source-integration discipline is the constraint. The agent is only as trustworthy as the data it reads."
+3. > "Programs without a named chief of staff collapse the load onto the CEO and stall by month four."（沒有特助幕僚長，第四個月就垮了）
+
+---
+
+#### 對智谷課程的用途
+
+| 課程段落 | 用法 |
+|---------|------|
+| S1 開場心智模型 | 「4 個平行 agent 不能合成一個」= 分工比合併強 |
+| S2 卡牌模擬 | 4 個用途 × 觸發頻率 = 任務卡設計參照 |
+| S3 Chief of Staff 段落 | 「最高槓桿的單一決策」直接引用 |
+| S4 Demo | 特助 + 財務主管 + 策略幕僚 → 當場跑一份決策簡報 |
+| 課後行動計劃 | 90 天時程表直接給學員帶走 |
+
+---
+
+---
+
+### [2026-05-25] Operations Agent 協作模式庫（11 種）— 課堂視覺化素材
+
+**來源**：NotebookLM 雙 notebook 深挖（Paperclip 官方文件 + AI Agent 趨勢企業案例）
+**教學設計性質**：視覺化圖解 × 真實 ops 案例 × 學員討論觸發
+**可套用情境**：「Agent Team」單元核心素材；每種模式一張視覺圖 + 一個 30 秒口頭舉例
+
+> **視覺化設計原則**：每種模式用「方框 + 箭頭」示意圖，搭配 1 個台灣企業可對應的場景說明。學員看圖 → 猜適用情境 → 講師揭曉 → 問「你的公司哪個部門最像這種？」
+
+---
+
+#### 模式 1：Sequential Pipeline 流水線
+```
+觸發 → [Agent A] → [Agent B] → [Agent C] → [Agent D] → 交付
+        資料蒐集   業務分析    財務建模    報告送出
+```
+**嚴格順序，每人只做一段，不跳步驟。**
+
+真實案例：Fortune 500 房地產公司租約更新——Property Data Agent → Business Analyst Agent → Portfolio Advisor Agent → Coordinator Agent（發 Slack/Email）。原本 3 天 → 數小時。
+
+課堂問法：「如果你的採購流程有 5 個審核關卡，你會怎麼用這個？」
+
+---
+
+#### 模式 2：Hub-and-Spoke 統一指揮
+```
+            [專家A]
+           ↗
+[中央指揮] → [專家B] → 中央指揮統整結果 → 交付
+           ↘
+            [專家C]
+```
+**一個 orchestrator 分發任務給多個專家，再把結果統整回來。**
+
+真實案例：L'Oréal 客戶數據分析——主 Agent 收到問題，分給語意/地理/產品/計算 4 個子 Agent 並行查詢，主 Agent 合成最終答案，準確率從 90% → 99.9%。
+
+課堂問法：「你公司的月報需要跨幾個系統拉數據？每個系統給一個 agent，最後一個 agent 組裝報告。」
+
+---
+
+#### 模式 3：Parallel Broadcast 同時廣播
+```
+[觸發事件] ──→ [IT Agent]（裝機）
+            ├──→ [HR Agent]（設薪）
+            ├──→ [法務 Agent]（合規）
+            └──→ [設施 Agent]（門禁）
+```
+**一個事件同時觸發多條獨立流程，互不等待。**
+
+真實案例：ServiceNow 新員工入職——HR 系統偵測到新進人員，同時觸發 IT 設備、薪資設定、合規訓練、辦公室門禁 4 條線，全部並行，員工第一天到職時全部就緒。
+
+課堂問法：「你們新人入職需要跑幾個部門？每個部門同時跑，人到了才不需要等。」
+
+---
+
+#### 模式 4：Event-Driven 監控觸發
+```
+[Agent 待機] ──── 一般情況不動 ────
+     ↓ 異常事件發生
+[Agent 醒來] → 分析 → 行動 → 通報
+```
+**Agent 平時沉睡，只有「事件」才觸發。省資源，反應快。**
+
+真實案例：FedEx 物流——Agent 持續監看路況/天氣，只有偵測到延誤才自動重排路線。企業 KPI 監控——每天掃財務/庫存指標，只有偏離閾值才發警報 + 自動找根因。
+
+課堂問法：「你有沒有哪個數字，你希望它一偏掉就自動叫你？那就是 event-driven 的用法。」
+
+---
+
+#### 模式 5：Human Gate 強制人工關卡
+```
+[Agent 跑完] → [人工審查點] → ✅ 通過才繼續 → 執行
+                              ❌ 退回修改
+```
+**Agent 做好準備工作，但某個節點 100% 等人類決定，不能自動跳過。**
+
+真實案例：金融合規——Agent 5 分鐘做完客戶盡職調查（CDD）研究，但最終核准必須合規官人工簽字。金融業 0% 完全自主決策，永遠有 Human Gate。高額匯款場景：Agent 備好 $500 萬匯款資料，暫停等 CFO 點擊確認才執行銀行 API。
+
+課堂問法：「你公司有沒有哪些動作，就算 AI 做得再好，還是要蓋章才行？那就是你的 Human Gate。」
+
+---
+
+#### 模式 6：Peer Review Loop 互審循環
+```
+[執行 Agent] → 提交 done
+                 ↓（系統攔截）
+             [審查 Agent] → ✅ 通過 → 真正完成
+                          ↓ ❌ 打回
+             [執行 Agent] → 修正 → 再提交 → 回到審查
+```
+**不靠 Agent 記得要 review，系統強制攔截轉手，循環直到通過。**
+
+真實案例：財務月結——帳務 Agent 出對帳報告 → 稽核 Agent 發現少憑證 → 打回 → 補完 → 再審。製造業品管——產線異常 Agent 寫報告 → 品管主管 Agent 審核 → 有問題退回重寫 → 迴圈直到品質符合。
+
+課堂問法：「你們有沒有哪個流程，一定要過兩關才能出去？那就是 Peer Review Loop。」
+
+---
+
+#### 模式 7：Guardian Agent 監控者
+```
+[Agent 1] [Agent 2] [Agent 3]（各自工作）
+         ↑   ↑   ↑
+    [Guardian Agent]（24 小時監控所有 agent 行為）
+         ↓ 發現異常
+    自動隔離 + 通報人類
+```
+**一個 agent 的任務只有一件事：盯著其他 agent，防止出包、越權、錯誤。**
+
+真實案例：ServiceNow AI Control Tower——獨立合規/風險 Agent 監看全公司所有 AI 工作流，一旦偵測到合規風險或異常行為，主動隔離並通知管理層。Gartner 預測：2028 年 40% 的 CIO 都會部署 Guardian Agent。
+
+課堂問法：「你把 5 個 agent 同時派出去工作，你怎麼知道他們有沒有亂來？答案就是再派一個 Guardian。」
+
+---
+
+#### 模式 8：Silo Independence 各管各的
+```
+[客服 Agent]   [退款 Agent]   [調查 Agent]
+   （獨立）        （獨立）        （獨立）
+  不互相溝通，各自擁有完整的業務線
+```
+**多個 agent 完全不交流，每個人各自負責一整條業務流程。**
+
+真實案例：N26 數位銀行——客服 Agent（5 語言 24 小時）、退款處理 Agent（翻譯 + 分析索賠文件）、金融犯罪調查 Agent（草擬調查報告）三條線完全獨立，共 15+ 個 agent，整體自動化率達 70%。
+
+課堂問法：「如果你的業務部門彼此完全不需要溝通，各自跑各自的——那就可以用 Silo，最好部署最少互依賴。」
+
+---
+
+#### 模式 9：Closed-Loop Self-Correction 自我修正
+```
+[Agent 執行] → 測試失敗 → 自動分析錯誤 → 修正 → 再測試
+     ↑_______________________________________________|
+     直到成功，不找人，自己跑完整個修正迴圈
+```
+**Agent 自己執行、自己測試、自己找錯、自己修正，人類只看最後結果。**
+
+真實案例：Palantir AI FDE——資料倉儲遷移，Agent 寫轉換腳本 → 執行 → 抓到錯誤 → 自動重寫 → 再跑 → 迴圈。原本需要 2 年的工作，壓縮到 5 天。
+
+課堂問法：「你有沒有哪種工作，失敗了就要一直重試改參數？這種最適合自我修正迴圈。」
+
+---
+
+#### 模式 10：Human Co-Pilot 人主機副
+```
+[人類決策者] ←→ [Agent 做記憶/調閱/整理]
+   人發號施令，Agent 擴充記憶與搜尋範圍
+   最終判斷在人，Agent 是「超強外掛腦」
+```
+**人類是主角，Agent 是輔助者。Agent 做的是「記住跨文件脈絡 + 快速查閱 + 整理」。**
+
+真實案例：NBIM 挪威主權基金——分析師主導 ESG 研究，AI Agent 跨 9000 家公司的文件維持長時間 context，讓分析師不用自己找資料、不用重複閱讀，每週省下 20% 工時。
+
+課堂問法：「你有沒有需要長期追蹤大量文件的工作？不是要 AI 幫你決定，只是要它幫你記得？那就是 Co-Pilot 模式。」
+
+---
+
+#### 模式 11：Decentralized Swarm 去中心群體
+```
+[Node A] ←→ [Node B] ←→ [Node C]
+   ↕              ↕              ↕
+[Node D] ←→ [Node E] ←→ [Node F]
+   各節點自主決策 + 互相協商，無中央指揮
+```
+**沒有 orchestrator，多個 agent 各自感知局部環境，互相協商，共同達成目標。**
+
+真實案例：Google DeepMind + Duke Energy 智慧電網——各節點 Agent 監控當地電力供需，偵測故障後去中心化協商重新路由電力，防止大規模停電。適合「太大、太快、中央算不過來」的場景。
+
+課堂問法：（進階，一般班可跳過）「當你的規模大到一個中央 orchestrator 處理不完，才考慮 Swarm。這是 AI agent 的終極形態，但也最難控制。」
+
+---
+
+**11 種模式速查表（課堂發的參考卡）**
+
+| # | 模式 | 核心結構 | 最適合的 ops 場景 | 人類參與度 |
+|---|------|---------|-----------------|-----------|
+| 1 | Sequential Pipeline | A→B→C→D | 採購審核、合約簽核 | 低（全自動） |
+| 2 | Hub-and-Spoke | 中央+多專家 | 跨系統報表、客戶詢問 | 中 |
+| 3 | Parallel Broadcast | 一觸發多線 | 入職流程、緊急通報 | 低 |
+| 4 | Event-Driven | 異常才醒 | KPI 監控、庫存警報 | 中（接通報） |
+| 5 | Human Gate | 關卡等人 | 法規合規、高額審批 | **高（必須）** |
+| 6 | Peer Review Loop | 提交→審→退→改 | 財務對帳、品管報告 | 中 |
+| 7 | Guardian | 監控其他 agent | 風控、合規稽核 | 低 |
+| 8 | Silo Independence | 各跑各的 | 獨立部門流程 | 低 |
+| 9 | Closed-Loop | 自測自修 | 資料處理、腳本執行 | **極低** |
+| 10 | Human Co-Pilot | 人主 AI 副 | 研究分析、長文件追蹤 | **高（人主導）** |
+| 11 | Decentralized Swarm | 無中心協商 | 大規模分散式決策 | 極低（進階） |
+
+---
+
 ### 待收清單（claude-code-deck 專案內已存在的 md）
 
 - `WORKING_MEMORY.md` — 內有「桌面玩法 6 步」、「12 條上機前挑戰」、「翻譯層類比清單」、「卡牌正反面設計」等多段教學設計線索，待 Jimmy 指示後逐段收進
@@ -554,6 +1303,66 @@ Title / Responsibilities / Tools / Success Metrics / Best For
 - `claude-code-knowledge-100.md` — 知識點，非教學設計（不收）
 - `pain-points-100.md` — 痛點素材，非教學設計（不收）
 - `use-cases-35.md` — 含「Use Case 自然展開後就是工作流」、「進工作坊個案實戰卡 10 個候選」等設計觀察
+
+### [2026-05-26] Cadbury 5 Star "Make AI Mediocre Again" — 課堂開場引子（指令品質破冰）
+
+**來源**：Cadbury 5 Star 廣告活動（2025）
+**影片搜尋關鍵字**：`Cadbury 5 Star Make AI Mediocre Again`
+**TrendHunter 介紹**：https://www.trendhunter.com/trends/make-ai-mediocre-again
+
+**廣告原意**：諷刺 AI 炫耀文化——Cadbury 設立「垃圾資料農場」主動餵給 AI 訓練資料庫廢話，宣稱要讓 AI「再次平庸」，鼓吹慢生活與不完美。
+
+**Jimmy 的課堂 Reframe**（核心教學轉折）：
+
+> 廣告說的是外部破壞 AI。但真正讓 AI 平庸的，是你自己每次下了爛指令。
+> **你下什麼水準的指令，AI 就給你什麼水準的輸出。**
+> 不需要有人來「Make AI Mediocre Again」——你自己就在做這件事。
+
+**教學設計性質**：開場破冰 × 認知衝擊 × 指令品質引入
+
+---
+
+#### 課堂播放流程（建議時序）
+
+```
+① 播放廣告（60–90 秒）— 讓學員笑完
+② 講師問：「他們要做什麼？」→ 學員：「讓 AI 輸出爛東西」
+③ 講師反問：「你上週用 AI，結果讓你滿意嗎？」
+   → 等待沉默 3 秒（關鍵時刻）
+④ 講師：「讓 AI 平庸的，不是 Cadbury，是你自己給的指令。」
+⑤ 帶出核心概念：
+   「AI 的上限，是你指令的上限。
+    AI 幕僚指揮官的價值，不是會用 AI，是會下最高標準的指令。」
+```
+
+**媒介備注**：若當天找不到原版影片，可用標題 + 概念口頭描述替代，效果同樣有力。
+
+---
+
+#### 教學轉接語（講師手冊可直用）
+
+> 「Make AI Mediocre Again」這個廣告是在嘲笑 AI 文化。
+> 但今天我們要翻轉它：**「Make AI Great Again」的方法只有一個——你學會下指令。**
+> 這就是今天你要帶走的事。
+
+---
+
+#### 可套用情境
+
+| 位置 | 用途 |
+|------|------|
+| **S1 開場 5–8 分鐘** | 破冰 + 引出「指令品質」主題，取代枯燥自我介紹 |
+| **Prompt 設計單元前** | 進入「如何下高標準指令」之前的認知預熱 |
+| **Agent 協作單元** | 「你不給清楚任務，agent 團隊只會亂跑」的起手式 |
+
+---
+
+#### 延伸討論問句（可選）
+
+- 「你覺得你自己的 AI 指令，平均幾分（1–10）？」
+- 「你上次讓 AI 重做超過 3 次的任務是什麼？是 AI 的問題，還是指令的問題？」
+
+---
 
 ### 待收清單（其他專案的可借鏡片段）
 
@@ -579,7 +1388,13 @@ Title / Responsibilities / Tools / Success Metrics / Best For
 
 ## 📅 更動紀錄
 
+### 2026-05-26
+- **Cadbury "Make AI Mediocre Again"**：D 區新增影片教學導入設計，含 Jimmy reframe（「讓 AI 平庸的是你自己的爛指令」）、完整課堂播放流程、三個可套用情境、講師手冊轉接語
+
 ### 2026-05-24
+- **Batch A 官方文件**：D 區新增 4 個 Anthropic 官方機制（CLAUDE.md / Subagents / Hooks / Agent Teams），含四層學習梯度整理
+- **Batch C 工具比較**：D 區新增 Claude Code vs ChatGPT/Cursor/Copilot 比較 + MCP 生態系數據（10,000+ servers）
+- **Batch D 成熟度模型**：D 區新增 5 個框架（Kellogg 4-Stage / Salesforce / ServiceNow / HyScaler / Kore.ai），含三框架課堂組合建議
 - **Batch B 企業案例**：D 區新增 4 個實戰個案（ai-c-suite / AI Chief of Staff / CFO+Xero MCP / HumanLayer CLAUDE.md 指南），含課堂引用建議與智谷卡牌對應點
 
 ### 2026-05-19
