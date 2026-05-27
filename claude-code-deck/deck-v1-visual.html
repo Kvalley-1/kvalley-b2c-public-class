@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 指揮戰隊卡牌 v1.0</title>
+<style>
+/* ─── Tokens ─── */
+:root {
+  --ivory:   #FAF7F2;
+  --band-text: #1A2A4A;
+
+  --c-role:  #C8D400;
+  --c-task:  #7B9CC4;
+  --c-mcp:   #D4831A;
+  --c-know:  #B54030;
+  --c-power: #1A2E4A;
+
+  --cw: 76mm;
+  --ch: 106mm;
+  --bh: 15.9mm;
+  --r:  4mm;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  background: #D8D4CA;
+  padding: 28px;
+  color: #111;
+}
+
+/* ── Screen chrome ── */
+.page-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--c-power);
+  letter-spacing: -0.5px;
+}
+.page-header p {
+  font-size: 12.5px;
+  color: #777;
+  margin-top: 5px;
+}
+.page-header .legend {
+  display: inline-flex;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: #555;
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.deck-section {
+  margin-bottom: 36px;
+}
+.deck-section h2 {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  margin-bottom: 16px;
+  padding-left: 8px;
+  border-left: 3px solid #bbb;
+}
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* ─── Card ─── */
+.card {
+  width: var(--cw);
+  height: var(--ch);
+  border-radius: var(--r);
+  background: var(--ivory);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.14),
+    0 1px 3px rgba(0,0,0,.08),
+    0 0 0 .4px rgba(0,0,0,.06);
+  flex-shrink: 0;
+}
+
+/* Card body */
+.cb {
+  flex: 1;
+  padding: 4.5mm 4.5mm 2mm;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
+
+/* Subtle top-left type indicator line */
+.cb::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 1.2mm;
+  opacity: .6;
+}
+.card.role  .cb::before { background: var(--c-role); }
+.card.task  .cb::before { background: var(--c-task); }
+.card.mcp   .cb::before { background: var(--c-mcp); }
+.card.knowledge .cb::before { background: var(--c-know); }
+.card.power .cb::before { background: var(--c-power); }
+
+.icon {
+  font-size: 20px;
+  line-height: 1;
+  margin-top: 2mm;
+  margin-bottom: 2mm;
+}
+.card-name {
+  font-size: 17pt;
+  font-weight: 800;
+  color: #0f0f0f;
+  line-height: 1.15;
+  margin-bottom: 1.5mm;
+  letter-spacing: -0.3px;
+}
+.card-tagline {
+  font-size: 8pt;
+  color: #666;
+  line-height: 1.45;
+  margin-bottom: 3.5mm;
+}
+
+.divider {
+  height: .3px;
+  background: rgba(0,0,0,.08);
+  margin-bottom: 3mm;
+}
+
+.field { margin-bottom: 2.5mm; }
+.field-label {
+  font-size: 7.5pt;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 1mm;
+}
+.field-content {
+  font-size: 8.5pt;
+  line-height: 1.5;
+  color: #444;
+}
+
+.quote-box {
+  font-size: 8pt;
+  font-style: italic;
+  color: #555;
+  line-height: 1.5;
+  padding: 2mm 2.5mm;
+  background: rgba(0,0,0,.03);
+  border-radius: 1.5mm;
+  border-left: 2.5px solid currentColor;
+  margin-bottom: 2.5mm;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2mm;
+}
+.badge {
+  font-size: 7.5pt;
+  font-weight: 700;
+  padding: .8mm 2.2mm;
+  border-radius: 1mm;
+}
+
+/* ─── Band ─── */
+.band {
+  height: var(--bh);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3.5mm;
+  flex-shrink: 0;
+  position: relative;
+}
+.band-left {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5mm;
+}
+.band-type { font-size: 8.5pt; font-weight: 700; letter-spacing: .2px; }
+.band-num  { font-size: 7.5pt; font-weight: 600; opacity: .55; }
+.band-k    {
+  font-size: 16pt;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+/* ─── Role cards — K green ─── */
+.card.role .quote-box { color: #6a7200; }
+.card.role .band { background: var(--c-role); }
+.card.role .band-type,
+.card.role .band-num,
+.card.role .band-k { color: var(--band-text); }
+.card.role .badge {
+  background: rgba(200,212,0,.15);
+  color: #4d5800;
+  border: 1px solid rgba(200,212,0,.45);
+}
+
+/* ─── Task cards — steel blue ─── */
+.card.task .quote-box { color: #4a6e9c; }
+.card.task .band { background: var(--c-task); }
+.card.task .band-type,
+.card.task .band-num,
+.card.task .band-k { color: var(--band-text); }
+.card.task .badge {
+  background: rgba(123,156,196,.15);
+  color: #2a4d70;
+  border: 1px solid rgba(123,156,196,.45);
+}
+
+/* ─── MCP/Skill cards — amber ─── */
+.card.mcp .quote-box { color: #a05a00; }
+.card.mcp .band { background: var(--c-mcp); }
+.card.mcp .band-type,
+.card.mcp .band-num,
+.card.mcp .band-k { color: var(--band-text); }
+.card.mcp .badge {
+  background: rgba(212,131,26,.15);
+  color: #7a4500;
+  border: 1px solid rgba(212,131,26,.45);
+}
+
+/* ─── Knowledge cards — ochre red ─── */
+.card.knowledge .quote-box { color: #8a2018; }
+.card.knowledge .band { background: var(--c-know); }
+.card.knowledge .band-type,
+.card.knowledge .band-num,
+.card.knowledge .band-k { color: var(--band-text); }
+.card.knowledge .badge {
+  background: rgba(181,64,48,.15);
+  color: #7a2018;
+  border: 1px solid rgba(181,64,48,.45);
+}
+
+/* ─── Power cards — deep sea blue ─── */
+.card.power .quote-box { color: #4a6e9c; }
+.card.power .band { background: var(--c-power); }
+.card.power .band-type,
+.card.power .band-num,
+.card.power .band-k { color: #fff; }
+.card.power .badge {
+  background: rgba(255,255,255,.1);
+  color: #a0b8d0;
+  border: 1px solid rgba(255,255,255,.2);
+}
+
+/* ─── Print ─── */
+@page { size: A4; margin: 12mm; }
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .page-header { display: none; }
+  .deck-section h2 { display: none; }
+  .deck-section { margin: 0; }
+  .card-grid { gap: 5mm; }
+  .card {
+    box-shadow: none;
+    border: .3mm solid #ddd;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Screen header ── -->
+<div class="page-header">
+  <h1>Claude Code 指揮戰隊卡牌 v1.0</h1>
+  <p>智谷網絡 · 一人公司老闆的 AI 虛擬營運團隊 · 桌面推演教學工具</p>
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#C8D400"></div>角色卡
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#7B9CC4"></div>任務卡
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#D4831A"></div>MCP 卡
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#B54030"></div>知識卡
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1A2E4A"></div>Power 卡
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     角色卡 — K 品牌綠
+════════════════════════════════ -->
+<div class="deck-section">
+  <h2>🎭 角色卡（7 張）</h2>
+  <div class="card-grid">
+
+    <div class="card role">
+      <div class="cb">
+        <div class="icon">🛠️</div>
+        <div class="card-name">總工程師</div>
+        <div class="card-tagline">幫你架其他 agent 的<br>meta-agent</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">他會做什麼</div>
+          <div class="field-content">建檔 / 設 CLAUDE.md / 設 memory / 建 symlink / 寫 skill / fork 部門</div>
+        </div>
+        <div class="field">
+          <div class="field-label">何時派他</div>
+          <div class="field-content">「幫我建一個新主管」「把兩個主管串起來」「複製整個部門」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">角色卡</span>
+          <span class="band-num">R-01</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card role">
+      <div class="cb">
+        <div class="icon">📦</div>
+        <div class="card-name">產品企劃主管</div>
+        <div class="card-tagline">想產品策略、定價、<br>課程開發</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">他會做什麼</div>
+          <div class="field-content">SWOT / 競品掃描 / 課綱設計 / 定價試算 / 寫 PRD / 訂 roadmap</div>
+        </div>
+        <div class="field">
+          <div class="field-label">何時派他</div>
+          <div class="field-content">「評估這個 idea」「設計新課」「幫我訂價」「寫 PRD」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">角色卡</span>
+          <span class="band-num">R-02</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card role">
+      <div class="cb">
+        <div class="icon">📣</div>
+        <div class="card-name">行銷主管</div>
+        <div class="card-tagline">寫文案、做品牌、<br>跑社群</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">他會做什麼</div>
+          <div class="field-content">寫 Landing Page / SEO / 社群行事曆 / 品牌語言指南 / case study</div>
+        </div>
+        <div class="field">
+          <div class="field-label">何時派他</div>
+          <div class="field-content">「幫我寫文案」「規劃下月貼文」「寫客戶案例」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">角色卡</span>
+          <span class="band-num">R-03</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card role">
+      <div class="cb">
+        <div class="icon">💼</div>
+        <div class="card-name">銷售主管</div>
+        <div class="card-tagline">寫提案、做報價、<br>追單</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">他會做什麼</div>
+          <div class="field-content">寫提案 / 過語氣 / follow-up email / 客戶異議手冊 / pipeline 盤點</div>
+        </div>
+        <div class="field">
+          <div class="field-label">何時派他</div>
+          <div class="field-content">「寫提案」「review 提案語氣」「整理客戶異議」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">角色卡</span>
+          <span class="band-num">R-04</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card role">
+      <div class="cb">
+        <div class="icon">💰</div>
+        <div class="card-name">財務主管</div>
+        <div class="card-tagline">算數字、看財報、<br>評風險</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">他會做什麼</div>
+          <div class="field-content">報價試算 / 財報分析 / ROI 評估 / 成本盤點 / 投標評估</div>
+        </div>
+        <div class="field">
+          <div class="field-label">何時派他</div>
+          <div class="field-content">「算這案賺多少」「看財報異常」「評估投資 ROI」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">角色卡</span>
+          <span class="band-num">R-05</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card role">
+      <div class="cb">
+        <div class="icon">🧠</div>
+        <div class="card-name">策略幕僚</div>
+        <div class="card-tagline">給大方向、做決策<br>框架</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">他會做什麼</div>
+          <div class="field-content">競品分析 / 業績診斷 / 戰略 war-room / 決策備忘錄 / 風險評估</div>
+        </div>
+        <div class="field">
+          <div class="field-label">何時派他</div>
+          <div class="field-content">「Q3 業績不如預期」「要不要進這市場」「要不要併購」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">角色卡</span>
+          <span class="band-num">R-06</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card role">
+      <div class="cb">
+        <div class="icon">🎩</div>
+        <div class="card-name">特別助理<br>Chief of Staff</div>
+        <div class="card-tagline">協調各主管、彙整、<br>行程管理</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">他會做什麼</div>
+          <div class="field-content">會議備忘錄 / 週報彙整 / 行程排序 / 跨主管協調 / inbox 管理</div>
+        </div>
+        <div class="field">
+          <div class="field-label">何時派他</div>
+          <div class="field-content">「整理今天會議」「發週報」「跨主管協調案子」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">角色卡</span>
+          <span class="band-num">R-07</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     任務卡 — 品牌鋼藍
+════════════════════════════════ -->
+<div class="deck-section">
+  <h2>🎯 任務卡（10 張）</h2>
+  <div class="card-grid">
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">🏭</div>
+        <div class="card-name">新一季產能計畫</div>
+        <div class="quote-box">「建新生產計畫，幫我規劃產能 + 按往常規矩評估 + 生成報告 + 通知各部門主管幾點前回報」</div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">策略</span>
+            <span class="badge">產品</span>
+            <span class="badge">財務</span>
+            <span class="badge">特助</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">產能 brief + 通知 Email 模板</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-01</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">📋</div>
+        <div class="card-name">三案同時要趕</div>
+        <div class="quote-box">「手上 3 個案子要趕，盤一下哪個先動、哪個派誰、哪個能砍」</div>
+        <div class="field">
+          <div class="field-label">真實痛點</div>
+          <div class="field-content">"I'm spread very thin"<br>— Indie Hackers founder Pete</div>
+        </div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">策略</span>
+            <span class="badge">特助</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">3 案優先順序矩陣 + 派員建議</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-02</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">🎩</div>
+        <div class="card-name">派 team 分頭做</div>
+        <div class="quote-box">「這週要同時做行銷 + 業務 + 財務 + 提案，派 team 分頭做給我整合版」</div>
+        <div class="field">
+          <div class="field-label">真實痛點</div>
+          <div class="field-content">"Wear all the hats, then learn how to take them off"</div>
+        </div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">行銷</span>
+            <span class="badge">銷售</span>
+            <span class="badge">財務</span>
+            <span class="badge">特助</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">4 主管產出 + 特助整合 brief</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-03</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">📝</div>
+        <div class="card-name">提案不能有<br>AI workslop 感</div>
+        <div class="quote-box">「合興提案，根據他們真實痛點 + 我們過去類似案口氣 + 不能有 AI workslop 感」</div>
+        <div class="field">
+          <div class="field-label">真實痛點</div>
+          <div class="field-content">HBR：53% annoyed，每份 workslop 平均花 1h 56min 重做</div>
+        </div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">銷售</span>
+            <span class="badge">策略</span>
+            <span class="badge">特助</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">提案 + 語氣鐵律檔</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-04</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">📉</div>
+        <div class="card-name">Q3 業績不如預期</div>
+        <div class="quote-box">「盤一下：哪個產品掉、哪個客戶冷、競品做了什麼、該開什麼新案，本週前給行動計畫」</div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">策略</span>
+            <span class="badge">產品</span>
+            <span class="badge">銷售</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">業績診斷 + 三大行動計畫</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-05</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">👴</div>
+        <div class="card-name">老師傅退休 SOP</div>
+        <div class="quote-box">「老師傅下月退休，把他 30 年的維修日記整理成 SOP + 建一個能回答新人問題的『虛擬老師傅』」</div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">總工程師</span>
+            <span class="badge">策略</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">SOP 文件 + 「虛擬老師傅」可跑 agent</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-06</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">📜</div>
+        <div class="card-name">5000 萬政府標案</div>
+        <div class="quote-box">「要不要投，評估成本 + 風險 + 競標對手 + 過去類似案勝率 + 投標策略，3 天內結論」</div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">財務</span>
+            <span class="badge">策略</span>
+            <span class="badge">銷售</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">投標決策 brief + Plan B</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-07</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">👔</div>
+        <div class="card-name">客戶換 CEO</div>
+        <div class="quote-box">「客戶 X 剛換 CEO，研究他背景 + 過去文章 / 演講 / 訪談 + 他在意的議題，重寫提案讓他有感」</div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">策略</span>
+            <span class="badge">行銷</span>
+            <span class="badge">銷售</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">新 CEO 人物誌 + 改寫提案</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-08</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">📊</div>
+        <div class="card-name">Q2 年中盤點</div>
+        <div class="quote-box">「跑年中盤點：所有進行中案子狀態 + 卡在哪 + 誰負責什麼 + Q3 該砍哪些加哪些」</div>
+        <div class="field">
+          <div class="field-label">真實痛點</div>
+          <div class="field-content">"Exhausted layer" — Deloitte 形容中階主管</div>
+        </div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">策略</span>
+            <span class="badge">特助</span>
+            <span class="badge">所有主管</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">年中盤點報告 + Q3 三大重點</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-09</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card task">
+      <div class="cb">
+        <div class="icon">✂️</div>
+        <div class="card-name">砍 20% 預算</div>
+        <div class="quote-box">「老闆要砍 20% 預算，下屬已壓榨到極限，擬對上爭取信 + 對下安撫 brief + 老闆不接受的 Plan B」</div>
+        <div class="field">
+          <div class="field-label">真實痛點</div>
+          <div class="field-content">"Stuck between a rock and a hard place"</div>
+        </div>
+        <div class="field">
+          <div class="field-label">動員</div>
+          <div class="badges">
+            <span class="badge">策略</span>
+            <span class="badge">財務</span>
+            <span class="badge">特助</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">你帶走</div>
+          <div class="field-content">對上爭取信 + 對下安撫 brief + Plan B</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">任務卡</span>
+          <span class="band-num">T-10</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     MCP 卡（樣本）— 琥珀橙
+════════════════════════════════ -->
+<div class="deck-section">
+  <h2>⚡ MCP 卡（樣本 4 張）</h2>
+  <div class="card-grid">
+
+    <div class="card mcp">
+      <div class="cb">
+        <div class="icon">📓</div>
+        <div class="card-name">Notion</div>
+        <div class="card-tagline">Claude 直接讀寫你的<br>Notion workspace</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">能做什麼</div>
+          <div class="field-content">讀取任何 Page / DB / 寫入筆記 / 建資料庫欄位 / 搜尋全 workspace</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「把今天會議記錄寫進 Notion 客戶資料庫」</div>
+        </div>
+        <div class="field">
+          <div class="field-label">來源</div>
+          <div class="field-content">Notion 官方 Hosted MCP</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">MCP 卡</span>
+          <span class="band-num">M-01</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card mcp">
+      <div class="cb">
+        <div class="icon">📧</div>
+        <div class="card-name">Gmail /<br>Google Workspace</div>
+        <div class="card-tagline">Gmail / Drive / Calendar /<br>Sheets / Docs 六合一</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">能做什麼</div>
+          <div class="field-content">寄 / 讀 Email、建行程、讀試算表、存 Drive、改 Doc — 12 種 Google 服務全通</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「掃本週未讀信，整理待辦清單傳給我」</div>
+        </div>
+        <div class="field">
+          <div class="field-label">來源</div>
+          <div class="field-content">社群 taylorwilsdon（12k ★）</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">MCP 卡</span>
+          <span class="band-num">M-02</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card mcp">
+      <div class="cb">
+        <div class="icon">💬</div>
+        <div class="card-name">Telegram Bot</div>
+        <div class="card-tagline">免費推播通知，<br>無月費無額度限制</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">能做什麼</div>
+          <div class="field-content">推送訊息給自己或群組、傳文件 / 圖片、定時報告</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「每天早上 8 點把今日行程和待辦傳 Telegram 給我」</div>
+        </div>
+        <div class="field">
+          <div class="field-label">來源</div>
+          <div class="field-content">社群成熟實作（免費）</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">MCP 卡</span>
+          <span class="band-num">M-09</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card mcp">
+      <div class="cb">
+        <div class="icon">🔌</div>
+        <div class="card-name">Zapier</div>
+        <div class="card-tagline">一張卡接 8,000+<br>應用程式</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">能做什麼</div>
+          <div class="field-content">把 Claude 的輸出直接觸發任何 Zapier Action：記 CRM、發 Slack、更新試算表</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「分析完競品報告，把結論自動加進 HubSpot 聯絡人備註」</div>
+        </div>
+        <div class="field">
+          <div class="field-label">來源</div>
+          <div class="field-content">Zapier 官方 MCP</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">MCP 卡</span>
+          <span class="band-num">M-21</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     Power 卡 — 深海藍
+════════════════════════════════ -->
+<div class="deck-section">
+  <h2>🚨 Power 卡（6 張）</h2>
+  <div class="card-grid">
+
+    <div class="card power">
+      <div class="cb">
+        <div class="icon">🚀</div>
+        <div class="card-name">真平行派戰隊</div>
+        <div class="card-tagline">同時派 5 個分身去查 5 家競品，1 小時內全部回報</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">ChatGPT / Gemini 做不到</div>
+          <div class="field-content">一次只能回答一件事，無法真平行</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「派 5 個分身，平行做這 5 件事，做完彙整」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">Power 卡</span>
+          <span class="band-num">P-01</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card power">
+      <div class="cb">
+        <div class="icon">💾</div>
+        <div class="card-name">持久 CLAUDE.md</div>
+        <div class="card-tagline">永遠記住你的規矩，不用每次重講</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">ChatGPT / Gemini 做不到</div>
+          <div class="field-content">ChatGPT Memory 有限且跨應用不通；Gemini 無持久人格設定</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「這條鐵律放進你的 CLAUDE.md，以後永遠遵守」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">Power 卡</span>
+          <span class="band-num">P-02</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card power">
+      <div class="cb">
+        <div class="icon">🔍</div>
+        <div class="card-name">跨檔秒搜</div>
+        <div class="card-tagline">掃你 Mac 上 5 年所有提案，找出 X 客戶歷史報價</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">ChatGPT / Gemini 做不到</div>
+          <div class="field-content">進不去你的 Mac；Gemini 只能看你主動丟進去的</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「掃 ~/Downloads/projects/ 找關鍵字 X 客戶」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">Power 卡</span>
+          <span class="band-num">P-03</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card power">
+      <div class="cb">
+        <div class="icon">🤖</div>
+        <div class="card-name">Hook 自動觸發</div>
+        <div class="card-tagline">每週五自己跳出來發週報，不用你叫</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">ChatGPT / Gemini 做不到</div>
+          <div class="field-content">ChatGPT 不會自己跳出來；要叫他才動</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「設個 hook 每週五 17:00 自動跑週報並寄 Gmail」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">Power 卡</span>
+          <span class="band-num">P-04</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card power">
+      <div class="cb">
+        <div class="icon">⚡</div>
+        <div class="card-name">Shell 真執行</div>
+        <div class="card-tagline">不只給建議，是真的改檔、跑命令、Push code</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">ChatGPT / Gemini 做不到</div>
+          <div class="field-content">只能說「你可以這樣做」，做不到</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「真的去把這個檔改成 X，跑 build，commit push」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">Power 卡</span>
+          <span class="band-num">P-05</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+    <div class="card power">
+      <div class="cb">
+        <div class="icon">🔒</div>
+        <div class="card-name">完全私密</div>
+        <div class="card-tagline">客戶合約、提案、財報，不丟給 OpenAI / Google</div>
+        <div class="divider"></div>
+        <div class="field">
+          <div class="field-label">ChatGPT / Gemini 做不到</div>
+          <div class="field-content">你丟進去的資料 = 他們潛在訓練料 / 雲端存取</div>
+        </div>
+        <div class="field">
+          <div class="field-label">你會說</div>
+          <div class="field-content">「這件事不上雲，本地檔案直接做」</div>
+        </div>
+      </div>
+      <div class="band">
+        <div class="band-left">
+          <span class="band-type">Power 卡</span>
+          <span class="band-num">P-06</span>
+        </div>
+        <span class="band-k">K</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
