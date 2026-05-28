@@ -38,26 +38,36 @@ body{
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 48px;height:64px;
-  background:rgba(255,255,255,.96);
+  padding:0 48px;height:56px;
+  background:rgba(255,255,255,.97);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);
+  transform:translateY(-100%);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
 }
-.nav img{height:28px}
+.nav.visible{transform:none}
+.nav-logo img{height:28px;display:block}
+.hero-logo{
+  position:absolute;top:28px;right:48px;z-index:10;
+}
+.hero-logo img{height:28px;display:block}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:13px;font-weight:600;color:var(--ink2);text-decoration:none;letter-spacing:.03em;transition:color .15s}
+.nav-links a:hover{color:var(--acc)}
+@media(max-width:760px){.nav-links{display:none}}
 .nav-cta{
-  display:inline-block;padding:9px 24px;
+  display:inline-block;padding:9px 32px;
   background:var(--acc);color:#fff;
-  font-size:14px;font-weight:700;letter-spacing:.03em;
+  font-size:14px;font-weight:700;letter-spacing:.05em;
   text-decoration:none;transition:background .15s;
 }
 .nav-cta:hover{background:var(--acc2)}
 
 /* ─── HERO ─── */
 .hero{
-  position:relative;min-height:100vh;
+  position:relative;min-height:85vh;
   display:flex;flex-direction:column;
   justify-content:flex-end;overflow:hidden;
-  padding-top:64px;
 }
 .hero-bg{
   position:absolute;inset:0;
@@ -82,7 +92,7 @@ body{
 }
 .hero-kv{
   position:relative;z-index:10;
-  padding:0 48px 0;
+  padding:120px 48px 80px;
 }
 .hero-overline{
   font-size:11px;font-weight:700;letter-spacing:.22em;
@@ -93,24 +103,24 @@ body{
   font-family:var(--serif);
   font-size:clamp(28px,4vw,48px);font-weight:700;
   color:rgba(255,255,255,.88);line-height:1.2;
-  margin-bottom:0;
+  letter-spacing:.06em;margin-bottom:16px;
 }
 .hero-main{
   font-family:var(--serif);
   font-size:clamp(56px,10vw,120px);font-weight:900;
-  color:#fff;line-height:.9;letter-spacing:-.025em;
-  margin-bottom:8px;margin-top:-4px;
+  color:#fff;line-height:1;letter-spacing:.02em;
+  margin-bottom:28px;margin-top:0;
 }
 .hero-sub{
   font-family:var(--serif);
   font-size:clamp(18px,2.5vw,26px);font-weight:700;
-  color:#E89A68;line-height:1.3;margin-bottom:28px;
+  color:#E89A68;line-height:1.4;letter-spacing:.04em;margin-bottom:40px;
 }
 .hero-desc{
   font-size:15px;color:rgba(255,255,255,.76);
-  line-height:1.9;max-width:560px;margin-bottom:36px;
+  line-height:2.1;max-width:560px;margin-bottom:48px;
 }
-.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:56px}
+.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:56px;justify-content:center}
 .btn-hero{
   display:inline-block;padding:14px 36px;
   background:var(--acc);color:#fff;
@@ -129,14 +139,22 @@ body{
 /* tag bar */
 .tagbar{
   background:var(--acc);
-  display:flex;flex-wrap:wrap;
+  overflow:hidden;white-space:nowrap;
+}
+.tagbar-track{
+  display:inline-flex;
+  animation:ticker 18s linear infinite;
 }
 .tagbar span{
   font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  color:#fff;padding:12px 22px;
+  color:#fff;padding:12px 28px;
   border-right:1px solid rgba(255,255,255,.2);
+  flex-shrink:0;
 }
-.tagbar span:last-child{border-right:none}
+@keyframes ticker{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-25%)}
+}
 
 /* stats */
 .stats{
@@ -147,6 +165,7 @@ body{
   padding:28px 36px;border-right:1px solid var(--line);
   opacity:0;transform:translateY(8px);
   animation:rise .55s ease forwards;
+  text-align:center;
 }
 .stat:last-child{border-right:none}
 .stat:nth-child(1){animation-delay:.05s}
@@ -199,27 +218,23 @@ body{
 }
 
 /* ─── PAIN ─── */
-.pain-lead{
-  font-family:var(--serif);font-weight:700;
-  font-size:clamp(17px,2.2vw,22px);color:var(--ink);
-  line-height:1.65;max-width:720px;margin-bottom:40px;
-  border-left:3px solid var(--acc);padding-left:22px;
+.chat-wrap{display:flex;flex-direction:column;gap:52px;margin:40px 0 60px;width:100%}
+.bubble{padding:18px 26px;font-size:16px;font-weight:500;line-height:1.75;color:var(--ink);max-width:62%;opacity:0;transition:opacity .7s ease,transform .7s ease}
+.bubble-left{align-self:flex-start;background:var(--paper2);border-radius:4px 20px 20px 20px;transform:translateX(-48px)}
+.bubble-right{align-self:flex-end;background:var(--acc-s);border-radius:20px 4px 20px 20px;transform:translateX(48px)}
+.hl{background:linear-gradient(transparent 55%,rgba(200,75,42,.18) 55%);padding-bottom:1px}
+.chat-wrap.play .bubble{opacity:1;transform:translateX(0)}
+.chat-wrap.play .bubble:nth-child(1){transition-delay:.2s}
+.chat-wrap.play .bubble:nth-child(2){transition-delay:.9s}
+.chat-wrap.play .bubble:nth-child(3){transition-delay:1.6s}
+.pain-resolve{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.pain-resolve.play{opacity:1;transform:none}
+.pain-resolve{
+  margin-top:36px;padding:40px 44px;
+  background:var(--ink);color:#fff;
+  display:flex;align-items:center;
+  justify-content:space-between;gap:32px;flex-wrap:wrap;
 }
-.pain-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;background:var(--line);
-  border:1px solid var(--line);
-}
-.pain-card{background:var(--bg);padding:36px 30px}
-.pain-num{
-  font-family:var(--serif);font-size:11px;font-weight:700;
-  color:var(--acc);letter-spacing:.15em;margin-bottom:16px;
-}
-.pain-card h3{
-  font-family:var(--serif);font-size:17px;font-weight:700;
-  color:var(--ink);margin-bottom:10px;
-}
-.pain-card p{font-size:14px;color:var(--ink2);line-height:1.85}
 .pain-resolve{
   margin-top:36px;padding:40px 44px;
   background:var(--ink);color:#fff;
@@ -242,6 +257,14 @@ body{
 .btn-inv:hover{background:var(--acc2);border-color:var(--acc2)}
 
 /* ─── WHO ─── */
+.who-col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+.who-col{background:var(--bg)}
+.who-col-img{width:100%;height:220px;object-fit:cover;object-position:center top;display:block}
+.who-col-body{padding:24px 28px}
+.who-col-num{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--acc);margin-bottom:10px}
+.who-col-title{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);line-height:1.4}
+.who-note{max-width:640px;margin:24px auto 0;font-size:13.5px;color:var(--gray);line-height:1.7;text-align:center}
+@media(max-width:760px){.who-col-grid{grid-template-columns:1fr}}
 .who-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .who-box{padding:36px;border:1px solid var(--line)}
 .who-box.yes{border-color:var(--acc);border-width:1.5px}
@@ -262,61 +285,73 @@ body{
 .who-box.no .mark{color:var(--gray2);flex-shrink:0;margin-top:1px}
 
 /* ─── STRUCTURE ─── */
-.part-label{
-  font-size:11px;font-weight:800;letter-spacing:.18em;
-  color:var(--acc);text-transform:uppercase;margin-bottom:20px;
+/* ─── TIMELINE ─── */
+.tl-part-label{
+  font-size:18px;font-weight:800;letter-spacing:.08em;
+  color:var(--acc);text-transform:uppercase;
+  margin-top:48px;margin-bottom:24px;
 }
-.sch{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--line-s);border-bottom:1px solid var(--line-s);margin-bottom:48px}
-.sch-row{display:grid;grid-template-columns:100px 1fr;border-bottom:1px solid var(--line)}
-.sch-row:last-child{border-bottom:0}
-.sch-row.brk{background:var(--paper)}
-.sch-time{padding:18px 18px 18px 0;text-align:left;border-right:1px solid var(--line)}
-.sch-time .mn{font-weight:800;font-size:22px;color:var(--ink);line-height:1;letter-spacing:-.02em}
-.sch-time .mn small{font-size:11px;color:var(--gray);font-weight:600}
-.sch-body{padding:18px 0 18px 24px}
-.sch-body .seg{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
-.seg .tag{
-  font-weight:800;font-size:11px;letter-spacing:.05em;
-  text-transform:uppercase;background:var(--ink);
-  color:#fff;padding:2px 9px;flex-shrink:0;
+.tl-part-label.tl-part-2{margin-top:56px}
+.tl-wrap{position:relative;margin-bottom:8px}
+.tl-wrap::before{
+  content:'';position:absolute;
+  left:90px;top:10px;bottom:10px;
+  width:1px;background:var(--line);z-index:0;
 }
-.seg .ti{font-weight:700;font-size:15px;color:var(--ink);letter-spacing:-.01em}
-.seg .by{margin-left:auto;font-size:12px;color:var(--acc);font-weight:700;flex-shrink:0}
-.sch-body ul{list-style:none;display:flex;flex-direction:column;gap:4px}
-.sch-body ul li{
-  position:relative;padding-left:16px;
-  font-size:13.5px;color:var(--gray);line-height:1.55;
+.tl-node{
+  display:grid;grid-template-columns:56px 20px 1fr;
+  column-gap:24px;align-items:start;
+  padding-bottom:32px;position:relative;
 }
-.sch-body ul li::before{
-  content:'';position:absolute;left:0;top:9px;
-  width:7px;height:1px;background:var(--acc);
+.tl-break{padding-bottom:20px;opacity:.5}
+.tl-time-col{text-align:right}
+.tl-num{
+  font-family:var(--serif);font-size:22px;font-weight:900;
+  color:var(--ink);line-height:1;letter-spacing:-.02em;
 }
-.sch-foot{
-  padding:14px 0;text-align:right;
-  font-weight:800;color:var(--ink);
-  border-top:2px solid var(--line-s);
-  letter-spacing:.02em;font-size:14px;
-  padding-right:4px;
+.tl-num small{font-size:10px;color:var(--gray);font-weight:600;display:block;margin-top:3px}
+.tl-break .tl-num{color:var(--gray2)}
+.tl-dot{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--acc);margin-top:6px;
+  justify-self:center;position:relative;z-index:1;
 }
-.tl-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.chip{
-  padding:3px 11px;border:1px solid var(--line);
-  font-size:12px;color:var(--gray);background:var(--paper);
+.tl-break .tl-dot{background:var(--paper2);border:1.5px solid var(--gray2)}
+.tl-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);line-height:1.4}
+.tl-break .tl-title{font-size:14px;color:var(--gray);font-weight:500;font-family:var(--sans)}
+.tl-by{font-size:11px;color:var(--acc);font-weight:700;letter-spacing:.04em;margin-top:4px}
+.tl-desc{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:4px}
+.tl-desc li{
+  position:relative;padding-left:14px;
+  font-size:13.5px;color:var(--ink2);line-height:1.7;
 }
+.tl-desc li::before{content:'';position:absolute;left:0;top:10px;width:7px;height:1px;background:var(--acc)}
+.tl-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{padding:3px 11px;border:1px solid var(--line);font-size:12px;color:var(--gray);background:var(--paper)}
+.impl-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:18px}
+.impl-card{background:var(--paper);padding:22px 20px}
+.impl-num{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--acc);margin-bottom:8px}
+.impl-name{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.impl-card p{font-size:13px;color:var(--ink2);line-height:1.75}
+@media(max-width:760px){.impl-cards{grid-template-columns:1fr}}
 .oneon-box{
   padding:36px 40px;background:var(--paper);
   border:1px solid var(--line);border-left:3px solid #5E8AB4;
+  margin-top:24px;
 }
 .oneon-box .tag-blue{
   display:inline-block;background:#5E8AB4;color:#fff;
   font-size:10px;font-weight:800;letter-spacing:.12em;
   padding:3px 10px;margin-bottom:14px;
 }
-.oneon-box h3{
-  font-family:var(--serif);font-size:19px;font-weight:700;
-  color:var(--ink);margin-bottom:10px;
-}
-.oneon-box p{font-size:14px;color:var(--ink2);line-height:1.85}
+.oneon-box h3{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.oneon-box .oneon-lead{font-size:14px;color:var(--ink2);line-height:1.85;margin-bottom:28px}
+.oneon-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:4px}
+.oneon-card{background:var(--bg);padding:22px 24px}
+.oneon-card-label{font-size:10px;font-weight:800;letter-spacing:.12em;color:#5E8AB4;margin-bottom:8px}
+.oneon-card-title{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4}
+.oneon-card p{font-size:13px;color:var(--ink2);line-height:1.7}
+@media(max-width:760px){.oneon-cards{grid-template-columns:1fr}}
 
 /* ─── DATES ─── */
 .dates-grid{
@@ -383,11 +418,14 @@ body{
 .venue-img img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* ─── INSTRUCTORS ─── */
+.inst-sub{font-size:15px;color:var(--ink2);margin:-20px 0 36px}
 .inst-grid{
   display:grid;grid-template-columns:1fr 1fr;
   gap:1px;background:var(--line);border:1px solid var(--line);
 }
-.inst-card{background:var(--bg);padding:48px 42px}
+.inst-card{background:var(--bg);padding:48px 42px;display:flex;gap:36px;align-items:flex-end}
+.inst-photo{width:170px;height:230px;object-fit:cover;object-position:top center;border-radius:4px;flex-shrink:0}
+.inst-info{flex:1;min-width:0}
 .inst-no{
   font-size:11px;font-weight:800;letter-spacing:.15em;
   color:var(--acc);text-transform:uppercase;margin-bottom:22px;
@@ -397,64 +435,60 @@ body{
   color:var(--ink);line-height:1;margin-bottom:4px;
 }
 .inst-en{font-size:11px;color:var(--gray);letter-spacing:.14em;margin-bottom:14px}
+.inst-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
 .inst-role{
-  display:inline-block;border:1px solid var(--line);
-  font-size:12px;color:var(--ink2);padding:4px 12px;margin-bottom:6px;
+  border:1px solid var(--line);
+  font-size:12px;color:var(--ink2);padding:4px 12px;
 }
 .inst-focus{
-  display:inline-block;
   background:var(--acc-s);border:1px solid rgba(200,75,42,.2);
   color:var(--acc);font-size:12px;font-weight:700;
-  padding:4px 12px;margin-left:6px;margin-bottom:20px;
+  padding:4px 12px;
 }
-.inst-desc{font-size:14px;color:var(--ink2);line-height:1.9}
+.inst-creds{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:12px}
+.inst-creds li{font-size:14.5px;color:var(--ink2);line-height:1.75;padding-left:16px;position:relative}
+.inst-creds li::before{content:'—';position:absolute;left:0;color:var(--acc);font-weight:700}
+.coaching-box{margin-top:2px;padding:36px 40px;background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--line-s)}
+.coaching-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.coaching-label{font-family:var(--serif);font-size:20px;font-weight:900;color:var(--ink);line-height:1.2}
+.coaching-brands{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.cg-logo{height:28px;width:auto;border-radius:5px;display:block}
+.coach-x{font-size:15px;font-weight:900;color:var(--gray2);line-height:1}
+.coach-groups{display:grid;grid-template-columns:4fr 5fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:24px}
+.coach-group{padding:22px 26px}
+.coach-group--dr{background:var(--bg);border-top:3px solid #3B5BAD}
+.coach-group--kv{background:var(--bg);border-top:3px solid #8FA000}
+.coach-group--dr .coach-avatar{border:2.5px solid #3B5BAD}
+.coach-group--kv .coach-avatar{border:2.5px solid #8FA000}
+.cg-label{font-size:15px;font-weight:800;letter-spacing:.08em;color:var(--ink);text-align:center;margin-bottom:14px}
+.coaches-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.coach-item{display:flex;flex-direction:column;align-items:center;gap:7px;width:88px}
+.coach-avatar{width:78px;height:78px;border-radius:50%;object-fit:cover;object-position:top center;border:2px solid rgba(0,0,0,.07)}
+.coach-name{font-size:13px;color:var(--gray);text-align:center;line-height:1.3}
+.coaching-benefits{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);padding-top:22px}
+.cb-item{padding:0 28px 0 0}
+.cb-item+.cb-item{border-left:1px solid var(--line);padding:0 28px}
+.cb-item:last-child{padding-right:0}
+.cb-mark{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--acc);text-transform:uppercase;margin-bottom:6px}
+.cb-item p{font-size:14px;color:var(--ink2);line-height:1.7}
+@media(max-width:720px){.coaching-benefits{grid-template-columns:1fr;gap:20px}.coaching-box{padding:28px 20px}.coach-groups{grid-template-columns:1fr}.coaching-header{flex-direction:column;align-items:flex-start;gap:12px}.cb-item+.cb-item{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:16px}}
 
-/* ─── PRICING ─── */
-.pricing-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;background:var(--line);border:1px solid var(--line);
-}
-.p-card{background:var(--bg);padding:40px 32px;position:relative}
-.p-card.featured{background:var(--paper)}
-.p-card.featured::before{
-  content:'RECOMMENDED';
-  position:absolute;top:0;left:0;right:0;
-  background:var(--acc);color:#fff;
-  font-size:10px;font-weight:800;letter-spacing:.2em;
-  padding:7px;text-align:center;
-}
-.p-card.featured{padding-top:48px}
-.p-tier{
-  font-size:11px;font-weight:800;letter-spacing:.15em;
-  color:var(--gray);text-transform:uppercase;margin-bottom:16px;
-}
-.p-amount{
-  font-family:var(--serif);font-size:48px;font-weight:900;
-  color:var(--ink);line-height:1;
-}
-.p-amount sup{
-  font-size:15px;font-weight:400;font-family:var(--sans);
-  vertical-align:top;margin-top:10px;display:inline-block;color:var(--gray);
-}
-.p-unit{font-size:12px;color:var(--gray);margin:6px 0 10px}
-.p-note{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:24px}
-.p-list{list-style:none;border-top:1px solid var(--line);padding-top:18px}
-.p-list li{
-  font-size:13.5px;color:var(--ink2);
-  padding:8px 0;display:flex;gap:10px;
-  border-bottom:1px solid var(--line);
-}
-.p-list li:last-child{border-bottom:none}
-.p-list li span:first-child{color:var(--acc);font-weight:800;flex-shrink:0}
-.p-btn{
-  display:block;margin-top:28px;padding:13px;
-  text-align:center;font-size:14px;font-weight:700;
-  letter-spacing:.03em;text-decoration:none;transition:all .15s;
-}
-.p-card.featured .p-btn{background:var(--acc);color:#fff}
-.p-card.featured .p-btn:hover{background:var(--acc2)}
-.p-card:not(.featured) .p-btn{border:1px solid var(--line);color:var(--ink2)}
-.p-card:not(.featured) .p-btn:hover{border-color:var(--acc);color:var(--acc)}
+/* ─── DATES ─── */
+.sess-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:24px}
+.sess-card{background:var(--bg);padding:28px 40px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:44px}
+.sess-card.expired{opacity:.45;pointer-events:none}
+.sess-date-col{text-align:center}
+.sess-date{font-family:var(--serif);font-size:36px;font-weight:900;line-height:1;color:var(--ink);letter-spacing:-.01em;white-space:nowrap}
+.sess-wd{font-size:11px;color:var(--gray);letter-spacing:.08em;margin-top:4px}
+.sess-time{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.sess-venue{font-size:13px;color:var(--ink2);margin-bottom:8px}
+.sess-bird-row{font-size:12px;font-weight:600;color:var(--acc)}
+.sess-price-col{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.sess-orig{font-size:13px;color:var(--gray2);text-decoration:line-through;line-height:1}
+.sess-now{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--ink);line-height:1}
+.sess-now em{font-size:11px;font-weight:700;font-style:normal;color:var(--acc);margin-left:5px;vertical-align:middle}
+.sess-cta{display:inline-block;padding:10px 28px;background:var(--acc);color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:background .15s;white-space:nowrap}
+.sess-cta:hover{background:var(--acc2)}
 .b2b-note{
   margin-top:20px;padding:20px 28px;
   background:var(--bg);border:1px solid var(--line);
@@ -462,6 +496,10 @@ body{
 }
 .b2b-note strong{color:var(--ink)}
 .b2b-note a{color:var(--acc);text-decoration:none}
+@media(max-width:760px){
+  .sess-card{grid-template-columns:60px 1fr;gap:20px;padding:22px 20px}
+  .sess-price-col{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--line)}
+}
 
 /* ─── TAKEAWAYS ─── */
 .take-grid{
@@ -558,6 +596,8 @@ footer img{height:26px;margin-bottom:22px;display:block}
   .stats{grid-template-columns:1fr}
   .stat{border-right:none;border-bottom:1px solid var(--line)}
   .tagbar span{padding:10px 14px}
+  .inst-card{flex-direction:column;padding:32px 24px}
+  .inst-photo{width:120px;height:160px}
 }
 
 /* ─── SCROLL REVEAL ─── */
@@ -602,37 +642,6 @@ footer img{height:26px;margin-bottom:22px;display:block}
 }
 .date-card{cursor:pointer}
 
-/* ─── STICKY ENROLL BAR ─── */
-.sticky-bar{
-  position:fixed;bottom:0;left:0;right:0;z-index:150;
-  background:var(--ink);border-top:2px solid var(--acc);
-  padding:12px 48px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  transform:translateY(100%);
-  transition:transform .4s cubic-bezier(.16,1,.3,1);
-}
-.sticky-bar.show{transform:none}
-.sticky-bar-msg{font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.5}
-.sticky-bar-msg strong{color:#fff}
-.sticky-bar-btn{
-  background:var(--acc);color:#fff;
-  padding:9px 26px;font-size:13px;font-weight:700;
-  letter-spacing:.04em;text-decoration:none;flex-shrink:0;
-  transition:background .15s;
-}
-.sticky-bar-btn:hover{background:var(--acc2)}
-.sticky-close{
-  color:rgba(255,255,255,.3);font-size:20px;cursor:pointer;
-  background:none;border:none;padding:4px 8px;
-  transition:color .15s;flex-shrink:0;font-family:var(--sans);
-  line-height:1;
-}
-.sticky-close:hover{color:rgba(255,255,255,.7)}
-@media(max-width:768px){
-  .sticky-bar{padding:11px 16px;gap:10px}
-  .sticky-bar-msg{font-size:12px}
-  .sticky-bar-btn{padding:8px 16px;font-size:12px}
-}
 
 /* ─── HERO SCROLL INDICATOR ─── */
 .hero-scroll{
@@ -657,33 +666,85 @@ footer img{height:26px;margin-bottom:22px;display:block}
 }
 @media(max-width:900px){.hero-scroll{display:none}}
 @media(prefers-reduced-motion:reduce){.hero-scroll{display:none}}
+
+/* ─── SOLUTION ─── */
+.solution-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.scenario-card{background:var(--bg);border:1px solid var(--line);padding:44px 28px 36px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px}
+.scenario-icon{width:56px;height:56px;color:var(--acc)}
+.scenario-card h3{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);line-height:1.4}
+.scenario-card p{font-size:14px;color:var(--ink2);line-height:1.85;text-align:left}
+.sol-foot{margin-top:40px;padding:28px 32px;background:var(--paper);border-left:3px solid var(--acc)}
+.sol-foot p{font-size:15.5px;line-height:1.9;color:var(--ink);font-weight:700}
+.sol-foot mark{background:rgba(232,99,58,.18);color:inherit;padding:0 2px;border-radius:2px}
+@media(max-width:720px){.solution-grid{grid-template-columns:1fr}}
+
+/* ─── VS TABLE ─── */
+.vs-table{max-width:760px;margin:0 auto;border:1px solid var(--line)}
+.vs-head{display:grid;grid-template-columns:1fr 1fr;background:var(--ink);color:#fff;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.vs-head>div{padding:14px 24px}
+.vs-head .vs-col-b{border-left:3px solid var(--acc)}
+.vs-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.vs-col-a{padding:16px 24px;font-size:14.5px;color:var(--gray);background:var(--paper)}
+.vs-row .vs-col-a{padding-left:20px}
+.vs-row .vs-col-a::before{content:'✕ ';font-size:11px;color:var(--gray2)}
+.vs-col-b{padding:16px 24px;font-size:14.5px;color:var(--ink);background:var(--bg)}
+.vs-row .vs-col-b{background:rgba(200,75,42,.04);border-left:3px solid var(--acc);padding-left:20px}
+.vs-row .vs-col-b::before{content:'✓ ';font-size:12px;color:var(--acc);font-weight:800}
+.vs-col-b strong{color:var(--acc)}
+@media(max-width:600px){
+  .vs-head,.vs-row{grid-template-columns:1fr}
+  .vs-head>div:first-child,.vs-col-a{display:none}
+}
+
+/* ─── DAILY ─── */
+.daily-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);margin-top:40px}
+.daily-item{display:flex;gap:28px;align-items:flex-start;padding:28px 32px;border-bottom:1px solid var(--line)}
+.daily-item:last-child{border-bottom:none}
+.daily-n{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--gray2);font-family:var(--serif);flex-shrink:0;padding-top:4px;min-width:24px}
+.daily-item h3{font-size:16px;font-weight:700;margin-bottom:6px;font-family:var(--serif)}
+.daily-item p{font-size:14.5px;color:var(--ink2);line-height:1.8}
+.daily-foot{margin-top:28px;font-size:14.5px;color:var(--ink2);line-height:1.9;max-width:680px}
+
+/* ─── FAQ ─── */
+.faq-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);margin-top:40px}
+.faq-item{border-bottom:1px solid var(--line);overflow:hidden;transition:box-shadow .2s}
+.faq-item:last-child{border-bottom:none}
+.faq-item.open{box-shadow:inset 3px 0 0 var(--acc)}
+.faq-q{padding:14px 24px;font-size:18px;font-weight:700;cursor:pointer;display:flex;gap:14px;align-items:center;font-family:var(--sans);transition:background .15s}
+.faq-q::before{content:'Q';font-size:15px;font-weight:800;color:var(--acc);flex-shrink:0;padding-top:1px}
+.faq-q-text{flex:1;text-align:left}
+.faq-q:hover{background:var(--paper)}
+.faq-q::after{content:'＋';font-size:20px;font-weight:400;color:var(--acc);flex-shrink:0;margin-left:16px;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 32px;font-size:14.5px;color:var(--ink2);line-height:1.9;font-family:var(--sans);text-align:left}
+.faq-item.open .faq-a{max-height:300px;padding:0 32px 24px}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav">
-  <a href="https://www.kvalley.biz" target="_blank" rel="noopener"><img src="logo.png" alt="智谷網絡 Kvalley"></a>
-  <a href="#pricing" class="nav-cta">立即報名</a>
+<nav class="nav" id="mainNav">
+  <a href="#" class="nav-logo"><img src="logo.png" alt="KVALLEY"></a>
+  <div class="nav-links">
+    <a href="#structure">課程內容</a>
+    <a href="#instructors">講師</a>
+    <a href="#pricing">費用</a>
+    <a href="#faq">常見問題</a>
+    <a href="https://www.kvalley.biz" target="_blank" rel="noopener">智谷官網</a>
+  </div>
+  <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="nav-cta">立即報名</a>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg"></div>
-  <span class="hero-badge" style="top:148px">現正招生中</span>
+  <div class="hero-logo"><img src="../../knowledge/brand_assets/kvalley_logo_white.png" alt="KVALLEY"></div>
   <div class="hero-kv">
-    <div class="hero-overline">KVALLEY × 數位簡報室 · 2026 年夏</div>
     <div class="hero-q">分身乏術？</div>
-    <h1 class="hero-main">設計你的<br>AI Agent<br>團隊</h1>
+    <h1 class="hero-main">設計你的<br>AI Agent 團隊</h1>
     <div class="hero-sub">用 Claude Code 打造懂你、會做事的 AI 營運部門</div>
-    <p class="hero-desc">
-      公司大小事都繞回你身上，想交辦卻找不到人，通用 AI 又根本不懂你。<br>
-      6 小時，親手設計一支替你做事的 AI Agent 團隊，<br>
-      把那些「只能我來」的事先交出去。
-    </p>
     <div class="hero-actions">
-      <a href="#pricing" class="btn-hero">查看報名方案</a>
-      <a href="#structure" class="btn-ghost">了解課程內容 ↓</a>
+      <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="btn-hero">查看報名方案</a>
     </div>
   </div>
   <div class="hero-scroll" aria-hidden="true">
@@ -693,11 +754,12 @@ footer img{height:26px;margin-bottom:22px;display:block}
 </div>
 
 <div class="tagbar">
-  <span>AI Agent Team</span>
-  <span>Claude Code</span>
-  <span>Workflow</span>
-  <span>Private Coaching</span>
-  <span>台北 · 捷運站附近（待定）</span>
+  <div class="tagbar-track">
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
+  </div>
 </div>
 
 <div class="stats">
@@ -711,7 +773,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
   </div>
   <div class="stat">
     <div class="stat-n">2<small> 位講師</small></div>
-    <div class="stat-l">Jimmy × Dennis，已跟上百位老闆跑過</div>
+    <div class="stat-l">智谷網絡執行長 Jimmy × 數位簡報室創辦人 Dennis</div>
   </div>
 </div>
 
@@ -722,60 +784,57 @@ footer img{height:26px;margin-bottom:22px;display:block}
       <span class="kicker">問題所在</span>
       <h2>你早就知道 AI 該用了，但問題不在不知道</h2>
     </div>
-    <div class="pain-lead">
-      腦中有十幾件覺得 AI 應該能幫上忙的事，每件都繞回你身上。<br>
-      卡住的是「哪件交給 AI、用你的什麼標準做」這個設計，沒辦法外包。
-    </div>
-    <div class="pain-grid">
-      <div class="pain-card">
-        <div class="pain-num">PAIN · 01</div>
-        <h3>大小事都繞回你身上</h3>
-        <p>想交辦卻找不到人，每件「覺得 AI 應該能幫上忙的事」最後還是得你來。</p>
-      </div>
-      <div class="pain-card">
-        <div class="pain-num">PAIN · 02</div>
-        <h3>通用 AI 根本不懂你</h3>
-        <p>ChatGPT 每次都要重新說明脈絡，不認識你的公司、不懂你的規矩，問了還是要自己整理。</p>
-      </div>
-      <div class="pain-card">
-        <div class="pain-num">PAIN · 03</div>
-        <h3>派員工去上課沒用</h3>
-        <p>員工學完能告訴你工具怎麼用，但「哪件事值得交給 AI、要照什麼規矩做」員工替你判斷不了。</p>
-      </div>
+    <div class="chat-wrap">
+      <div class="bubble bubble-left">交辦出去最後<span class="hl">還是繞回我身上</span>，什麼事都等我點頭才動。</div>
+      <div class="bubble bubble-right">AI 我有在用，但它<span class="hl">不認識我的公司</span>，每次都要重新說一遍脈絡。</div>
+      <div class="bubble bubble-left">叫員工去上 AI 課，學完還是只告訴我工具怎麼操作，<span class="hl">決策還是得我來</span>。</div>
     </div>
     <div class="pain-resolve">
       <p>卡住的不是工具，是沒有一支<em>懂你脈絡、會主動替你做事的 AI</em>。<br>這個只能由定規矩的人親手設一次。</p>
-      <a href="#pricing" class="btn-inv">我要親自設計</a>
+      <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="btn-inv">我要親自設計</a>
     </div>
   </div>
 </section>
 
-<!-- WHO -->
+<!-- SOLUTION -->
 <section class="sec sec-paper">
   <div class="wrap">
     <div class="sec-head">
-      <span class="kicker">適合對象</span>
-      <h2>收的是能拍板「哪件事交給 AI」的人</h2>
+      <span class="kicker">換個角度</span>
+      <h2>如果你有一支懂你的 AI 營運部門？</h2>
     </div>
-    <div class="who-grid">
-      <div class="who-box yes">
-        <div class="who-label">✦ 這堂課給你</div>
-        <ul class="who-list">
-          <li><span class="mark">→</span><span>中小企業老闆、副總、特助（公司 5–50 人）</span></li>
-          <li><span class="mark">→</span><span>業務／行銷／營運／IT 等中高階部門主管</span></li>
-          <li><span class="mark">→</span><span>在自己範圍能決定「哪件事交給 AI」的人</span></li>
-          <li><span class="mark">→</span><span>能用 ChatGPT 那種程度（打開介面不會慌）</span></li>
-          <li><span class="mark">→</span><span>想把「只能我來」的事設計成可接手的 AI 系統</span></li>
-        </ul>
+    <div class="solution-grid">
+      <div class="scenario-card">
+        <svg class="scenario-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h4c.267 0 .529 .026 .781 .076"/>
+          <path d="M19 16l-2 3h4l-2 3"/>
+        </svg>
+        <h3>事業經營夥伴</h3>
+        <p>讀懂公司資料、模擬你的決策邏輯，主動幫你判斷的數位分身</p>
       </div>
-      <div class="who-box no">
-        <div class="who-label">— 不太適合的情況</div>
-        <ul class="who-list">
-          <li><span class="mark" style="color:var(--gray2)">×</span><span>完全沒碰過 AI 工具（推薦先上 Dennis 自家 1,680 元課）</span></li>
-          <li><span class="mark" style="color:var(--gray2)">×</span><span>代替老闆或主管來上的員工</span></li>
-          <li><span class="mark" style="color:var(--gray2)">×</span><span>一人公司或自由工作者（推薦 Dennis 個人工作坊）</span></li>
-        </ul>
+      <div class="scenario-card">
+        <svg class="scenario-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h3"/>
+          <path d="M16 22l5 -5"/>
+          <path d="M21 21.5v-4.5h-4.5"/>
+        </svg>
+        <h3>外包業務團隊</h3>
+        <p>自動收集業務名單、篩選、把開發信打好的業務開發機器人</p>
       </div>
+      <div class="scenario-card">
+        <svg class="scenario-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"/>
+          <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39"/>
+        </svg>
+        <h3>行銷經理</h3>
+        <p>幫你生文案、生創意、跑 DM 自動化的行銷執行機器人</p>
+      </div>
+    </div>
+    <div class="sol-foot">
+      <p>這三種情境，在這次課程中，當天你就能<mark>選一個親手做出來</mark>——用的是<mark>你自己的工作場景和公司資料</mark>，不是通用範例。你帶走的是一套<mark>已經能跑的 AI Agent</mark>。<mark>課後 1-on-1 輔導</mark>還能再陪你把它調到能在公司真正上線。</p>
     </div>
   </div>
 </section>
@@ -785,234 +844,238 @@ footer img{height:26px;margin-bottom:22px;display:block}
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">課程結構</span>
-      <h2>6 小時，親手設計出你的 AI Agent 團隊 v1.0</h2>
+      <h2>6 小時，親手設計出你的 AI Agent 團隊</h2>
     </div>
-    <div class="note">群課不是技能課，是「親手設計出你的 AI Agent 團隊 v0.1」。把基本設定移到課前，群課集中在實作、卡關、對話這些只能現場做的事。</div>
+    <div class="note">把基本設定移到課前，群課集中在實作、卡關、對話這些只能現場做的事。</div>
 
-    <div class="part-label" style="margin-top:40px">PART 01 — 群課 4 小時</div>
-    <div class="sch">
-      <div class="sch-row">
-        <div class="sch-time"><div class="mn">10<small> min</small></div></div>
-        <div class="sch-body">
-          <div class="seg"><span class="tag">開場</span><span class="ti">歡迎與課程地圖</span><span class="by">Jimmy + Dennis</span></div>
-          <ul><li>雙講師自我介紹（精簡）</li><li>今天 4 小時流程說明、報名時選的實作情境分組公告</li></ul>
+    <div class="tl-part-label" style="margin-top:40px">PART 01 — 群課 4 小時</div>
+    <div class="tl-wrap">
+
+      <div class="tl-node">
+        <div class="tl-time-col"><div class="tl-num">10<small>min</small></div></div>
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-title">開場與課程地圖</div>
         </div>
       </div>
-      <div class="sch-row">
-        <div class="sch-time"><div class="mn">50<small> min</small></div></div>
-        <div class="sch-body">
-          <div class="seg"><span class="tag">Section 1</span><span class="ti">趨勢與框架：你要佔住哪一層</span><span class="by">Jimmy</span></div>
-          <ul><li>寒武紀比喻破冰、八套工具行走天下</li><li>人機協作 L1–L7：你公司現在卡在哪一層</li><li>Token 經濟、標工 → 流量 → 算力的典範轉移</li></ul>
+
+      <div class="tl-node">
+        <div class="tl-time-col"><div class="tl-num">50<small>min</small></div></div>
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-title">先看懂局，才知道要 AI 幫你扛什麼</div>
         </div>
       </div>
-      <div class="sch-row">
-        <div class="sch-time"><div class="mn">45<small> min</small></div></div>
-        <div class="sch-body">
-          <div class="seg"><span class="tag">Section 2</span><span class="ti">Claude Code 卡牌：排出你的工作流地圖</span><span class="by">Jimmy 主</span></div>
-          <ul><li>每桌一組卡牌（情境卡 + 工具卡 MCP / Skill）</li><li>抽情境 → 挑工具 → 排順序 → 同桌互看誰排得最像</li></ul>
+
+      <div class="tl-node">
+        <div class="tl-time-col"><div class="tl-num">45<small>min</small></div></div>
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-title">卡牌實戰：排出你的工作流地圖</div>
+          <img src="宣傳素材/卡牌示意圖_AI指揮中心.png" alt="AI 指揮中心卡牌示意圖" style="display:block;width:100%;max-width:480px;margin-top:18px;border-radius:6px;">
+          <p style="margin-top:10px;font-size:13px;color:var(--gray);line-height:1.7;max-width:480px;">每桌一組 AI 指揮中心卡牌（情境卡 × 工具卡 MCP / Skill）。看情境 → 挑工具 → 排工作流順序，用桌遊方式把「說不清楚的 AI 需求」變成一張看得見的地圖。</p>
         </div>
       </div>
-      <div class="sch-row brk">
-        <div class="sch-time"><div class="mn">10<small> min</small></div></div>
-        <div class="sch-body">
-          <div class="seg"><span class="tag" style="background:var(--gray)">中場</span><span class="ti">休息、加水、檢查筆電環境</span></div>
+
+      <div class="tl-node tl-break">
+        <div class="tl-time-col"><div class="tl-num">10<small>min</small></div></div>
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-title">中場休息</div>
         </div>
       </div>
-      <div class="sch-row">
-        <div class="sch-time"><div class="mn">50<small> min</small></div></div>
-        <div class="sch-body">
-          <div class="seg"><span class="tag">Section 3</span><span class="ti">Claude Code 基礎 + MCP/Skill</span><span class="by">Dennis</span></div>
-          <ul><li>CLAUDE.md = 給 AI 看的組織規則，你已經懂帶員工，這是同一件事的延伸</li><li>MCP 跟 Skill 的用法、Dennis 現場跑完整一條流程給你看</li></ul>
+
+      <div class="tl-node">
+        <div class="tl-time-col"><div class="tl-num">50<small>min</small></div></div>
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-title">教 AI 怎麼運作：設定你的組織規則</div>
         </div>
       </div>
-      <div class="sch-row">
-        <div class="sch-time"><div class="mn">60<small> min</small></div></div>
-        <div class="sch-body">
-          <div class="seg"><span class="tag">Section 4</span><span class="ti">實作三選一：建立你的 AI Agent 團隊</span><span class="by">Dennis + 智谷團隊巡桌</span></div>
-          <ul><li>拿課前下載的「CLAUDE.md 通用版基底 + 情境模組」改成你公司版本</li><li>Jimmy、Dennis + 智谷團隊巡桌就近指導，卡關有人到桌邊解</li></ul>
-          <div class="tl-chips">
-            <span class="chip">事業經營夥伴</span>
-            <span class="chip">外包業務團隊</span>
-            <span class="chip">行銷經理</span>
+
+      <div class="tl-node">
+        <div class="tl-time-col"><div class="tl-num">60<small>min</small></div></div>
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-title">實作：建立你的 AI Agent 團隊</div>
+          <div class="impl-cards">
+            <div class="impl-card">
+              <div class="impl-num">01</div>
+              <div class="impl-name">事業經營夥伴</div>
+              <p>把你的決策風格、審稿標準、會議邏輯寫進去，讓 AI 幕僚替你起草、彙整、過濾——像你一樣思考，但不佔你的時間。</p>
+            </div>
+            <div class="impl-card">
+              <div class="impl-num">02</div>
+              <div class="impl-name">外包業務團隊</div>
+              <p>設定目標客群條件，讓 AI 自動抓名單、篩資格、寫個人化開發信——業務時間留給成交，跑量的事交給它。</p>
+            </div>
+            <div class="impl-card">
+              <div class="impl-num">03</div>
+              <div class="impl-name">行銷經理</div>
+              <p>給定品牌語調和行銷目標，讓 AI 規劃月曆、產出貼文、對齊各渠道格式——你只要審稿，不用從空白開始。</p>
+            </div>
           </div>
         </div>
       </div>
-      <div class="sch-row">
-        <div class="sch-time"><div class="mn">15<small> min</small></div></div>
-        <div class="sch-body">
-          <div class="seg"><span class="tag">收尾</span><span class="ti">Demo + 1-on-1 銜接</span><span class="by">共同</span></div>
-          <ul><li>學員 demo 分享、1-on-1 預約說明（依產業配專屬講師）</li><li>課後問卷、收 LINE 群、發資源包</li></ul>
+
+      <div class="tl-node">
+        <div class="tl-time-col"><div class="tl-num">15<small>min</small></div></div>
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-title">Demo + 1-on-1 銜接</div>
         </div>
       </div>
-      <div class="sch-foot">合計 240 min（4 小時）</div>
+
     </div>
 
-    <div class="part-label">PART 02 — 個別輔導 2 小時（群課後 1–3 週內）</div>
+    <div class="tl-part-label tl-part-2">PART 02 — 個別輔導 2 小時（群課後 1–3 週內）</div>
     <div class="oneon-box">
       <span class="tag-blue">1-ON-1 · 依產業配專屬講師</span>
-      <h3>把群課半成品做到能跑的 v1.0</h3>
-      <p>課後配一位聽得懂你這行的講師，陪你把群課的實作做完。30 分鐘體檢卡關、30 分鐘強化提示詞，60 分鐘你自己跑、講師旁邊 1-on-1 指導。製造業配製造業的，零售業配零售業，不用從零解釋。</p>
-      <p style="margin-top:10px;font-size:13px;color:var(--gray)">線上 Zoom</p>
-    </div>
-  </div>
-</section>
-
-<!-- DATES -->
-<section class="sec sec-paper" id="dates">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="kicker">場次與地點</span>
-      <h2>首波 5 場，隔週週五 13:00–17:00</h2>
-    </div>
-    <div class="dates-grid">
-      <div class="date-card">
-        <div class="dm">2026 · 07</div><div class="dd">03</div><div class="dw">週五 · 首場</div><div class="dt">13:00–17:00</div>
-        <p class="d-guild">*商會成員請透過專屬連結報名</p>
-        <!-- 一般報名：換成 7/3 場次的 Surveycake 問卷連結 -->
-        <a href="#" class="d-btn">立即報名 →</a>
-      </div>
-      <div class="date-card">
-        <div class="dm">2026 · 07</div><div class="dd">17</div><div class="dw">週五</div><div class="dt">13:00–17:00</div>
-        <p class="d-guild">*商會成員請透過專屬連結報名</p>
-        <!-- 一般報名：換成 7/17 場次的 Surveycake 問卷連結 -->
-        <a href="#" class="d-btn">立即報名 →</a>
-      </div>
-      <div class="date-card">
-        <div class="dm">2026 · 07</div><div class="dd">31</div><div class="dw">週五</div><div class="dt">13:00–17:00</div>
-        <p class="d-guild">*商會成員請透過專屬連結報名</p>
-        <!-- 一般報名：換成 7/31 場次的 Surveycake 問卷連結 -->
-        <a href="#" class="d-btn">立即報名 →</a>
-      </div>
-      <div class="date-card">
-        <div class="dm">2026 · 08</div><div class="dd">14</div><div class="dw">週五</div><div class="dt">13:00–17:00</div>
-        <p class="d-guild">*商會成員請透過專屬連結報名</p>
-        <!-- 一般報名：換成 8/14 場次的 Surveycake 問卷連結 -->
-        <a href="#" class="d-btn">立即報名 →</a>
-      </div>
-      <div class="date-card">
-        <div class="dm">2026 · 08</div><div class="dd">28</div><div class="dw">週五</div><div class="dt">13:00–17:00</div>
-        <p class="d-guild">*商會成員請透過專屬連結報名</p>
-        <!-- 一般報名：換成 8/28 場次的 Surveycake 問卷連結 -->
-        <a href="#" class="d-btn">立即報名 →</a>
-      </div>
-    </div>
-    <div class="dates-price-bar reveal">
-      <div class="dpb-item">
-        <span class="dpb-tier">早鳥</span>
-        <span class="dpb-amount">NT$7,000</span>
-        <span class="dpb-cond">各場開課前 10 天截止（週二）；首場 → 6/23（二）</span>
-      </div>
-      <div class="dpb-item">
-        <span class="dpb-tier">原價</span>
-        <span class="dpb-amount">NT$8,500</span>
-        <span class="dpb-cond">早鳥截止後至額滿為止</span>
-      </div>
-    </div>
-    <div class="venue-row">
-      <div class="venue-info" style="grid-column:1/-1">
-        <div class="v-label">群課地點</div>
-        <h3>近台北市捷運站（地點確認後公布）</h3>
-        <p>報名後於開課前 7 天以 LINE 通知確切地點與注意事項。</p>
-        <p class="v-note">每場上限 20 人，滿 10 人即開班；額滿即停止報名。</p>
+      <h3>把你最想解開的那個問題，在這 2 小時裡想清楚</h3>
+      <p class="oneon-lead">群課裡講師顧的是全場，輪不到你公司的特定情況。這 2 小時，把你的場景攤開來談。<br><span style="font-size:12px;color:var(--gray)">線上 Zoom 或來智谷辦公室（依雙方確認）</span></p>
+      <div class="oneon-cards">
+        <div class="oneon-card">
+          <div class="oneon-card-label">MATCHED</div>
+          <div class="oneon-card-title">聽得懂你這行的人</div>
+          <p>製造業配製造業，零售業配零售業，不用從零解釋背景。</p>
+        </div>
+        <div class="oneon-card">
+          <div class="oneon-card-label">FOCUSED</div>
+          <div class="oneon-card-title">談你的場景，不是通用建議</div>
+          <p>AI 能不能接、怎麼接、從哪裡切入——針對你公司的狀況說話。</p>
+        </div>
+        <div class="oneon-card">
+          <div class="oneon-card-label">ACTIONABLE</div>
+          <div class="oneon-card-title">帶走可以動的起點</div>
+          <p>不是漂亮的地圖貼在牆上，是回去就能執行的第一步。</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- INSTRUCTORS -->
-<section class="sec">
+<section class="sec" id="instructors">
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">授課講師</span>
-      <h2>雙講師，已跟上百位老闆跑過</h2>
+      <h2>雙講師，百位企業主實戰驗證</h2>
     </div>
+    <p class="inst-sub">從趨勢框架、Claude Code，到課後專屬配對</p>
     <div class="inst-grid">
       <div class="inst-card">
-        <div class="inst-no">Instructor 01</div>
-        <div class="inst-name">林峻民</div>
-        <div class="inst-en">JIMMY LIN</div>
-        <div>
-          <span class="inst-role">智谷網絡 Kvalley 執行長</span>
-          <span class="inst-focus">趨勢框架 · 組織拆解</span>
+        <img src="jimmy.png" alt="林峻民" class="inst-photo">
+        <div class="inst-info">
+          <div class="inst-name">林峻民</div>
+          <div class="inst-en">JIMMY LIN</div>
+          <div class="inst-tags">
+            <span class="inst-role">智谷網絡 Kvalley 執行長</span>
+            <span class="inst-focus">趨勢框架 · AI 組織設計</span>
+          </div>
+          <ul class="inst-creds">
+            <li>30 年企業顧問經驗，輔導各大上市集團公司組織轉型與生產力提升</li>
+            <li>專長：啟發性 AI 課程引導與教學</li>
+          </ul>
         </div>
-        <p class="inst-desc" style="margin-top:18px">主講 AI 趨勢走向與人機協作 L1–L7 框架，幫你看清楚自己公司或部門現在卡在哪一層、要往哪裡走。曾帶著 AI Agent 概念在商會、BNI、企業主論壇密集交流。</p>
       </div>
       <div class="inst-card">
-        <div class="inst-no">Instructor 02</div>
-        <div class="inst-name">樊松蒲</div>
-        <div class="inst-en">DENNIS FAN</div>
-        <div>
-          <span class="inst-role">數位簡報室 創辦人</span>
-          <span class="inst-focus">Claude Code 示範 · 巡桌</span>
+        <img src="dennis.png" alt="樊松蒲" class="inst-photo">
+        <div class="inst-info">
+          <div class="inst-name">樊松蒲</div>
+          <div class="inst-en">DENNIS FAN</div>
+          <div class="inst-tags">
+            <span class="inst-role">數位簡報室 創辦人</span>
+            <span class="inst-focus">Claude Code · 實作示範</span>
+          </div>
+          <ul class="inst-creds">
+            <li>15 年以上行銷與 AI 教學經驗</li>
+            <li>長期專注：AI 工作流、AI 工作坊、沉浸式引導教學</li>
+          </ul>
         </div>
-        <p class="inst-desc" style="margin-top:18px">負責 Claude Code 現場示範與巡桌，帶你用 MCP、Skill、CLAUDE.md 把 AI 設定成照你公司規矩做事的形狀。課後 1-on-1 輔導由數位簡報室講師群依產業配對接手。</p>
+      </div>
+    </div>
+    <div class="coaching-box">
+      <div class="coaching-header">
+        <div class="coaching-label">課後 1-on-1 輔導教練</div>
+        <div class="coaching-brands">
+          <img src="dr-logo.png" class="cg-logo" alt="數位簡報室">
+          <span class="coach-x">×</span>
+          <img src="logo.png" class="cg-logo" alt="KVALLEY 智谷">
+        </div>
+      </div>
+      <div class="coach-groups">
+        <div class="coach-group coach-group--dr">
+          <div class="cg-label">專業講師群</div>
+          <div class="coaches-row">
+            <div class="coach-item"><img src="cablate.png" class="coach-avatar" alt="Cablate"><span class="coach-name">Cablate</span></div>
+            <div class="coach-item"><img src="darrell.jpg" class="coach-avatar" alt="Darrell"><span class="coach-name">Darrell</span></div>
+            <div class="coach-item"><img src="wenkai.png" class="coach-avatar" alt="文凱"><span class="coach-name">文凱</span></div>
+            <div class="coach-item"><img src="dindin.jpg" class="coach-avatar" alt="DinDin"><span class="coach-name">DinDin</span></div>
+          </div>
+        </div>
+        <div class="coach-group coach-group--kv">
+          <div class="cg-label">專業顧問團隊</div>
+          <div class="coaches-row">
+            <div class="coach-item"><img src="candy.jpg" class="coach-avatar" alt="Candy"><span class="coach-name">Candy</span></div>
+            <div class="coach-item"><img src="eric.jpg" class="coach-avatar" alt="Eric"><span class="coach-name">Eric</span></div>
+            <div class="coach-item"><div class="coach-avatar" style="overflow:hidden"><img src="joseph.png" style="width:100%;height:100%;object-fit:cover;object-position:center 50%;transform:scale(1.25);transform-origin:center 50%" alt="Joseph"></div><span class="coach-name">Joseph</span></div>
+            <div class="coach-item"><div class="coach-avatar" style="background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="peony.jpg" style="width:95%;height:95%;object-fit:contain" alt="Peony"></div><span class="coach-name">Peony</span></div>
+            <div class="coach-item"><img src="astrid.jpeg" class="coach-avatar" style="object-position:center 38%" alt="Astrid"><span class="coach-name">Astrid</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="coaching-benefits">
+        <div class="cb-item">
+          <div class="cb-mark">專屬配對</div>
+          <p>依產業配講師，製造業配製造業，不用從零解釋</p>
+        </div>
+        <div class="cb-item">
+          <div class="cb-mark">輔導時數</div>
+          <p>2hrs 線上 / 實體任選，群課後 1–3 週內排定</p>
+        </div>
+        <div class="cb-item">
+          <div class="cb-mark">帶走成果</div>
+          <p>答疑解惑，做出量身打造、能實際跑起來的 AI Agent</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="sec sec-paper" id="pricing">
+<!-- VS -->
+<section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <span class="kicker">報名方案</span>
-      <h2>選擇你的方案</h2>
+      <span class="kicker">差別在哪</span>
+      <h2>很多人問：我已經有 ChatGPT 了，這有什麼不一樣？</h2>
     </div>
-    <div class="pricing-grid">
-      <div class="p-card">
-        <div class="p-tier">商會會員</div>
-        <div class="p-amount"><sup>NT$</sup>6,500</div>
-        <div class="p-unit">/ 人</div>
-        <p class="p-note">BNI 大疆、建研會、雁博會等商會成員限定。報名連結由各商會群組發出，恕不公開。</p>
-        <ul class="p-list">
-          <li><span>✓</span><span>4hr 群課</span></li>
-          <li><span>✓</span><span>2hr 1-on-1 個別輔導</span></li>
-          <li><span>✓</span><span>CLAUDE.md 通用版基底</span></li>
-          <li><span>✓</span><span>課後 30 天 LINE 答疑</span></li>
-          <li><span>✓</span><span>學員社群</span></li>
-        </ul>
-        <div style="margin-top:24px;padding:14px 16px;background:var(--paper2);font-size:12.5px;color:var(--ink2);line-height:1.7;border-radius:2px">
-          請透過所屬商會 LINE 群組取得<br>專屬報名連結
-        </div>
+    <p style="max-width:600px;margin:0 auto 40px;text-align:center;color:var(--ink2)">差別不在誰比較聰明，在於它懂不懂你、會不會主動。</p>
+    <div class="vs-table">
+      <div class="vs-head">
+        <div class="vs-col-a">你現在用的通用 AI</div>
+        <div class="vs-col-b">你的 AI Agent 團隊</div>
       </div>
-      <div class="p-card featured">
-        <div class="p-tier">早鳥</div>
-        <div class="p-amount"><sup>NT$</sup>7,000</div>
-        <div class="p-unit">/ 人</div>
-        <p class="p-note">各場開課前 10 天截止。首場 7/3 → 早鳥截止 6/23（二）。</p>
-        <ul class="p-list">
-          <li><span>✓</span><span>4hr 群課</span></li>
-          <li><span>✓</span><span>2hr 1-on-1 個別輔導</span></li>
-          <li><span>✓</span><span>CLAUDE.md 通用版基底</span></li>
-          <li><span>✓</span><span>3 個情境模組起手範本</span></li>
-          <li><span>✓</span><span>課後 30 天 LINE 答疑</span></li>
-          <li><span>✓</span><span>學員社群</span></li>
-        </ul>
-        <!-- 早鳥：連到場次區讓學員選場次；場次卡片各自連到對應 Surveycake -->
-        <a href="#dates" class="p-btn">選擇場次報名 ↓</a>
+      <div class="vs-row">
+        <div class="vs-col-a">你問它才答</div>
+        <div class="vs-col-b"><strong>主動提醒你</strong>——看到異常先告訴你</div>
       </div>
-      <div class="p-card">
-        <div class="p-tier">原價</div>
-        <div class="p-amount"><sup>NT$</sup>8,500</div>
-        <div class="p-unit">/ 人</div>
-        <p class="p-note">早鳥截止後適用，額滿為止。</p>
-        <ul class="p-list">
-          <li><span>✓</span><span>4hr 群課</span></li>
-          <li><span>✓</span><span>2hr 1-on-1 個別輔導</span></li>
-          <li><span>✓</span><span>CLAUDE.md 通用版基底</span></li>
-          <li><span>✓</span><span>3 個情境模組起手範本</span></li>
-          <li><span>✓</span><span>課後 30 天 LINE 答疑</span></li>
-          <li><span>✓</span><span>學員社群</span></li>
-        </ul>
-        <!-- 原價：連到場次區讓學員選場次；場次卡片各自連到對應 Surveycake -->
-        <a href="#dates" class="p-btn">選擇場次報名 ↓</a>
+      <div class="vs-row">
+        <div class="vs-col-a">你要記得自己追進度</div>
+        <div class="vs-col-b"><strong>自動跟催</strong>——該催的它去催</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-col-a">用通用模板回你</div>
+        <div class="vs-col-b"><strong>懂你的脈絡</strong>——讀過你的流程、客戶、規矩</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-col-a">解完一題就斷掉，下次重來</div>
+        <div class="vs-col-b"><strong>跨流程串接</strong>——一串任務它自己排順序做完</div>
       </div>
     </div>
-    <div class="b2b-note">
-      <strong>企業派訓（B2B）</strong>｜3 人套票 NT$21,000（7,000/人，含企業 AI 診斷）、5 人套票 NT$32,500（6,500/人）。洽詢：<a href="mailto:astridwu@asia-learning.com">astridwu@asia-learning.com</a>
-    </div>
+    <p style="max-width:600px;margin:40px auto 0;text-align:center;color:var(--ink2);font-size:15px">通用 AI 是一個很強的陌生人，每次都要你從頭交代。你的 AI Agent 團隊是讀過你公司資料、記得你做事方式的自己人。</p>
   </div>
 </section>
+
 
 <!-- TAKEAWAYS -->
 <section class="sec">
@@ -1042,6 +1105,184 @@ footer img{height:26px;margin-bottom:22px;display:block}
   </div>
 </section>
 
+
+<!-- WHO -->
+<section class="sec sec-paper">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">適合對象</span>
+      <h2>這堂課給誰上</h2>
+    </div>
+    <div class="who-col-grid">
+      <div class="who-col">
+        <img class="who-col-img" src="https://images.unsplash.com/photo-1622626426572-c268eb006092?auto=format&fit=crop&w=600&q=80" alt="企業主管">
+        <div class="who-col-body">
+          <div class="who-col-num">PERSONA · 01</div>
+          <div class="who-col-title">中小企業老闆、副總、特助</div>
+        </div>
+      </div>
+      <div class="who-col">
+        <img class="who-col-img" src="https://images.unsplash.com/photo-1758691737278-3af15b37af48?auto=format&fit=crop&w=600&q=80" alt="部門主管">
+        <div class="who-col-body">
+          <div class="who-col-num">PERSONA · 02</div>
+          <div class="who-col-title">業務／行銷／營運／IT 等部門主管</div>
+        </div>
+      </div>
+      <div class="who-col">
+        <img class="who-col-img" src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80" alt="個人工作者">
+        <div class="who-col-body">
+          <div class="who-col-num">PERSONA · 03</div>
+          <div class="who-col-title">個人工作者</div>
+        </div>
+      </div>
+    </div>
+    <p class="who-note">前提：平常有用過 ChatGPT 或類似 AI 工具，能打開來問問題就夠了。</p>
+  </div>
+</section>
+
+<!-- DATES -->
+<section class="sec sec-paper" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">開課場次</span>
+      <h2>選擇場次，現在報名</h2>
+    </div>
+    <div class="sess-list">
+
+      <div class="sess-card" data-course="2026-07-03">
+        <div class="sess-date-col">
+          <div class="sess-date">07/03</div>
+          <div class="sess-wd">週五</div>
+        </div>
+        <div>
+          <div class="sess-time">13:00 – 17:00</div>
+          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-bird-row">早鳥截止 6/23 · 倒數 <span class="cd" data-deadline="2026-06-23"></span> 天</div>
+        </div>
+        <div class="sess-price-col">
+          <div class="sess-orig">NT$8,500</div>
+          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
+          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
+        </div>
+      </div>
+
+      <div class="sess-card" data-course="2026-07-17">
+        <div class="sess-date-col">
+          <div class="sess-date">07/17</div>
+          <div class="sess-wd">週五</div>
+        </div>
+        <div>
+          <div class="sess-time">13:00 – 17:00</div>
+          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-bird-row">早鳥截止 7/7 · 倒數 <span class="cd" data-deadline="2026-07-07"></span> 天</div>
+        </div>
+        <div class="sess-price-col">
+          <div class="sess-orig">NT$8,500</div>
+          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
+          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
+        </div>
+      </div>
+
+      <div class="sess-card" data-course="2026-07-31">
+        <div class="sess-date-col">
+          <div class="sess-date">07/31</div>
+          <div class="sess-wd">週五</div>
+        </div>
+        <div>
+          <div class="sess-time">13:00 – 17:00</div>
+          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-bird-row">早鳥截止 7/21 · 倒數 <span class="cd" data-deadline="2026-07-21"></span> 天</div>
+        </div>
+        <div class="sess-price-col">
+          <div class="sess-orig">NT$8,500</div>
+          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
+          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
+        </div>
+      </div>
+
+      <div class="sess-card" data-course="2026-08-14">
+        <div class="sess-date-col">
+          <div class="sess-date">08/14</div>
+          <div class="sess-wd">週五</div>
+        </div>
+        <div>
+          <div class="sess-time">13:00 – 17:00</div>
+          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-bird-row">早鳥截止 8/4 · 倒數 <span class="cd" data-deadline="2026-08-04"></span> 天</div>
+        </div>
+        <div class="sess-price-col">
+          <div class="sess-orig">NT$8,500</div>
+          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
+          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
+        </div>
+      </div>
+
+      <div class="sess-card" data-course="2026-08-28">
+        <div class="sess-date-col">
+          <div class="sess-date">08/28</div>
+          <div class="sess-wd">週五</div>
+        </div>
+        <div>
+          <div class="sess-time">13:00 – 17:00</div>
+          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-bird-row">早鳥截止 8/18 · 倒數 <span class="cd" data-deadline="2026-08-18"></span> 天</div>
+        </div>
+        <div class="sess-price-col">
+          <div class="sess-orig">NT$8,500</div>
+          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
+          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
+        </div>
+      </div>
+
+    </div>
+    <div style="margin-top:16px;padding:20px 28px;background:var(--bg);border:1px solid var(--line);font-size:13.5px;color:var(--ink2);line-height:1.8">
+      <strong style="color:var(--ink)">群課地點</strong>｜近台北市捷運站（地點確認後公布）。報名後於開課前 7 天以 LINE 通知確切地點。每場上限 20 人，滿 10 人開班，額滿即停止報名。
+    </div>
+    <div class="b2b-note">
+      <strong>企業派訓（B2B）</strong>｜3 人套票 NT$18,900（6,300/人）+ 90 分鐘企業 AI 診斷。洽詢：<a href="mailto:ericyang@asia-learning.com">ericyang@asia-learning.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec-paper" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">常見問題</span>
+      <h2>你可能想問的事</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q"><span class="faq-q-text">我需要會寫程式嗎？</span></div>
+        <div class="faq-a">不需要。會打字問 AI 問題就夠了——課上全程用自然語言下指令，不碰任何程式碼。Dennis 會帶你從頭跑通第一條完整的 AI 工作流。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">我試過 AI 課和工具，都沒持續用，這次有什麼不同？</span></div>
+        <div class="faq-a">放棄的原因通常有三個：教的是通用範例、跟你工作沒關係、卡關時沒人。這堂課從你自己的真實流程開始做，課堂上改的是你公司的資料，個別輔導解的是你自己的卡點。你帶走的不是筆記，是一套已經接過你公司資料、能實際跑起來的東西。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">上完課後能馬上用嗎？</span></div>
+        <div class="faq-a">群課當天你會有一套初步能動的架構。個別輔導（課後一到三週內）陪你把它做到能在公司實際跑起來，至少能處理你選定的一到兩件日常工作。輔導可以線上進行，也可以直接來智谷辦公室。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">我現在沒有明確「想交給 AI 的事」，還適合來嗎？</span></div>
+        <div class="faq-a">適合。課上有一段卡牌環節，就是幫你把「AI 應該能幫忙但不知從哪下手」變成一張具體的工作流地圖。很多學員帶著這個問題來，離開時已經知道要先從哪件事開始了。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">課後持續使用需要額外費用嗎？</span></div>
+        <div class="faq-a">需要訂閱 Claude 的付費方案（目前約每月台幣 600–700 元），這是課後繼續使用的主要成本。課前我們會告訴你怎麼開通、選哪個方案。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">需要帶什麼設備來上課？</span></div>
+        <div class="faq-a">帶自己的筆電（Mac 或 Windows 都可）。課前一週會收到準備清單，課堂上直接開始動手，不花時間在安裝設定。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">可以請公司報帳、開公司發票嗎？</span></div>
+        <div class="faq-a">可以。報名時填寫公司統編即可。3 人以上有企業方案，歡迎直接聯絡我們洽詢。</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- REFUND -->
 <section class="sec">
@@ -1109,7 +1350,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
       <h4>Quick Links</h4>
       <a href="#structure">課程內容</a>
       <a href="#pricing">報名方案</a>
-      <a href="mailto:astridwu@asia-learning.com">企業派訓洽詢</a>
+      <a href="mailto:ericyang@asia-learning.com">企業派訓洽詢</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1118,26 +1359,33 @@ footer img{height:26px;margin-bottom:22px;display:block}
   </div>
 </footer>
 
-<!-- STICKY ENROLL BAR -->
-<div class="sticky-bar" id="stickyBar" role="complementary" aria-label="快速報名">
-  <p class="sticky-bar-msg"><strong>首場 7/3（五）13:00–17:00</strong>｜每場上限 20 人，額滿即截止</p>
-  <a href="#pricing" class="sticky-bar-btn">立即報名</a>
-  <button class="sticky-close" id="stickyClose" aria-label="關閉">×</button>
-</div>
 
 <script>
+/* ── NAV SHOW ON SCROLL ── */
+(function(){
+  var nav=document.getElementById('mainNav');
+  var hero=document.querySelector('.hero');
+  if(!nav||!hero) return;
+  window.addEventListener('scroll',function(){
+    nav.classList.toggle('visible', window.scrollY > hero.offsetHeight * 0.85);
+  },{passive:true});
+})();
+
 /* ── SCROLL REVEAL ── */
 (function(){
   var sels=[
     '.sec-head',
-    '.pain-lead','.pain-grid','.pain-resolve',
+    '.pain-lead','.pain-grid',
+    '.solution-grid','.sol-foot',
+    '.vs-table',
+    '.daily-list','.daily-foot',
     '.who-grid',
     '.sch','.oneon-box',
     '.dates-grid','.venue-row',
     '.inst-grid',
-    '.pricing-grid','.b2b-note',
+    '.sess-list','.b2b-note',
     '.take-grid',
-    '.faq-item',
+    '.faq-list',
     '.refund-grid'
   ];
   sels.forEach(function(s){
@@ -1155,25 +1403,56 @@ footer img{height:26px;margin-bottom:22px;display:block}
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 })();
 
+/* ── CHAT BUBBLES ANIMATION ── */
+(function(){
+  var wrap=document.querySelector('.chat-wrap');
+  var resolve=document.querySelector('.pain-resolve');
+  if(!wrap) return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        wrap.classList.add('play');
+        if(resolve) setTimeout(function(){resolve.classList.add('play');},2500);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.15,rootMargin:'0px 0px -60px 0px'});
+  obs.observe(wrap);
+})();
+
 /* ── FAQ ACCORDION ── */
 document.querySelectorAll('.faq-item').forEach(function(item){
-  var q=item.querySelector('.faq-q');
-  var icon=document.createElement('span');
-  icon.className='faq-icon';
-  icon.setAttribute('aria-hidden','true');
-  icon.textContent='+';
-  q.appendChild(icon);
-  q.setAttribute('role','button');
-  q.setAttribute('tabindex','0');
-  function toggle(){item.classList.toggle('open');}
-  q.addEventListener('click',toggle);
-  q.addEventListener('keydown',function(e){
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}
+  var q = item.querySelector('.faq-q');
+  q.addEventListener('click', function(){
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+    if(!isOpen) item.classList.add('open');
   });
 });
-/* Open first FAQ by default */
-var firstFaq=document.querySelector('.faq-item');
-if(firstFaq) firstFaq.classList.add('open');
+
+/* ── EARLY BIRD COUNTDOWN ── */
+(function(){
+  var now=new Date();
+  document.querySelectorAll('.cd[data-deadline]').forEach(function(el){
+    var dl=new Date(el.dataset.deadline+'T23:59:59+08:00');
+    var diff=Math.ceil((dl-now)/86400000);
+    var card=el.closest('.sess-card');
+    var courseDate=card&&new Date(card.dataset.course+'T17:00:00+08:00');
+    if(courseDate&&courseDate<now){
+      card.classList.add('expired');
+      card.querySelector('.sess-cta').textContent='已結束';
+    } else if(diff>0){
+      el.textContent=diff;
+    } else {
+      var origEl=card&&card.querySelector('.sess-orig');
+      var nowEl=card&&card.querySelector('.sess-now');
+      var birdRow=card&&card.querySelector('.sess-bird-row');
+      if(origEl) origEl.style.display='none';
+      if(nowEl) nowEl.innerHTML='NT$8,500';
+      if(birdRow) birdRow.style.display='none';
+    }
+  });
+})();
 
 /* ── STATS COUNT-UP ── */
 (function(){
@@ -1203,26 +1482,6 @@ if(firstFaq) firstFaq.classList.add('open');
   obs.observe(statsEl);
 })();
 
-/* ── STICKY ENROLL BAR ── */
-(function(){
-  var bar=document.getElementById('stickyBar');
-  var closeBtn=document.getElementById('stickyClose');
-  var hero=document.querySelector('.hero');
-  if(!bar||!hero) return;
-  var dismissed=false;
-  function setBar(show){
-    bar.classList.toggle('show',show);
-    document.body.style.paddingBottom=show?'58px':'';
-  }
-  closeBtn.addEventListener('click',function(){
-    dismissed=true;
-    setBar(false);
-  });
-  window.addEventListener('scroll',function(){
-    if(dismissed) return;
-    setBar(window.scrollY>hero.offsetHeight*0.7);
-  },{passive:true});
-})();
 </script>
 
 </body>
