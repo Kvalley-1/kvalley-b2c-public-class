@@ -175,13 +175,13 @@ body{
 .stat{
   padding:28px 36px;border-right:1px solid var(--line);
   opacity:0;transform:translateY(8px);
-  animation:rise .55s ease forwards;
+  animation:rise .7s ease forwards;
   text-align:center;
 }
 .stat:last-child{border-right:none}
-.stat:nth-child(1){animation-delay:.05s}
-.stat:nth-child(2){animation-delay:.12s}
-.stat:nth-child(3){animation-delay:.19s}
+.stat:nth-child(1){animation-delay:.2s}
+.stat:nth-child(2){animation-delay:.6s}
+.stat:nth-child(3){animation-delay:1.0s}
 @keyframes rise{to{opacity:1;transform:none}}
 .stat-n{
   font-family:var(--serif);font-weight:900;
@@ -230,14 +230,16 @@ body{
 
 /* ─── PAIN ─── */
 .chat-wrap{display:flex;flex-direction:column;gap:52px;margin:40px 0 60px;width:100%}
+.bubble-row{display:flex;align-items:flex-end;gap:14px}
+.chat-avatar{width:60px;height:60px;border-radius:50%;object-fit:cover;object-position:top center;flex-shrink:0;border:2px solid rgba(0,0,0,.07)}
 .bubble{padding:18px 26px;font-size:16px;font-weight:500;line-height:1.75;color:var(--ink);max-width:62%;opacity:0;transition:opacity .7s ease,transform .7s ease}
-.bubble-left{align-self:flex-start;background:var(--paper2);border-radius:4px 20px 20px 20px;transform:translateX(-48px)}
+.bubble-left{background:var(--paper2);border-radius:4px 20px 20px 20px;transform:translateX(-48px)}
 .bubble-right{align-self:flex-end;background:var(--acc-s);border-radius:20px 4px 20px 20px;transform:translateX(48px)}
 .hl{background:linear-gradient(transparent 55%,rgba(200,75,42,.18) 55%);padding-bottom:1px}
 .chat-wrap.play .bubble{opacity:1;transform:translateX(0)}
-.chat-wrap.play .bubble:nth-child(1){transition-delay:.2s}
-.chat-wrap.play .bubble:nth-child(2){transition-delay:.9s}
-.chat-wrap.play .bubble:nth-child(3){transition-delay:1.6s}
+.chat-wrap.play .b1{transition-delay:.2s}
+.chat-wrap.play .b2{transition-delay:.9s}
+.chat-wrap.play .b3{transition-delay:1.6s}
 .pain-resolve{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
 .pain-resolve.play{opacity:1;transform:none}
 .pain-resolve{
@@ -346,30 +348,31 @@ body{
 .impl-card p{font-size:13px;color:var(--ink2);line-height:1.75}
 @media(max-width:760px){.impl-cards{grid-template-columns:1fr}}
 .oneon-box{
-  padding:36px 40px;background:#182537;
-  border:none;border-top:2px solid #4A7DA8;
+  padding:40px 44px;background:var(--ink);
+  border:none;
   margin-top:24px;position:relative;overflow:hidden;
 }
 .oneon-duration{
   position:absolute;top:28px;right:36px;
-  font-size:76px;font-weight:900;color:rgba(255,255,255,.06);
+  font-size:76px;font-weight:900;color:rgba(255,255,255,.04);
   line-height:1;letter-spacing:-3px;font-family:var(--sans);
   user-select:none;pointer-events:none;
 }
 .oneon-duration span{font-size:28px;font-weight:600;letter-spacing:0}
 .oneon-box .tag-blue{
-  display:inline-block;background:rgba(74,125,168,.25);color:#8BBAD8;
-  border:1px solid rgba(74,125,168,.4);
+  display:inline-block;background:rgba(232,154,104,.15);color:#E89A68;
+  border:1px solid rgba(232,154,104,.3);
   font-size:10px;font-weight:800;letter-spacing:.12em;
   padding:3px 10px;margin-bottom:14px;
 }
-.oneon-box h3{font-family:var(--serif);font-size:22px;font-weight:700;color:#fff;margin-bottom:10px}
-.oneon-box .oneon-lead{font-size:14px;color:rgba(255,255,255,.58);line-height:1.85;margin-bottom:28px}
+.oneon-box h3{font-family:var(--serif);font-size:clamp(16px,1.8vw,22px);font-weight:700;color:#fff;margin-bottom:10px;line-height:1.5}
+.oneon-box h3 em{font-style:normal;color:#E89A68}
+.oneon-box .oneon-lead{font-size:14px;color:rgba(255,255,255,.55);line-height:1.85;margin-bottom:28px}
 .oneon-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);margin-top:4px}
-.oneon-card{background:#1F3047;padding:22px 24px}
-.oneon-card-label{font-size:10px;font-weight:800;letter-spacing:.12em;color:#7FAFD0;margin-bottom:8px}
+.oneon-card{background:rgba(255,255,255,.04);padding:22px 24px}
+.oneon-card-label{font-size:10px;font-weight:800;letter-spacing:.12em;color:#E89A68;margin-bottom:8px}
 .oneon-card-title{font-family:var(--serif);font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.4}
-.oneon-card p{font-size:13px;color:rgba(255,255,255,.52);line-height:1.7}
+.oneon-card p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7}
 @media(max-width:760px){.oneon-cards{grid-template-columns:1fr}}
 
 /* ─── DATES ─── */
@@ -805,9 +808,15 @@ footer img{height:26px;margin-bottom:22px;display:block}
       <h2>你早就知道 AI 該用了，但問題不在不知道</h2>
     </div>
     <div class="chat-wrap">
-      <div class="bubble bubble-left">交辦出去最後<span class="hl">還是繞回我身上</span>，什麼事都等我點頭才動。</div>
-      <div class="bubble bubble-right">AI 我有在用，但它<span class="hl">不認識我的公司</span>，每次都要重新說一遍脈絡。</div>
-      <div class="bubble bubble-left">叫員工去上 AI 課，學完還是只告訴我工具怎麼操作，<span class="hl">決策還是得我來</span>。</div>
+      <div class="bubble-row">
+        <img class="chat-avatar" src="chat-avatar.png" alt="">
+        <div class="bubble bubble-left b1">交辦出去最後<span class="hl">還是繞回我身上</span>，什麼事都等我點頭才動。</div>
+      </div>
+      <div class="bubble bubble-right b2">AI 我有在用，但它<span class="hl">不認識我的公司</span>，每次都要重新說一遍脈絡。</div>
+      <div class="bubble-row">
+        <img class="chat-avatar" src="chat-avatar.png" alt="">
+        <div class="bubble bubble-left b3">叫員工去上 AI 課，學完還是只告訴我工具怎麼操作，<span class="hl">決策還是得我來</span>。</div>
+      </div>
     </div>
     <div class="pain-resolve">
       <p>卡住的不是工具，是沒有一支<em>懂你脈絡、會主動替你做事的 AI</em>。<br>這個只能由定規矩的人親手設一次。</p>
@@ -889,7 +898,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
     </div>
     <div class="note">把基本設定移到課前，群課集中在實作、卡關、對話這些只能現場做的事。</div>
 
-    <div class="tl-part-label" style="margin-top:40px">PART 01 — 群課 4 小時</div>
+    <div class="tl-part-label" style="margin-top:40px">PART 01 — 4 小時遊戲化實戰課程</div>
     <div class="tl-wrap">
 
       <div class="tl-node">
@@ -939,23 +948,11 @@ footer img{height:26px;margin-bottom:22px;display:block}
         <div class="tl-dot"></div>
         <div>
           <div class="tl-title">實作：建立你的 AI Agent 團隊</div>
-          <div class="impl-cards">
-            <div class="impl-card">
-              <div class="impl-num">01</div>
-              <div class="impl-name">事業經營夥伴</div>
-              <p>把你的決策風格、審稿標準、會議邏輯寫進去，讓 AI 幕僚替你起草、彙整、過濾——像你一樣思考，但不佔你的時間。</p>
-            </div>
-            <div class="impl-card">
-              <div class="impl-num">02</div>
-              <div class="impl-name">外包業務團隊</div>
-              <p>設定目標客群條件，讓 AI 自動抓名單、篩資格、寫個人化開發信——業務時間留給成交，跑量的事交給它。</p>
-            </div>
-            <div class="impl-card">
-              <div class="impl-num">03</div>
-              <div class="impl-name">行銷經理</div>
-              <p>給定品牌語調和行銷目標，讓 AI 規劃月曆、產出貼文、對齊各渠道格式——你只要審稿，不用從空白開始。</p>
-            </div>
-          </div>
+          <ul style="margin:10px 0 0 4px;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
+            <li style="font-size:14px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">01</span><strong style="color:var(--ink)">事業經營夥伴</strong>——把決策風格、審稿標準寫進去，讓 AI 幕僚替你起草、彙整、過濾</li>
+            <li style="font-size:14px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">02</span><strong style="color:var(--ink)">外包業務團隊</strong>——自動抓名單、篩資格、寫個人化開發信，跑量的事交給它</li>
+            <li style="font-size:14px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">03</span><strong style="color:var(--ink)">行銷經理</strong>——給定品牌語調，讓 AI 規劃月曆、產出貼文，你只要審稿</li>
+          </ul>
         </div>
       </div>
 
@@ -973,7 +970,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
     <div class="oneon-box">
       <div class="oneon-duration">2 <span>hr</span></div>
       <span class="tag-blue">1-ON-1 · 依產業配專屬講師</span>
-      <h3>把你最想解開的那個問題，在這 2 小時裡想清楚</h3>
+      <h3>把你最想解開的那個問題，在<em>這 2 小時裡</em>想清楚</h3>
       <p class="oneon-lead">群課裡講師顧的是全場，輪不到你公司的特定情況。這 2 小時，把你的場景攤開來談。<br><span style="font-size:12px;color:rgba(255,255,255,.35)">線上 Zoom 或來智谷辦公室（依雙方確認）</span></p>
       <div class="oneon-cards">
         <div class="oneon-card">
@@ -1422,7 +1419,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
         obs.unobserve(e.target);
       }
     });
-  },{threshold:0.15,rootMargin:'0px 0px -60px 0px'});
+  },{threshold:0.25,rootMargin:'0px 0px -120px 0px'});
   obs.observe(wrap);
 })();
 
