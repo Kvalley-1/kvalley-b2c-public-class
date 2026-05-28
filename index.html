@@ -346,22 +346,30 @@ body{
 .impl-card p{font-size:13px;color:var(--ink2);line-height:1.75}
 @media(max-width:760px){.impl-cards{grid-template-columns:1fr}}
 .oneon-box{
-  padding:36px 40px;background:var(--paper);
-  border:1px solid var(--line);border-left:3px solid #5E8AB4;
-  margin-top:24px;
+  padding:36px 40px;background:#182537;
+  border:none;border-top:2px solid #4A7DA8;
+  margin-top:24px;position:relative;overflow:hidden;
 }
+.oneon-duration{
+  position:absolute;top:28px;right:36px;
+  font-size:76px;font-weight:900;color:rgba(255,255,255,.06);
+  line-height:1;letter-spacing:-3px;font-family:var(--sans);
+  user-select:none;pointer-events:none;
+}
+.oneon-duration span{font-size:28px;font-weight:600;letter-spacing:0}
 .oneon-box .tag-blue{
-  display:inline-block;background:#5E8AB4;color:#fff;
+  display:inline-block;background:rgba(74,125,168,.25);color:#8BBAD8;
+  border:1px solid rgba(74,125,168,.4);
   font-size:10px;font-weight:800;letter-spacing:.12em;
   padding:3px 10px;margin-bottom:14px;
 }
-.oneon-box h3{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:10px}
-.oneon-box .oneon-lead{font-size:14px;color:var(--ink2);line-height:1.85;margin-bottom:28px}
-.oneon-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:4px}
-.oneon-card{background:var(--bg);padding:22px 24px}
-.oneon-card-label{font-size:10px;font-weight:800;letter-spacing:.12em;color:#5E8AB4;margin-bottom:8px}
-.oneon-card-title{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4}
-.oneon-card p{font-size:13px;color:var(--ink2);line-height:1.7}
+.oneon-box h3{font-family:var(--serif);font-size:22px;font-weight:700;color:#fff;margin-bottom:10px}
+.oneon-box .oneon-lead{font-size:14px;color:rgba(255,255,255,.58);line-height:1.85;margin-bottom:28px}
+.oneon-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);margin-top:4px}
+.oneon-card{background:#1F3047;padding:22px 24px}
+.oneon-card-label{font-size:10px;font-weight:800;letter-spacing:.12em;color:#7FAFD0;margin-bottom:8px}
+.oneon-card-title{font-family:var(--serif);font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.4}
+.oneon-card p{font-size:13px;color:rgba(255,255,255,.52);line-height:1.7}
 @media(max-width:760px){.oneon-cards{grid-template-columns:1fr}}
 
 /* ─── DATES ─── */
@@ -847,14 +855,14 @@ footer img{height:26px;margin-bottom:22px;display:block}
     </div>
     <div class="who-col-grid">
       <div class="who-col">
-        <img class="who-col-img" src="https://images.unsplash.com/photo-1637684666587-91e51b10a555?auto=format&fit=crop&w=600&q=80" alt="企業主管">
+        <img class="who-col-img" src="who-persona-01.png" alt="企業主管">
         <div class="who-col-body">
           <div class="who-col-num">PERSONA · 01</div>
           <div class="who-col-title">中小企業老闆、副總、特助</div>
         </div>
       </div>
       <div class="who-col">
-        <img class="who-col-img" src="https://images.unsplash.com/photo-1758691737278-3af15b37af48?auto=format&fit=crop&w=600&q=80" alt="部門主管">
+        <img class="who-col-img" src="who-persona-02.png" alt="部門主管">
         <div class="who-col-body">
           <div class="who-col-num">PERSONA · 02</div>
           <div class="who-col-title">業務／行銷／營運／IT 等部門主管</div>
@@ -963,9 +971,10 @@ footer img{height:26px;margin-bottom:22px;display:block}
 
     <div class="tl-part-label tl-part-2">PART 02 — 個別輔導 2 小時（群課後 1–3 週內）</div>
     <div class="oneon-box">
+      <div class="oneon-duration">2 <span>hr</span></div>
       <span class="tag-blue">1-ON-1 · 依產業配專屬講師</span>
       <h3>把你最想解開的那個問題，在這 2 小時裡想清楚</h3>
-      <p class="oneon-lead">群課裡講師顧的是全場，輪不到你公司的特定情況。這 2 小時，把你的場景攤開來談。<br><span style="font-size:12px;color:var(--gray)">線上 Zoom 或來智谷辦公室（依雙方確認）</span></p>
+      <p class="oneon-lead">群課裡講師顧的是全場，輪不到你公司的特定情況。這 2 小時，把你的場景攤開來談。<br><span style="font-size:12px;color:rgba(255,255,255,.35)">線上 Zoom 或來智谷辦公室（依雙方確認）</span></p>
       <div class="oneon-cards">
         <div class="oneon-card">
           <div class="oneon-card-label">MATCHED</div>
