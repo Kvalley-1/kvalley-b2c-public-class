@@ -231,7 +231,8 @@ body{
 /* ─── PAIN ─── */
 .chat-wrap{display:flex;flex-direction:column;gap:52px;margin:40px 0 60px;width:100%}
 .bubble-row{display:flex;align-items:flex-end;gap:14px}
-.chat-avatar{width:60px;height:60px;border-radius:50%;object-fit:cover;object-position:top center;flex-shrink:0;border:2px solid rgba(0,0,0,.07)}
+.bubble-row-right{justify-content:flex-end}
+.chat-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:top center;flex-shrink:0;border:2px solid rgba(0,0,0,.07);background:#C84B2A}
 .bubble{padding:18px 26px;font-size:16px;font-weight:500;line-height:1.75;color:var(--ink);max-width:62%;opacity:0;transition:opacity .7s ease,transform .7s ease}
 .bubble-left{background:var(--paper2);border-radius:4px 20px 20px 20px;transform:translateX(-48px)}
 .bubble-right{align-self:flex-end;background:var(--acc-s);border-radius:20px 4px 20px 20px;transform:translateX(48px)}
@@ -255,7 +256,7 @@ body{
   justify-content:space-between;gap:32px;flex-wrap:wrap;
 }
 .pain-resolve p{
-  font-family:var(--serif);
+  font-family:var(--sans);
   font-size:clamp(15px,1.8vw,20px);font-weight:600;
   color:#fff;line-height:1.65;max-width:580px;
 }
@@ -273,9 +274,9 @@ body{
 .who-col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
 .who-col{background:var(--bg)}
 .who-col-img{width:100%;height:220px;object-fit:cover;object-position:center top;display:block}
-.who-col-body{padding:24px 28px}
-.who-col-num{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--acc);margin-bottom:10px}
-.who-col-title{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);line-height:1.4}
+.who-col-body{padding:24px 28px;text-align:center}
+.who-col-num{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--acc);margin-bottom:10px}
+.who-col-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);line-height:1.4}
 .who-note{max-width:640px;margin:24px auto 0;font-size:13.5px;color:var(--gray);line-height:1.7;text-align:center}
 @media(max-width:760px){.who-col-grid{grid-template-columns:1fr}}
 .who-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
@@ -405,7 +406,7 @@ body{
 .date-card .d-btn:hover{color:var(--acc2)}
 .date-card .d-price{margin-top:14px;font-size:13px;color:var(--ink2)}
 .date-card .d-price s{color:var(--gray2);font-size:12px;margin-right:4px}
-.date-card .d-price strong{font-family:var(--serif);font-size:17px;color:var(--ink);font-weight:900}
+.date-card .d-price strong{font-family:var(--serif);font-size:21px;color:var(--ink);font-weight:900}
 .date-card .d-guild{font-size:10.5px;color:var(--gray);margin-top:5px;line-height:1.5}
 .dates-price-bar{
   display:flex;border:1px solid var(--line);border-top:none;
@@ -518,9 +519,24 @@ body{
 }
 .b2b-note strong{color:var(--ink)}
 .b2b-note a{color:var(--acc);text-decoration:none}
+/* ─── PRICING PLANS ─── */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:32px}
+.plan-card{background:var(--bg);padding:36px 32px;display:flex;flex-direction:column;gap:12px}
+.plan-card--feat{background:var(--paper);border-top:3px solid var(--acc);margin-top:-3px}
+.plan-tag{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--acc);text-transform:uppercase}
+.plan-label{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gray);text-transform:uppercase}
+.plan-name{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);line-height:1.3}
+.plan-price{font-family:var(--serif);font-size:40px;font-weight:900;color:var(--ink);line-height:1;margin-top:4px}
+.plan-price em{font-size:15px;font-style:normal;color:var(--ink2);margin-left:2px}
+.plan-orig{font-size:12px;color:var(--gray2);text-decoration:line-through}
+.plan-note{font-size:12px;color:var(--acc);font-weight:600}
+.plan-cta{display:block;padding:13px;text-align:center;background:var(--acc);color:#fff;font-size:13px;font-weight:700;letter-spacing:.05em;text-decoration:none;transition:background .15s;margin-top:auto;padding-top:13px}
+.plan-cta:hover{background:var(--acc2)}
+.plan-divider{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gray);text-transform:uppercase;margin-bottom:16px}
 @media(max-width:760px){
+  .plan-grid{grid-template-columns:1fr}
   .sess-card{grid-template-columns:60px 1fr;gap:20px;padding:22px 20px}
-  .sess-price-col{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--line)}
+  .sess-cta{grid-column:1/-1}
 }
 
 /* ─── TAKEAWAYS ─── */
@@ -530,14 +546,17 @@ body{
 }
 .take-item{background:var(--bg);padding:36px 32px;display:flex;gap:22px}
 .take-n{
-  font-family:var(--serif);font-size:13px;font-weight:900;
-  color:var(--acc);letter-spacing:.08em;flex-shrink:0;padding-top:3px;
+  font-family:var(--serif);font-size:15px;font-weight:900;
+  color:var(--acc);letter-spacing:.08em;flex-shrink:0;
+  width:52px;height:52px;border-radius:50%;
+  border:2px solid var(--acc);
+  display:flex;align-items:center;justify-content:center;
 }
 .take-item h3{
   font-family:var(--serif);font-size:16px;font-weight:700;
   color:var(--ink);margin-bottom:8px;
 }
-.take-item p{font-size:13.5px;color:var(--ink2);line-height:1.85}
+.take-item p{font-size:15.5px;color:var(--ink2);line-height:1.85}
 
 /* ─── FAQ ─── */
 .faq-item{border-bottom:1px solid var(--line);padding:32px 0}
@@ -778,10 +797,10 @@ footer img{height:26px;margin-bottom:22px;display:block}
 
 <div class="tagbar">
   <div class="tagbar-track">
-    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
-    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
-    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
-    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>台北 · 捷運站附近（待定）</span>
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>臺北市松山區復興北路 1 號</span>
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>臺北市松山區復興北路 1 號</span>
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>臺北市松山區復興北路 1 號</span>
+    <span>AI AGENT TEAM</span><span>CLAUDE CODE</span><span>WORKFLOW</span><span>PRIVATE COACHING</span><span>臺北市松山區復興北路 1 號</span>
   </div>
 </div>
 
@@ -810,9 +829,12 @@ footer img{height:26px;margin-bottom:22px;display:block}
     <div class="chat-wrap">
       <div class="bubble-row">
         <img class="chat-avatar" src="chat-avatar.png" alt="">
-        <div class="bubble bubble-left b1">交辦出去最後<span class="hl">還是繞回我身上</span>，什麼事都等我點頭才動。</div>
+        <div class="bubble bubble-left b1">任務交辦出去，最後<span class="hl">還是繞回我身上</span>，什麼事都等我點頭才動。</div>
       </div>
-      <div class="bubble bubble-right b2">AI 我有在用，但它<span class="hl">不認識我的公司</span>，每次都要重新說一遍脈絡。</div>
+      <div class="bubble-row bubble-row-right">
+        <div class="bubble bubble-right b2">AI 我有在用，但它<span class="hl">不認識我的公司</span>，每次都要重新說一遍脈絡。</div>
+        <img class="chat-avatar" src="chat-avatar-right.png" alt="">
+      </div>
       <div class="bubble-row">
         <img class="chat-avatar" src="chat-avatar.png" alt="">
         <div class="bubble bubble-left b3">叫員工去上 AI 課，學完還是只告訴我工具怎麼操作，<span class="hl">決策還是得我來</span>。</div>
@@ -866,26 +888,37 @@ footer img{height:26px;margin-bottom:22px;display:block}
       <div class="who-col">
         <img class="who-col-img" src="who-persona-01.png" alt="企業主管">
         <div class="who-col-body">
-          <div class="who-col-num">PERSONA · 01</div>
+          <div class="who-col-num">如果你是分身乏術的⋯⋯</div>
           <div class="who-col-title">中小企業老闆、副總、特助</div>
         </div>
       </div>
       <div class="who-col">
         <img class="who-col-img" src="who-persona-02.png" alt="部門主管">
         <div class="who-col-body">
-          <div class="who-col-num">PERSONA · 02</div>
-          <div class="who-col-title">業務／行銷／營運／IT 等部門主管</div>
+          <div class="who-col-num">如果你是每天在催進度的⋯⋯</div>
+          <div class="who-col-title">業務／行銷／營運等部門主管</div>
         </div>
       </div>
       <div class="who-col">
-        <img class="who-col-img" src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80" alt="個人工作者">
+        <img class="who-col-img" src="who-persona-03.png" alt="個人工作者">
         <div class="who-col-body">
-          <div class="who-col-num">PERSONA · 03</div>
+          <div class="who-col-num">如果你是一個人扛所有職能的⋯⋯</div>
           <div class="who-col-title">個人工作者</div>
         </div>
       </div>
     </div>
-    <p class="who-note">前提：平常有用過 ChatGPT 或類似 AI 工具，能打開來問問題就夠了。</p>
+    <!-- WHO Q&A chat -->
+    <div class="chat-wrap" style="margin-top:44px">
+      <div class="bubble-row">
+        <img class="chat-avatar" src="who-persona-01.png" alt="老闆" style="object-fit:cover;object-position:center 12%;background:#e8ddd5">
+        <div class="bubble bubble-left b1">那我需要<span class="hl">很會用 AI</span> 嗎？</div>
+      </div>
+      <div class="bubble-row bubble-row-right">
+        <div class="bubble bubble-right b2">只要會用 ChatGPT、能打開來問問題就夠了。<span class="hl">整堂課用自然語言下指令</span>，不碰半行程式碼。</div>
+        <div class="chat-avatar" style="background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:28px;font-weight:900;color:#fff;flex-shrink:0;letter-spacing:-.02em">K</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -894,7 +927,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">課程結構</span>
-      <h2>6 小時，親手設計出你的 AI Agent 團隊</h2>
+      <h2>6 小時，親手策劃你的 AI Agent 團隊</h2>
     </div>
     <div class="note">把基本設定移到課前，群課集中在實作、卡關、對話這些只能現場做的事。</div>
 
@@ -970,8 +1003,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
     <div class="oneon-box">
       <div class="oneon-duration">2 <span>hr</span></div>
       <span class="tag-blue">1-ON-1 · 依產業配專屬講師</span>
-      <h3>把你最想解開的那個問題，在<em>這 2 小時裡</em>想清楚</h3>
-      <p class="oneon-lead">群課裡講師顧的是全場，輪不到你公司的特定情況。這 2 小時，把你的場景攤開來談。<br><span style="font-size:12px;color:rgba(255,255,255,.35)">線上 Zoom 或來智谷辦公室（依雙方確認）</span></p>
+      <h3 style="font-family:var(--sans);font-size:26px">把你最想解開的那個問題，在<em>這 2 小時裡</em>想清楚</h3>
       <div class="oneon-cards">
         <div class="oneon-card">
           <div class="oneon-card-label">MATCHED</div>
@@ -1000,24 +1032,20 @@ footer img{height:26px;margin-bottom:22px;display:block}
       <span class="kicker">你會帶走</span>
       <h2>6 小時結束後，你手上的東西</h2>
     </div>
-    <div class="take-grid">
-      <div class="take-item">
-        <div class="take-n">01</div>
-        <div><h3>工作流地圖</h3><p>Claude Code 卡牌課堂排出的「我的工作流地圖」，清楚知道哪些交給 AI、哪些先別碰。</p></div>
-      </div>
-      <div class="take-item">
-        <div class="take-n">02</div>
-        <div><h3>CLAUDE.md 老闆幕僚通用版基底</h3><p>你的 AI 員工手冊起手範本，課後直接帶回去改成你公司版本。</p></div>
-      </div>
-      <div class="take-item">
-        <div class="take-n">03</div>
-        <div><h3>可運行的 AI Agent 團隊 v1.0</h3><p>1-on-1 輔導完成後，一支接過你公司關鍵資料、能解你那個痛點的 AI Agent 團隊。</p></div>
-      </div>
-      <div class="take-item">
-        <div class="take-n">04</div>
-        <div><h3>完整課後支援</h3><p>課後 30 天 LINE 一對一答疑 + 老闆學員社群 + 季度校友回娘家。卡關不孤單。</p></div>
-      </div>
-    </div>
+    <ul style="margin:32px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:20px;max-width:640px">
+      <li style="display:flex;gap:16px;align-items:flex-start">
+        <span style="font-family:var(--serif);font-size:16px;font-weight:900;color:var(--acc);flex-shrink:0;margin-top:3px">01</span>
+        <div><strong style="font-family:var(--serif);font-size:21px;color:var(--ink)">一支懂你的 AI Agent 團隊</strong><br><span style="font-size:15.5px;color:var(--ink2);line-height:1.85">接過你公司脈絡、能主動替你做事的 AI 營運部門，1-on-1 輔導後直接能跑起來。</span></div>
+      </li>
+      <li style="display:flex;gap:16px;align-items:flex-start">
+        <span style="font-family:var(--serif);font-size:16px;font-weight:900;color:var(--acc);flex-shrink:0;margin-top:3px">02</span>
+        <div><strong style="font-family:var(--serif);font-size:21px;color:var(--ink)">可運轉的工作流</strong><br><span style="font-size:15.5px;color:var(--ink2);line-height:1.85">卡牌課堂排出的工作流地圖，加上你親手設定的規則，回去就能執行的第一套 AI 流程。</span></div>
+      </li>
+      <li style="display:flex;gap:16px;align-items:flex-start">
+        <span style="font-family:var(--serif);font-size:16px;font-weight:900;color:var(--acc);flex-shrink:0;margin-top:3px">03</span>
+        <div><strong style="font-family:var(--serif);font-size:21px;color:var(--ink)">個人 AI 能力診斷報告</strong><br><span style="font-size:15.5px;color:var(--ink2);line-height:1.85">清楚知道你現在在哪個階段、哪裡卡住、下一步該補什麼，有方向才不會瞎忙。</span></div>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -1109,47 +1137,47 @@ footer img{height:26px;margin-bottom:22px;display:block}
   </div>
 </section>
 
-<!-- VS -->
-<section class="sec">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="kicker">差別在哪</span>
-      <h2>很多人問：我已經有 ChatGPT 了，這有什麼不一樣？</h2>
-    </div>
-    <p style="max-width:600px;margin:0 auto 40px;text-align:center;color:var(--ink2)">差別不在誰比較聰明，在於它懂不懂你、會不會主動。</p>
-    <div class="vs-table">
-      <div class="vs-head">
-        <div class="vs-col-a">你現在用的通用 AI</div>
-        <div class="vs-col-b">你的 AI Agent 團隊</div>
-      </div>
-      <div class="vs-row">
-        <div class="vs-col-a">你問它才答</div>
-        <div class="vs-col-b"><strong>主動提醒你</strong>——看到異常先告訴你</div>
-      </div>
-      <div class="vs-row">
-        <div class="vs-col-a">你要記得自己追進度</div>
-        <div class="vs-col-b"><strong>自動跟催</strong>——該催的它去催</div>
-      </div>
-      <div class="vs-row">
-        <div class="vs-col-a">用通用模板回你</div>
-        <div class="vs-col-b"><strong>懂你的脈絡</strong>——讀過你的流程、客戶、規矩</div>
-      </div>
-      <div class="vs-row">
-        <div class="vs-col-a">解完一題就斷掉，下次重來</div>
-        <div class="vs-col-b"><strong>跨流程串接</strong>——一串任務它自己排順序做完</div>
-      </div>
-    </div>
-    <p style="max-width:600px;margin:40px auto 0;text-align:center;color:var(--ink2);font-size:15px">通用 AI 是一個很強的陌生人，每次都要你從頭交代。你的 AI Agent 團隊是讀過你公司資料、記得你做事方式的自己人。</p>
-  </div>
-</section>
-
 <!-- DATES -->
 <section class="sec sec-paper" id="pricing">
   <div class="wrap">
     <div class="sec-head">
-      <span class="kicker">開課場次</span>
-      <h2>選擇場次，現在報名</h2>
+      <span class="kicker">費用 & 場次</span>
+      <h2>選擇方案，現在報名</h2>
     </div>
+
+    <!-- 三方案 -->
+    <div class="plan-grid">
+
+      <!-- Plan 1: 群課單買 -->
+      <div class="plan-card">
+        <div class="plan-label">群課單買</div>
+        <div class="plan-name">單買 4 小時課程</div>
+        <div class="plan-price">NT$<strong>6,800</strong></div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="plan-cta">立即報名</a>
+      </div>
+
+      <!-- Plan 2: 早鳥（featured） -->
+      <div class="plan-card plan-card--feat">
+        <div class="plan-tag">早鳥特惠</div>
+        <div class="plan-label">完整方案</div>
+        <div class="plan-name">早鳥優惠</div>
+        <div class="plan-price">NT$<strong>7,000</strong></div>
+        <div class="plan-note">開課前 10 天截止</div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="plan-cta">立即報名</a>
+      </div>
+
+      <!-- Plan 3: 兩人同行 -->
+      <div class="plan-card">
+        <div class="plan-label">揪伴優惠</div>
+        <div class="plan-name">兩人同行</div>
+        <div class="plan-price">NT$<strong>6,500</strong><em>/人</em></div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="plan-cta">立即報名</a>
+      </div>
+
+    </div>
+
+    <!-- 場次列表 -->
+    <div class="plan-divider">開課場次</div>
     <div class="sess-list">
 
       <div class="sess-card" data-course="2026-07-03">
@@ -1159,14 +1187,10 @@ footer img{height:26px;margin-bottom:22px;display:block}
         </div>
         <div>
           <div class="sess-time">13:00 – 17:00</div>
-          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-venue">臺北市松山區復興北路 1 號</div>
           <div class="sess-bird-row">早鳥截止 6/23 · 倒數 <span class="cd" data-deadline="2026-06-23"></span> 天</div>
         </div>
-        <div class="sess-price-col">
-          <div class="sess-orig">NT$8,500</div>
-          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
-          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
-        </div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
       </div>
 
       <div class="sess-card" data-course="2026-07-17">
@@ -1176,14 +1200,10 @@ footer img{height:26px;margin-bottom:22px;display:block}
         </div>
         <div>
           <div class="sess-time">13:00 – 17:00</div>
-          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-venue">臺北市松山區復興北路 1 號</div>
           <div class="sess-bird-row">早鳥截止 7/7 · 倒數 <span class="cd" data-deadline="2026-07-07"></span> 天</div>
         </div>
-        <div class="sess-price-col">
-          <div class="sess-orig">NT$8,500</div>
-          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
-          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
-        </div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
       </div>
 
       <div class="sess-card" data-course="2026-07-31">
@@ -1193,14 +1213,10 @@ footer img{height:26px;margin-bottom:22px;display:block}
         </div>
         <div>
           <div class="sess-time">13:00 – 17:00</div>
-          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-venue">臺北市松山區復興北路 1 號</div>
           <div class="sess-bird-row">早鳥截止 7/21 · 倒數 <span class="cd" data-deadline="2026-07-21"></span> 天</div>
         </div>
-        <div class="sess-price-col">
-          <div class="sess-orig">NT$8,500</div>
-          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
-          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
-        </div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
       </div>
 
       <div class="sess-card" data-course="2026-08-14">
@@ -1210,14 +1226,10 @@ footer img{height:26px;margin-bottom:22px;display:block}
         </div>
         <div>
           <div class="sess-time">13:00 – 17:00</div>
-          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-venue">臺北市松山區復興北路 1 號</div>
           <div class="sess-bird-row">早鳥截止 8/4 · 倒數 <span class="cd" data-deadline="2026-08-04"></span> 天</div>
         </div>
-        <div class="sess-price-col">
-          <div class="sess-orig">NT$8,500</div>
-          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
-          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
-        </div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
       </div>
 
       <div class="sess-card" data-course="2026-08-28">
@@ -1227,19 +1239,15 @@ footer img{height:26px;margin-bottom:22px;display:block}
         </div>
         <div>
           <div class="sess-time">13:00 – 17:00</div>
-          <div class="sess-venue">台北（地點開課前通知）</div>
+          <div class="sess-venue">臺北市松山區復興北路 1 號</div>
           <div class="sess-bird-row">早鳥截止 8/18 · 倒數 <span class="cd" data-deadline="2026-08-18"></span> 天</div>
         </div>
-        <div class="sess-price-col">
-          <div class="sess-orig">NT$8,500</div>
-          <div class="sess-now">NT$7,000 <em>早鳥</em></div>
-          <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
-        </div>
+        <a href="https://www.surveycake.com/s/GxQXQ" target="_blank" rel="noopener" class="sess-cta">立即報名</a>
       </div>
 
     </div>
     <div style="margin-top:16px;padding:20px 28px;background:var(--bg);border:1px solid var(--line);font-size:13.5px;color:var(--ink2);line-height:1.8">
-      <strong style="color:var(--ink)">群課地點</strong>｜近台北市捷運站（地點確認後公布）。報名後於開課前 7 天以 LINE 通知確切地點。每場上限 20 人，滿 10 人開班，額滿即停止報名。
+      <strong style="color:var(--ink)">群課地點</strong>｜臺北市松山區復興北路 1 號。每場上限 20 人，滿 10 人開班，額滿即停止報名。
     </div>
     <div class="b2b-note">
       <strong>企業派訓（B2B）</strong>｜3 人套票 NT$18,900（6,300/人）+ 90 分鐘企業 AI 診斷。洽詢：<a href="mailto:ericyang@asia-learning.com">ericyang@asia-learning.com</a>
@@ -1256,6 +1264,10 @@ footer img{height:26px;margin-bottom:22px;display:block}
     </div>
     <div class="faq-list">
       <div class="faq-item open">
+        <div class="faq-q"><span class="faq-q-text">我已經有 ChatGPT 了，這有什麼不一樣？</span></div>
+        <div class="faq-a">差別不在誰比較聰明，在於它懂不懂你、會不會主動。通用 AI 你問它才答、每次從頭交代；你的 AI Agent 團隊讀過你公司的流程與規矩，能主動提醒、自動跟催、跨流程串接。通用 AI 是一個很強的陌生人，AI Agent 團隊是記得你做事方式的自己人。</div>
+      </div>
+      <div class="faq-item">
         <div class="faq-q"><span class="faq-q-text">我需要會寫程式嗎？</span></div>
         <div class="faq-a">不需要。會打字問 AI 問題就夠了——課上全程用自然語言下指令，不碰任何程式碼。Dennis 會帶你從頭跑通第一條完整的 AI 工作流。</div>
       </div>
@@ -1408,19 +1420,20 @@ footer img{height:26px;margin-bottom:22px;display:block}
 
 /* ── CHAT BUBBLES ANIMATION ── */
 (function(){
-  var wrap=document.querySelector('.chat-wrap');
+  var wraps=document.querySelectorAll('.chat-wrap');
+  if(!wraps.length) return;
   var resolve=document.querySelector('.pain-resolve');
-  if(!wrap) return;
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){
-        wrap.classList.add('play');
-        if(resolve) setTimeout(function(){resolve.classList.add('play');},2500);
-        obs.unobserve(e.target);
+        var w=e.target;
+        w.classList.add('play');
+        if(resolve && w===wraps[0]) setTimeout(function(){resolve.classList.add('play');},2500);
+        obs.unobserve(w);
       }
     });
   },{threshold:0.25,rootMargin:'0px 0px -120px 0px'});
-  obs.observe(wrap);
+  wraps.forEach(function(w){obs.observe(w);});
 })();
 
 /* ── FAQ ACCORDION ── */
