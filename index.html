@@ -25,13 +25,14 @@
   --sans:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{
   font-family:var(--sans);
   font-size:16px;line-height:1.8;
   color:var(--ink);background:var(--bg);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
 }
 
 /* ─── NAV ─── */
@@ -541,7 +542,8 @@ body{
 @media(max-width:760px){
   .plan-grid{grid-template-columns:1fr}
   .sess-card{grid-template-columns:auto 1fr;gap:10px 16px;padding:20px 16px;align-items:start}
-  .sess-date{font-size:26px}
+  .sess-date{font-size:32px}
+  .sess-card>div:nth-child(2){text-align:right}
   .sess-card>div:last-child{grid-column:1/-1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;text-align:left}
   .sess-bird-row{margin:0!important;text-align:left}
 }
