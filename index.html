@@ -540,8 +540,10 @@ body{
 .plan-divider{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gray);text-transform:uppercase;margin-bottom:16px}
 @media(max-width:760px){
   .plan-grid{grid-template-columns:1fr}
-  .sess-card{grid-template-columns:60px 1fr;gap:20px;padding:22px 20px}
-  .sess-cta{grid-column:1/-1}
+  .sess-card{grid-template-columns:auto 1fr;gap:10px 16px;padding:20px 16px;align-items:start}
+  .sess-date{font-size:26px}
+  .sess-card>div:last-child{grid-column:1/-1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;text-align:left}
+  .sess-bird-row{margin:0!important;text-align:left}
 }
 
 /* ─── TAKEAWAYS ─── */
@@ -1048,8 +1050,8 @@ footer img{height:26px;margin-bottom:22px;display:block}
     <div class="tl-part-label tl-part-2">PART 02 — 一對一輔導教練</div>
     <div class="oneon-v2">
       <div class="oneon-v2-text">
-        <div class="tl-title">2 小時，只陪你一個人想清楚。</div>
-        <p style="font-family:var(--sans);font-size:25px;color:var(--ink2);margin-top:10px;line-height:1.7">討論你真正的狀況。解你真正的問題。</p>
+        <div class="tl-title">2 小時，<br>只陪你一個人想清楚。</div>
+        <p style="font-family:var(--sans);font-size:18px;color:var(--ink2);margin-top:10px;line-height:1.7">討論你真正的狀況。解你真正的問題。</p>
         <ul class="tl-desc" style="margin-top:16px">
 
           <li>針對你的場景拆解卡點，不給通用建議</li>
@@ -1135,7 +1137,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
       <div class="coach-groups">
         <div class="coach-group coach-group--dr">
           <div class="cg-header"><img src="dr-logo.png" alt="數位簡報室" class="cg-group-logo"><div class="cg-label">專業講師群</div></div>
-          <p class="kv-desc">台灣 AI 職場應用培訓品牌，師資皆來自業界實戰背景，<br>專注 AI 工具應用、流程自動化與 Vibe Coding，在各大平台累積數萬學員口碑。</p>
+          <p class="kv-desc">台灣 AI 職場應用培訓品牌，師資皆來自業界實戰背景，專注 AI 工具應用、流程自動化與 Vibe Coding，在各大平台累積數萬學員口碑。</p>
           <div class="coaches-row">
             <div class="coach-item"><img src="cablate.png" class="coach-avatar" alt="Cablate"><span class="coach-name">Cablate</span></div>
             <div class="coach-item"><img src="darrell.jpg" class="coach-avatar" alt="Darrell"><span class="coach-name">Darrell</span></div>
@@ -1145,7 +1147,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
         </div>
         <div class="coach-group coach-group--kv">
           <div class="cg-header"><img src="logo.png" alt="KVALLEY 智谷" class="cg-group-logo"><div class="cg-label">專業顧問團隊</div></div>
-          <p class="kv-desc">提供企業 AI 診斷、培訓規劃與落地陪跑服務，<br>深入製造、金融、汽車、旅遊、長照等各產業現場，<br>深知企業導入 AI 的痛點與常見卡關。</p>
+          <p class="kv-desc">提供企業 AI 診斷、培訓規劃與落地陪跑服務，深入製造、金融、汽車、旅遊、長照等各產業現場，深知企業導入 AI 的痛點與常見卡關。</p>
           <div class="coaches-row">
             <div class="coach-item"><img src="candy.jpg" class="coach-avatar" alt="Candy"><span class="coach-name">Candy</span></div>
             <div class="coach-item"><img src="eric.jpg" class="coach-avatar" alt="Eric"><span class="coach-name">Eric</span></div>
