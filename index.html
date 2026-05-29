@@ -316,7 +316,7 @@ body{
 .tl-node{
   display:grid;grid-template-columns:56px 20px 1fr;
   column-gap:24px;align-items:start;
-  padding-bottom:52px;position:relative;
+  padding-bottom:80px;position:relative;
 }
 .tl-break{padding-bottom:28px;opacity:.5}
 .tl-time-col{text-align:right}
@@ -332,7 +332,7 @@ body{
   justify-self:center;position:relative;z-index:1;
 }
 .tl-break .tl-dot{background:var(--paper2);border:1.5px solid var(--gray2)}
-.tl-title{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);line-height:1.4}
+.tl-title{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:16px}
 .tl-break .tl-title{font-size:14px;color:var(--gray);font-weight:500;font-family:var(--sans)}
 .tl-by{font-size:11px;color:var(--acc);font-weight:700;letter-spacing:.04em;margin-top:4px}
 .tl-desc{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:4px}
@@ -959,15 +959,13 @@ footer img{height:26px;margin-bottom:22px;display:block}
         <div class="tl-time-col"><div class="tl-num">50<small>min</small></div></div>
         <div class="tl-dot"></div>
         <div>
-          <div class="tl-title">先看懂局，才知道要 AI 幫你扛什麼</div>
-          <p style="margin-top:10px;font-size:14px;color:var(--ink2);line-height:1.8;max-width:480px;">不是每套 AI 工具都適合你。這 50 分鐘 Jimmy 帶你從老闆視角看清楚：主流工具各自的定位、你公司的 AI 採用現況卡在哪一層，以及三套工具搭配就能解決一件真實商業問題的實際組合。</p>
-          <ul style="margin:12px 0 0 4px;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-width:480px">
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>8 套主流 AI 工具的定位與選用時機</li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>3 套工具如何搭配解決一件商業問題（5 種真實組合）</li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>人機協作 L1–L7：找到你公司的位置，看見下一步要補什麼</li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>Token 是什麼：有刷卡 vs 沒刷卡，AI 能力的真正差距</li>
-          </ul>
-          <div style="width:100%;max-width:480px;margin-top:18px;aspect-ratio:16/9;overflow:hidden;border-radius:6px"><img src="session-IMG_5940.jpg" alt="課程現場" style="width:100%;height:100%;object-fit:cover;object-position:center bottom;display:block"></div>
+          <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+            <div style="flex:1;min-width:220px">
+              <div class="tl-title" style="font-family:var(--sans)"><span style="background:linear-gradient(transparent 55%,rgba(232,154,104,.45) 55%);display:inline;">先看懂局，才知道要 AI 幫你扛什麼</span></div>
+              <p style="margin-top:10px;font-size:16px;color:var(--ink2);line-height:1.8;">不是每套 AI 工具都適合你。這 50 分鐘 Jimmy 帶你從老闆視角看清楚：主流工具各自的定位、你公司的 AI 採用現況卡在哪一層，以及三套工具搭配就能解決一件真實商業問題的實際組合。</p>
+            </div>
+            <div style="flex:0 0 420px;max-width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:6px"><img src="session-IMG_5940.jpg" alt="課程現場" style="width:100%;height:100%;object-fit:cover;object-position:center bottom;display:block"></div>
+          </div>
         </div>
       </div>
 
@@ -975,9 +973,13 @@ footer img{height:26px;margin-bottom:22px;display:block}
         <div class="tl-time-col"><div class="tl-num">45<small>min</small></div></div>
         <div class="tl-dot"></div>
         <div>
-          <div class="tl-title">卡牌實戰：排出你的工作流地圖</div>
-          <img src="card-visual.png" alt="AI 指揮中心卡牌示意圖" style="display:block;width:100%;max-width:480px;margin-top:18px;border-radius:6px;">
-          <p style="margin-top:10px;font-size:13px;color:var(--gray);line-height:1.7;max-width:480px;">每桌一組 AI 指揮中心卡牌（情境卡 × 工具卡 MCP / Skill）。看情境 → 挑工具 → 排工作流順序，用桌遊方式把「說不清楚的 AI 需求」變成一張看得見的地圖。</p>
+          <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+            <div style="flex:1;min-width:220px">
+              <div class="tl-title" style="font-family:var(--sans)"><span style="background:linear-gradient(transparent 55%,rgba(232,154,104,.45) 55%);display:inline;">卡牌實戰：排出你的工作流地圖</span></div>
+              <p style="margin-top:10px;font-size:16px;color:var(--ink2);line-height:1.8;">每桌一組 AI 指揮中心卡牌（情境卡 × 工具卡 MCP / Skill）。看情境 → 挑工具 → 排工作流順序，用桌遊方式把「說不清楚的 AI 需求」變成一張看得見的地圖。</p>
+            </div>
+            <div style="flex:0 0 420px;max-width:100%;overflow:hidden;border-radius:6px"><img src="card-visual.png" alt="AI 指揮中心卡牌示意圖" style="display:block;width:100%;height:auto"></div>
+          </div>
         </div>
       </div>
 
@@ -993,16 +995,14 @@ footer img{height:26px;margin-bottom:22px;display:block}
         <div class="tl-time-col"><div class="tl-num">50<small>min</small></div></div>
         <div class="tl-dot"></div>
         <div>
-          <div class="tl-title">讓 AI 記住你的公司：寫一份它每次上工都會讀的規則書</div>
-          <p style="margin-top:10px;font-size:14px;color:var(--ink2);line-height:1.8;max-width:480px;">Claude Code 和一般 AI 最大的差別在這裡：它記得你。Dennis 帶你寫一份 CLAUDE.md——你的身份、說話方式、客戶禁忌、公司規矩，AI 下次一開機就自動讀進去，不用再重新解釋一遍。</p>
-          <ul style="margin:12px 0 0 4px;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-width:480px">
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span><span><strong style="color:var(--ink)">CLAUDE.md</strong>：給 AI 看的員工手冊——你帶它入職的唯一一次</span></li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span><span><strong style="color:var(--ink)">MCP</strong>：讓 AI 直接讀你的 Google Sheets、行事曆、公司系統</span></li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span><span><strong style="color:var(--ink)">Skill</strong>：把重複工作流存成一個指令，下次一句話呼叫</span></li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>Dennis 現場示範：從零跑一條完整流程讓你親眼看</li>
-          </ul>
-          <div style="position:relative;width:100%;max-width:480px;aspect-ratio:16/9;margin-top:18px;border-radius:6px;overflow:hidden">
-            <iframe src="https://www.youtube.com/embed/-9KJ4rIQSpg?rel=0" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe>
+          <div style="display:flex;gap:36px;align-items:flex-start">
+            <div style="flex:1;min-width:0">
+              <div class="tl-title" style="font-family:var(--sans)"><span style="background:linear-gradient(transparent 55%,rgba(232,154,104,.45) 55%);display:inline;">讓 AI 記住你的公司</span></div>
+              <p style="margin-top:10px;font-size:16px;color:var(--ink2);line-height:1.8;">Claude Code 和一般 AI 最大的差別在這裡：它記得你。Dennis 帶你寫一份 CLAUDE.md——你的身份、說話方式、客戶禁忌、公司規矩，AI 下次一開機就自動讀進去，不用再重新解釋一遍。</p>
+            </div>
+            <div style="flex:0 0 420px">
+              <video id="demo-vid" src="demo-claude-compressed.mp4" autoplay muted loop playsinline style="width:100%;border-radius:6px;display:block"></video>
+            </div>
           </div>
         </div>
       </div>
@@ -1011,13 +1011,13 @@ footer img{height:26px;margin-bottom:22px;display:block}
         <div class="tl-time-col"><div class="tl-num">60<small>min</small></div></div>
         <div class="tl-dot"></div>
         <div>
-          <div class="tl-title">實作：建立你的 AI Agent 團隊</div>
+          <div class="tl-title" style="font-family:var(--sans)"><span style="background:linear-gradient(transparent 55%,rgba(232,154,104,.45) 55%);display:inline;">實作：建立你的 AI Agent 團隊</span></div>
           <ul style="margin:10px 0 0 4px;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
-            <li style="font-size:14px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">01</span><strong style="color:var(--ink)">事業經營夥伴</strong>——把決策風格、審稿標準寫進去，讓 AI 幕僚替你起草、彙整、過濾</li>
-            <li style="font-size:14px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">02</span><strong style="color:var(--ink)">外包業務團隊</strong>——自動抓名單、篩資格、寫個人化開發信，跑量的事交給它</li>
-            <li style="font-size:14px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">03</span><strong style="color:var(--ink)">行銷經理</strong>——給定品牌語調，讓 AI 規劃月曆、產出貼文，你只要審稿</li>
+            <li style="font-size:16px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">01</span><strong style="color:var(--ink)">事業經營夥伴</strong>——把決策風格、審稿標準寫進去，讓 AI 幕僚替你起草、彙整、過濾</li>
+            <li style="font-size:16px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">02</span><strong style="color:var(--ink)">外包業務團隊</strong>——自動抓名單、篩資格、寫個人化開發信，跑量的事交給它</li>
+            <li style="font-size:16px;color:var(--ink2);line-height:1.7"><span style="color:var(--acc);font-weight:700;margin-right:8px">03</span><strong style="color:var(--ink)">行銷經理</strong>——給定品牌語調，讓 AI 規劃月曆、產出貼文，你只要審稿</li>
           </ul>
-          <p style="margin-top:16px;font-size:13px;color:var(--ink2);line-height:1.8;max-width:480px;padding:12px 16px;background:var(--bg2,#f5f4f1);border-left:3px solid var(--acc);">你動手做的不是通用 demo——換上的是你公司的名稱、你的客戶場景、你的語氣。每桌 5 人配 2 位講師，卡關就叫，不會讓你空手回去。</p>
+          <p style="margin-top:16px;font-size:16px;color:var(--ink2);line-height:1.8;max-width:480px;padding:12px 16px;background:var(--bg2,#f5f4f1);border-left:3px solid var(--acc);">這 60 分鐘結束，你手上已經有一套能跑的 AI 幕僚。用的是你的公司場景、你的語氣、你的規矩。</p>
         </div>
       </div>
 
@@ -1027,9 +1027,9 @@ footer img{height:26px;margin-bottom:22px;display:block}
         <div>
           <div class="tl-title">成果展示 ＋ 下一步預約</div>
           <ul style="margin:10px 0 0 4px;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>2–3 位學員示範當天做出的成果</li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>課後資源包 ＋ LINE 學習群即時加入</li>
-            <li style="font-size:13px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>預約課後 1-on-1 輔導時間（詳見下方 PART 02）</li>
+            <li style="font-size:16px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>2–3 位學員示範當天做出的成果</li>
+            <li style="font-size:16px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>課後資源包 ＋ LINE 學習群即時加入</li>
+            <li style="font-size:16px;color:var(--ink2);line-height:1.7;display:flex;gap:8px"><span style="color:var(--acc);font-weight:700;flex-shrink:0">—</span>預約課後 1-on-1 輔導時間（詳見下方 PART 02）</li>
           </ul>
         </div>
       </div>
@@ -1130,7 +1130,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
           <div class="coaches-row">
             <div class="coach-item"><img src="cablate.png" class="coach-avatar" alt="Cablate"><span class="coach-name">Cablate</span></div>
             <div class="coach-item"><img src="darrell.jpg" class="coach-avatar" alt="Darrell"><span class="coach-name">Darrell</span></div>
-            <div class="coach-item"><div style="width:100%;aspect-ratio:3/4;overflow:hidden"><img src="wenkai.png" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;transform:scale(1.35);transform-origin:top center;display:block"></div><span class="coach-name">文凱</span></div>
+            <div class="coach-item"><div style="width:100%;aspect-ratio:3/4;overflow:hidden;background:#2A2A2A"><img src="wenkai.png" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;transform:scale(1.35);transform-origin:top center;display:block"></div><span class="coach-name">文凱</span></div>
             <div class="coach-item"><img src="dindin.jpg" class="coach-avatar" alt="DinDin"><span class="coach-name">DinDin</span></div>
           </div>
         </div>
@@ -1141,7 +1141,7 @@ footer img{height:26px;margin-bottom:22px;display:block}
             <div class="coach-item"><img src="candy.jpg" class="coach-avatar" alt="Candy"><span class="coach-name">Candy</span></div>
             <div class="coach-item"><img src="eric.jpg" class="coach-avatar" alt="Eric"><span class="coach-name">Eric</span></div>
             <div class="coach-item"><div class="coach-avatar" style="overflow:hidden"><img src="joseph.png" style="width:100%;height:100%;object-fit:cover;object-position:center 50%;transform:scale(1.25);transform-origin:center 50%" alt="Joseph"></div><span class="coach-name">Joseph</span></div>
-            <div class="coach-item"><div class="coach-avatar" style="background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="peony.jpg" style="width:95%;height:95%;object-fit:contain" alt="Peony"></div><span class="coach-name">Peony</span></div>
+            <div class="coach-item"><div class="coach-avatar" style="background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="peony.jpg" style="width:112%;height:112%;object-fit:contain" alt="Peony"></div><span class="coach-name">Peony</span></div>
             <div class="coach-item"><img src="astrid.jpeg" class="coach-avatar" style="object-position:center 38%" alt="Astrid"><span class="coach-name">Astrid</span></div>
           </div>
         </div>
@@ -1372,6 +1372,8 @@ footer img{height:26px;margin-bottom:22px;display:block}
       <a href="#structure">課程內容</a>
       <a href="#pricing">報名方案</a>
       <a href="mailto:ericyang@asia-learning.com">企業派訓洽詢</a>
+      <a href="https://www.kvalley.biz" target="_blank" rel="noopener">智谷官網</a>
+      <a href="https://ai.kvalley.biz" target="_blank" rel="noopener">AI 課程頁面</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1534,6 +1536,14 @@ document.querySelectorAll('.faq-item').forEach(function(item){
   startAuto();
 })();
 
+var dv=document.getElementById("demo-vid");if(dv){dv.playbackRate=2;dv.addEventListener("ratechange",function(){if(dv.playbackRate!==2)dv.playbackRate=2;});}document.querySelectorAll(".yt-facade").forEach(function(el){
+  el.addEventListener('click',function(){
+    var id=el.dataset.vid;
+    var w=el.offsetWidth,h=el.offsetHeight;
+    el.style.width=w+'px';el.style.height=h+'px';
+    el.innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>';
+  });
+});
 </script>
 
 </body>
