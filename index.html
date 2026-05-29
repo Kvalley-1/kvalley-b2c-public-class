@@ -643,7 +643,12 @@ footer img{height:26px;margin-bottom:22px;display:block}
   .stat{border-right:none;border-bottom:1px solid var(--line)}
   .tagbar span{padding:10px 14px}
   .inst-card,.inst-card--reverse{flex-direction:column;padding:0}
-  .inst-photo{width:100%;height:260px}
+  .inst-photo{width:100%;height:260px;transform:none!important;align-self:auto!important}
+  .inst-info--right{text-align:left}
+  .inst-info--right .inst-tags{justify-content:flex-start}
+  .inst-info--right .inst-creds li{padding-left:16px;padding-right:0}
+  .inst-info--right .inst-creds li::before{left:0;right:auto}
+  .refund-grid{grid-template-columns:1fr}
 }
 
 /* ─── SCROLL REVEAL ─── */
@@ -995,12 +1000,12 @@ footer img{height:26px;margin-bottom:22px;display:block}
         <div class="tl-time-col"><div class="tl-num">50<small>min</small></div></div>
         <div class="tl-dot"></div>
         <div>
-          <div style="display:flex;gap:36px;align-items:flex-start">
-            <div style="flex:1;min-width:0">
+          <div style="display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap">
+            <div style="flex:1;min-width:220px">
               <div class="tl-title" style="font-family:var(--sans)"><span style="background:linear-gradient(transparent 55%,rgba(232,154,104,.45) 55%);display:inline;">讓 AI 記住你的公司</span></div>
               <p style="margin-top:10px;font-size:16px;color:var(--ink2);line-height:1.8;">Claude Code 和一般 AI 最大的差別在這裡：它記得你。Dennis 帶你寫一份 CLAUDE.md——你的身份、說話方式、客戶禁忌、公司規矩，AI 下次一開機就自動讀進去，不用再重新解釋一遍。</p>
             </div>
-            <div style="flex:0 0 420px">
+            <div style="flex:0 0 420px;max-width:100%">
               <video id="demo-vid" src="demo-claude-compressed.mp4" autoplay muted loop playsinline style="width:100%;border-radius:6px;display:block"></video>
             </div>
           </div>
